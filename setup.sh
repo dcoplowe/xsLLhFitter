@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh Test commit
 
 #We will set up to build in a subdir of the source tree
 #If it was sourced as . setup.sh then you can't scrub off the end... assume that
