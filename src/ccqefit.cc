@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
     /************************* Set Output File name ******************************/
     
     TFile *fout = TFile::Open(fnameout.c_str(), "RECREATE");
-    cout<<"file open"<<endl;
+    cout<<"Set and opened outfile."<<endl;
     
     /************************ Deterimine Binning Info ****************************/
     
@@ -166,6 +166,12 @@ int main(int argc, char *argv[])
     // Setup data trees
     
     TFile *fdata = new TFile(TString(fakeData));
+    if(!fdata->IsOpen()){
+        cout << "Could not find file: " << fakeData << endl;
+        cout << "Please check... Exiting" << endl;
+        return 0;
+    }
+    
     TTree *tdata = (TTree*)(fdata->Get("selectedEvents"));
     
     /************************* Get Samples from Fake Data **************************/
@@ -179,6 +185,16 @@ int main(int argc, char *argv[])
     
     /************************* Get MC Data **************************/
     //read MC events
+    
+    //Check if the file exists first:
+    TFile *mctmpdata = new TFile(TString(fsel));
+    if(!mctmpdata->IsOpen()){
+        cout << "Could not find file: " << fsel << endl;
+        cout << "Please check... Exiting" << endl;
+        return 0;
+    }
+    mctmpdata->Close();
+    delete mctmpdata;
 
     anyTreeMC selTree(fsel.c_str());
     cout << "Reading and collecting events" << endl;
@@ -212,7 +228,7 @@ int main(int argc, char *argv[])
     int npars = v_D1edges.size();
     if(npars % 2 == 0){
         cout << "ccqefit::ERROR : Even Number of bins. Analysis requires odd no. of bins" << endl;
-        exit(0);
+        return 0;
     }
     
     int free_par = (npars-1)/2;
