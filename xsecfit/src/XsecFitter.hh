@@ -60,5 +60,7 @@ private:
     TH1I * iterations;
     int free_par;
     
+    int tmp_count;
+    
 };
 #endif

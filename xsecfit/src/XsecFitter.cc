@@ -40,6 +40,8 @@ XsecFitter::XsecFitter(int seed)
     //DC: Added 13/05/16
     iterations = new TH1I("iterations","No. of Iterations", 1, 0, 1);
     free_par = -1;
+    
+    tmp_count = 0;
 }
 
 // dtor
@@ -85,6 +87,7 @@ void XsecFitter::InitFitter(std::vector<AnaFitParameters*> &fitpara, Double_t re
     m_npar = 0;
     m_nparclass.clear();
     //get the parameter info
+    cout <<"No of fit params " << m_fitpara.size() << endl;
     for(size_t i=0;i<m_fitpara.size();i++)
     {
         m_npar += (int)m_fitpara[i]->Npar;
@@ -263,13 +266,15 @@ double XsecFitter::FillSamples(vector< vector<double> > new_pars, int datatype)
 {
     double chi2 = 0.0;
     
-    if(xsfVerbose){
-        cout << "nfitpar is: " << m_fitpara.size() << endl;
-    }
+    //if(xsfVerbose){
+    tmp_count++;
+    cout << "nfitpar is: " << m_fitpara.size()  << " TMP COUNT " << tmp_count << endl;
+    //}
     
     //loop over samples
     for(size_t s=0;s<m_samples.size();s++)
     {
+        cout << "Fill Samples Entries : " << m_samples[s]->GetN() << endl;
         //loop over events
         for(int i=0;i<m_samples[s]->GetN();i++)
         {
@@ -291,16 +296,15 @@ double XsecFitter::FillSamples(vector< vector<double> > new_pars, int datatype)
         //calculate chi2 for each sample
         chi2 += m_samples[s]->CalcChi2();
         
-        if(xsfVerbose){
+       // if(xsfVerbose){
             cout << "chi2 for sample " << s << " is " <<  m_samples[s]->CalcChi2() << endl;
-        }
+       // }
     }
     return chi2;
 }
 
 // fcn <-- this is the actual FCN
-void XsecFitter::fcn(Int_t &npar, Double_t *gin, Double_t &f,
-                     Double_t *par, Int_t iflag)
+void XsecFitter::fcn(Int_t &npar, Double_t *gin, Double_t &f, Double_t *par, Int_t iflag)
 {
     m_calls++;
     
@@ -334,7 +338,7 @@ void XsecFitter::fcn(Int_t &npar, Double_t *gin, Double_t &f,
     }
     
     chi2_sys += chi2_reg;
-    vec_chi2_sys.push_back(chi2_sys);
+    vec_chi2_sys.push_back(chi2_sys);//This is for saving
     
     double chi2_stat = FillSamples(new_pars, 0);
     vec_chi2_stat.push_back(chi2_stat);
@@ -348,7 +352,7 @@ void XsecFitter::fcn(Int_t &npar, Double_t *gin, Double_t &f,
     }
     // total chi2
     f = chi2_stat + chi2_sys;
-    
+    cout << "m_calls is: " << m_calls << endl;
     //Print status of the fit:
     if(xsfVerbose){
         cout << "m_calls is: " << m_calls << endl;
