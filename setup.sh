@@ -3,13 +3,14 @@
 #We will set up to build in a subdir of the source tree
 #If it was sourced as . setup.sh then you can't scrub off the end... assume that
 #we are in the correct directory.
-#Is git now working? YES. Double yes!!?
 
 if [ $(uname) == Darwin ]; then
     RLINK="pwd"
+    export XSLLINPUTDIR=/Users/davidcoplowe/work/t2k/signal_extraction/
 	#source ~/software/ROOT/v5r34p34n00/Darwin/bin/thisroot.sh
 elif [ $(uname) == Linux ]; then
     RLINK="readlink -f $(pwd)"
+    export XSLLINPUTDIR=/data/t2k/coplowe/transverseanalysis/numuCC1P1PiOutput/feb16-freeze/neutP6BWA
     #module load root
 else
     RLINK="readlink -f $(pwd)"
