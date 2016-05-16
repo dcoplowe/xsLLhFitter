@@ -3,7 +3,7 @@
 #We will set up to build in a subdir of the source tree
 #If it was sourced as . setup.sh then you can't scrub off the end... assume that
 #we are in the correct directory.
-#Is git now working?
+#Is git now working? YES.
 
 if [ $(uname) == Darwin ]; then
     RLINK="pwd"
