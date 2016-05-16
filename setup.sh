@@ -6,8 +6,10 @@
 
 if [ $(uname) == Darwin ]; then
     RLINK="pwd"
+	source ~/software/ROOT/v5r34p34n00/Darwin/bin/thisroot.sh
 elif [ $(uname) == Linux ]; then
     RLINK="readlink -f $(pwd)"
+    module load root
 else
     RLINK="readlink -f $(pwd)"
 fi
