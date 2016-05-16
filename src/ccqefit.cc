@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     string fdetcov_fine = inputDir + "inputs/det_syst_11bins_pm250_dpTT.root";
     string fdetcov = inputDir + "inputs/detCovMatCoarse.root";
     string fxsecbinning = inputDir + "inputs/dpTT_symvarbinning_nb11_m250_p250.txt";
-    string fnameout = "cc1P1PiOutput.root";
+    string fnameout = inputDir + "fitResult/cc1P1PiOutput.root";
     //double potD     = 372.67;   //in units of 10^19 GENIE Air
     //double potD     = 349.15;   //in units of 10^19 NEUT Water
     double potD     = 331.6; //in units 10^19 Neut Air
