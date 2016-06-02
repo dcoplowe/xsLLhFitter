@@ -247,7 +247,7 @@ void XsecFitter::GenerateToyData(int toyindx)
         for(size_t j=0;j<pars.size();j++) cout<<j<<" "<<pars[j]<<endl;
         //m_fitpara[i]->GetParPriors(pars);
         par_throws.push_back(pars);
-        chi2_sys =+ m_fitpara[i]->GetChi2(pars);
+        chi2_sys += m_fitpara[i]->GetChi2(pars);
     }
     vec_chi2_sys.push_back(chi2_sys);
     
@@ -281,13 +281,14 @@ double XsecFitter::FillSamples(vector< vector<double> > new_pars, int datatype)
             AnaEvent* ev = m_samples[s]->GetEvent(i);
             ev->SetEvWght(ev->GetEvWghtMC());
             //do weights for each AnaFitParameters obj
+            //cout << "M_FITPARA SIZE = " << m_fitpara.size() << endl;
             for(size_t j=0;j<m_fitpara.size();j++)
             {
                 //cout << "FillSamples: Current par name is " << m_fitpara[j]->GetName() << endl;
-                if((datatype==1) && (((TString)(m_fitpara[j]->GetName())).Contains("par_detAve")))
-                    continue;
-                if((datatype==0) && (((TString)(m_fitpara[j]->GetName())).Contains("par_detFine")))
-                    continue;
+                if((datatype==1) && (((TString)(m_fitpara[j]->GetName())).Contains("par_detAve"))) continue;
+                
+                if((datatype==0) && (((TString)(m_fitpara[j]->GetName())).Contains("par_detFine"))) continue;
+                
                 m_fitpara[j]->ReWeight(ev, s, i, new_pars[j]);
             }
         }

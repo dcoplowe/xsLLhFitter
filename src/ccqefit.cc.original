@@ -121,7 +121,6 @@ int main(int argc, char *argv[])
   TFile *findetcov = TFile::Open(fdetcov.c_str()); //contains flux and det. systematics info
   TFile *findetcov_fine = TFile::Open(fdetcov_fine.c_str()); //contains flux and det. systematics info
 
-
   /*************************************** FLUX *****************************************/
 
   //setup enu bins and covm for flux

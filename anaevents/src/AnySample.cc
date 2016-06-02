@@ -125,15 +125,11 @@ AnySample::~AnySample()
 void AnySample::MakeHistos()
 {
   if(m_hpred != NULL) m_hpred->Delete();
-  m_hpred = new TH1D(Form("%s_pred_recD1D2", m_name.c_str()),
-                     Form("%s_pred_recD1D2", m_name.c_str()),
-                     nAnybins, bins_Any);
+  m_hpred = new TH1D(Form("%s_pred_recD1D2", m_name.c_str()), Form("%s_pred_recD1D2", m_name.c_str()), nAnybins, bins_Any);
   m_hpred->SetDirectory(0);
 
   if(m_hmc != NULL) m_hmc->Delete();
-  m_hmc = new TH1D(Form("%s_mc_recD1D2", m_name.c_str()),
-                   Form("%s_mc_recD1D2", m_name.c_str()),
-                   nAnybins, bins_Any);
+  m_hmc = new TH1D(Form("%s_mc_recD1D2", m_name.c_str()), Form("%s_mc_recD1D2", m_name.c_str()), nAnybins, bins_Any);
   m_hmc->SetDirectory(0);
   cout<<nAnybins<<" bins inside MakeHistos"<<endl;
 }
@@ -225,6 +221,7 @@ void AnySample::FillEventHisto(int datatype)
     //double potMC_genie=380.0; //nuwro
     double potMC_genie = 57.34; 
 
+      //This is where the (fake) data is fed into the fitter
     Float_t D1_rec_tree,D2_rec_tree,wght; 
     Int_t topology;
     m_data_tree->SetBranchAddress("weight",&wght); 
@@ -235,11 +232,11 @@ void AnySample::FillEventHisto(int datatype)
     for(size_t i=0;i<m_data_tree->GetEntries();i++){
       m_data_tree->GetEntry(i);
       if(topology != m_sampleid) continue;
-      for(int j=0; j<nAnybins; j++){
-        if((D1_rec_tree > m_D1edges[j].first) && (D1_rec_tree < m_D1edges[j].second)  &&
+      for(int j=0; j<nAnybins; j++){//DC 02/06/16: Changed this to GeV:
+        if((D1_rec_tree/1000 > m_D1edges[j].first) && (D1_rec_tree/1000 < m_D1edges[j].second)  &&
            (D2_rec_tree  > m_D2edges[j].first) && (D2_rec_tree  < m_D2edges[j].second)){
           m_hdata->Fill(j+0.5,wght);
-          //cout<<"filling "<<D1_rec_tree<<" "<<wght_syst<<endl;
+          //cout<<"filling "<<D1_rec_tree<<" "<<wght<<endl;
           break;
         }
       }  
@@ -309,8 +306,10 @@ double AnySample::CalcChi2()
       chi2 += 2*(exp - obs);
       if(obs>0.0) chi2 += 2*obs*TMath::Log(obs/exp);
     }
+      
+      
       //DEBUG Time:
-      //cout << "obs / exp / chi2: " <<obs<<"/"<<exp<<"/"<<chi2<<endl;
+      cout << "obs / exp / chi2: " <<obs<<"/"<<exp<<"/"<<chi2<<endl;
     }
   
   if(chi2 != chi2)

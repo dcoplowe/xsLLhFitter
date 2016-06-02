@@ -46,13 +46,13 @@ int main(int argc, char *argv[])
         return 1;
     }
     string inputDir = std::string(xslf_env);// + "/inputs";
-    string fsel     = inputDir + "llFormat/neutP6BWA_nall_data_180316_allsyst_llFormat.root";
-    string fakeData     = inputDir + "llFormat/neutP6BWA_nall_data_180316_allsyst_llFormat.root";
+    string fsel     = inputDir + "llFormat/neutP6BWA_nall_data_170316_llFormat.root";
+    string fakeData     = inputDir + "llFormat/neutP6BWA_nall_data_170316_llFormat.root";
     string ffluxcov     = inputDir + "inputs/flux_covariance_banff_13av1.1.root";
     string fdetcov_fine = inputDir + "inputs/det_syst_11bins_pm250_dpTT.root";
     string fdetcov = inputDir + "inputs/detCovMatCoarse.root";
     string fxsecbinning = inputDir + "inputs/dpTT_symvarbinning_nb11_m250_p250.txt";
-    string fnameout = inputDir + "fitResult/cc1P1PiOutput.root";
+    string fnameout = inputDir + "fitResult/cc1P1PiOutput_new.root";
     //double potD     = 372.67;   //in units of 10^19 GENIE Air
     //double potD     = 349.15;   //in units of 10^19 NEUT Water
     double potD     = 331.6; //in units 10^19 Neut Air

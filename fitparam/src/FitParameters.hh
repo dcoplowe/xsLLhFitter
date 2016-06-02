@@ -14,7 +14,7 @@
 
 #include "AnaFitParameters.hh"
 
-struct CCQEBin
+struct AnyBin
 {
   double D1low, D1high;
   double D2low, D2high;
@@ -38,7 +38,7 @@ private:
   //binnig function
   int GetBinIndex(double D1, double D2); 
   int ccqe_recode;              //reaction code - defunct as it stands, signal is defined manually in FitParameters.cc
-  std::vector<CCQEBin> m_bins; //binning
+  std::vector<AnyBin> m_bins; //binning
 };
 
 #endif
