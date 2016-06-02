@@ -10,7 +10,7 @@ if [ $(uname) == Darwin ]; then
 	#source ~/software/ROOT/v5r34p34n00/Darwin/bin/thisroot.sh
 elif [ $(uname) == Linux ]; then
     RLINK="readlink -f $(pwd)"
-    export XSLLINPUTDIR=/data/t2k/coplowe/transverseanalysis/numuCC1P1PiOutput/feb16-freeze/neutP6BWA
+    export XSLLINPUTDIR=/data/t2k/coplowe/transverseanalysis/numuCC1P1PiOutput/feb16-freeze/neutP6BWA/
     #module load root
 else
     RLINK="readlink -f $(pwd)"
