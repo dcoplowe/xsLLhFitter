@@ -3,6 +3,8 @@ CXX = g++
 CXXFLAGS = -g -Wall -fPIC -Wextra -std=c++0x
 ROOTFLAGS = `root-config --cflags --glibs`
 
+RM = rm -fv
+
 INCS =	-Isrc/ -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG)
 
