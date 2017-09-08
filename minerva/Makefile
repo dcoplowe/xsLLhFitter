@@ -35,5 +35,5 @@ $(DET): $(DETOBJS)
 
 .PHONY: clean
 clean:
-	$(RM) *.o *~ $(DET) 
+	$(RM) *.o *~ $(DET) $(DETOBJS)
 
