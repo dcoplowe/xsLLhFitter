@@ -25,7 +25,7 @@ SystematicsBase::SystematicsBase(std::string in_filename, std::string in_treenam
 
 	string tmp_infile = "";
 	if(in_filename[0] == '/') tmp_infile = in_filename;
-	else tmp_infile = std::getenv("data") + "/NTupleAnalysis/MC/Reduced/" + in_filename;
+	else tmp_infile = std::string(std::getenv("data")) + "/NTupleAnalysis/MC/Reduced/" + in_filename;
 
 	if(tmp_infile.empty()){
 		cout << __FILE__ << ":" << __LINE__ << " : ERROR : File name is empty" << endl;
@@ -77,7 +77,7 @@ void SystematicsBase::SetupOutFile(std::string outfilename)
 
 	string tmp_file = "";
 	if(outfilename[0] == '/') tmp_file = outfilename;
-	else tmp_file = std::getenv("DATA_DIR") + "/" + outfilename;
+	else tmp_file = std::string(std::getenv("DATA_DIR")) + "/" + outfilename;
 
 	// Add date:
 	string endname = ".root";
