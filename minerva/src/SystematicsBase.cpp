@@ -15,7 +15,7 @@ using std::cout;
 using std::endl;
 using namespace PlotUtils;
 
-SystematicsBase::SystematicsBase(std::string in_filename, in_treename, bool verbose) : m_verbose(verbose)
+SystematicsBase::SystematicsBase(std::string in_filename, std::string in_treename, bool verbose) : m_verbose(verbose)
 {
 	cout << "SystematicsBase::SystematicsBase()" << endl;
 	// Check the in_file
@@ -68,7 +68,7 @@ SystematicsBase::~SystematicsBase()
 	}
 }
 
-SystematicsBase::SetupOutFile(std::string outfilename)
+void SystematicsBase::SetupOutFile(std::string outfilename)
 {
 	if(outfilename.empty()){
 		cout << __FILE__ << ":" << __LINE__ << " : ERROR : Tree name is empty" << endl;
