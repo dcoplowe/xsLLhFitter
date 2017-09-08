@@ -12,7 +12,7 @@ SRCS =	$(wildcard src/*.cpp)
 DET = MakeDetSysts.exe
 DETCPP = app_detsysts.cpp
 DETALL = $(DETCPP) $(SRCS)
-DETOBJS = $(ALLDET:.cpp=.o)
+DETOBJS = $(DETALL:.cpp=.o)
 
 MOD = MakeModSysts.exe
 MODCPP = app_modelsysts.cpp
@@ -25,7 +25,7 @@ all: $(DET)
 	# @echo  $(MOD) has compiled successfully.
 
 $(DET): $(DETOBJS)
-	$(CXX) $(CXXFLAGS) $(INCS) -o $(DET) $(DETOBJS) $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 # $(MOD): $(MODOBJS)
 # 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
