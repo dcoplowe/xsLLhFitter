@@ -39,7 +39,7 @@ SystematicsBase::SystematicsBase(std::string in_filename, std::string in_treenam
 
 	m_infile = new TFile(tmp_infile.c_str());
 	assert(m_infile);
-	m_intree = static_cast<>( m_infile->Get(in_treename.c_str() ) ); 
+	m_intree = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
 	assert(m_intree);
 
 	m_1Dhists.clear();
