@@ -20,18 +20,18 @@ MODALL = $(MODCPP) $(OBJS)
 MODOBJS = $(MODALL:.cpp=.o)
 
 # all: $(DET) $(MOD)
-all: $(DET)
+all: $(DET) $(MOD)
 	@echo  $(DET) has compiled successfully.
-# @echo  $(MOD) has compiled successfully.
+	@echo  $(MOD) has compiled successfully.
 
 $(DET): $(DETOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
+$(MOD): $(MODOBJS)
+	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+
 .cpp.o:
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
-
-# $(MOD): $(MODOBJS)
-# 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 .PHONY: clean
 clean:
