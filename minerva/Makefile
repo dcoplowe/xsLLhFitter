@@ -15,14 +15,14 @@ DETALL = $(DETCPP) $(SRCS)
 DETOBJS = $(DETALL:.cpp=.o)
 
 MOD = MakeModSysts.exe
-MODCPP = app_modelsysts.cpp
+MODCPP = app/app_modelsysts.cpp
 MODALL = $(MODCPP) $(OBJS)
 MODOBJS = $(MODALL:.cpp=.o)
 
 # all: $(DET) $(MOD)
 all: $(DET)
 	@echo  $(DET) has compiled successfully.
-	# @echo  $(MOD) has compiled successfully.
+# @echo  $(MOD) has compiled successfully.
 
 $(DET): $(DETOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
