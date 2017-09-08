@@ -1,6 +1,8 @@
 #ifndef __SYSTEMATICSBASE_CPP__
 #define __SYSTEMATICSBASE_CPP__
 
+#include <SystematicsBase.h>
+
 #include <TFile.h>
 #include <TTree.h>
 #include <cassert>
