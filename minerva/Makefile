@@ -17,7 +17,7 @@ DETOBJS = $(ALLDET:.cpp=.o)
 MOD = MakeModSysts.exe
 MODCPP = app_modelsysts.cpp
 MODALL = $(MODCPP) $(OBJS)
-MODOBJS = $(MODALL:.c=.o)
+MODOBJS = $(MODALL:.cpp=.o)
 
 # all: $(DET) $(MOD)
 all: $(DET)
@@ -25,7 +25,7 @@ all: $(DET)
 	# @echo  $(MOD) has compiled successfully.
 
 $(DET): $(DETOBJS)
-	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $(INCS) -o $(DET) $(DETOBJS) $(ROOTFLAGS) $(LDLIBS)
 
 # $(MOD): $(MODOBJS)
 # 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
