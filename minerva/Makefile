@@ -29,7 +29,7 @@ all: $(DET)
 	# @echo  $(MOD) has compiled successfully.
 
 $(DET): $(DETOBJS)
-	$(CXX) $(CXXFLAGS) $(INCS) -o $(DET) $(DETOBJS) $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -o $(DET) $(DETOBJS) $(LDLIBS)
 
 .cpp.o:
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
