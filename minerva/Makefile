@@ -16,7 +16,7 @@ DETOBJS = $(DETALL:.cpp=.o)
 
 MOD = MakeModSysts.exe
 MODCPP = app/app_modelsysts.cpp
-MODALL = $(MODCPP) $(OBJS)
+MODALL = $(MODCPP) $(SRCS)
 MODOBJS = $(MODALL:.cpp=.o)
 
 # all: $(DET) $(MOD)
