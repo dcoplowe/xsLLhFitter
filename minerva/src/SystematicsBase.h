@@ -2,6 +2,8 @@
 #define __SYSTEMATICSBASE_H__
 
 #include <string>
+#include <vector>
+
 class TFile;
 class TTree;
 class MnvH1D;
