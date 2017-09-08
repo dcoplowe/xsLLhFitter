@@ -22,16 +22,13 @@ MODALL = $(MODCPP) $(SRCS)
 MODOBJS = $(MODALL:.cpp=.o)
 
 # all: $(DET) $(MOD)
-all: $(DET) $(MOD)
-	@echo  $(DET) has compiled successfully.
-	@echo  $(MOD) has compiled successfully.
+all: $(DET)
+	@echo  $(DET) and not $(MOD) have compiled successfully.
 
 $(DET): $(DETOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
-
-$(MOD): $(MODOBJS)
-	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
-
+# $(MOD): $(MODOBJS)
+# 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 .cpp.o:
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
 
