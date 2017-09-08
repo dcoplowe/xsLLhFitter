@@ -27,11 +27,11 @@ all: $(DET)
 $(DET): $(DETOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
-# $(MOD): $(MODOBJS)
-# 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
-
 .cpp.o:
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
+
+# $(MOD): $(MODOBJS)
+# 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 .PHONY: clean
 clean:
