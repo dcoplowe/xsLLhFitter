@@ -6,15 +6,11 @@
 class DetectorSystematics : public SystematicsBase
 {
 public:
-	DetectorSystematics(std::string in_filename, std::string in_treename, std::string out_filename, bool verbose);
-	DetectorSystematics();
-	DetectorSystematics(int n_universes, bool verbose);
-	DetectorSystematics(bool verbose);
+	DetectorSystematics(int n_universes, bool verbose = true);
+	DetectorSystematics(bool verbose = true);
 	~DetectorSystematics();
 
 	void Run();
-	void AddSample(std::string name, Int_t nbins, Double_t x_low, Double_t x_high);
-	void AddSample(std::string name, Int_t nbins, Double_t * x_bins);
 
 	// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 	bool AddLatErrorBand( const std::string& name);
@@ -31,8 +27,7 @@ public:
 	bool AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref );
 	bool AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref );
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
-
-
+	
 };
 
 #endif

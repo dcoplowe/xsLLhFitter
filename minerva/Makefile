@@ -5,10 +5,17 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 RM = rm -fv
 
-INCS =	-Isrc/ -I$(PLOTUTILSROOT)/
+DIR_LIST = src/ src/base/ src/fileio/ src/detector/ 
+# src/model/
+
+# files := $(foreach dir,$(dirs),$(wildcard $(dir)/*))
+INCS = $(foreach dir, $(DIR_LIST),-I$(dir))
+# INCS =	-Isrc/ -Isrc/base/ -Isrc/detector/ -Isrc/model/ -Isrc/
+INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG)
 
-SRCS =	$(wildcard src/*.cpp)
+SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
+# SRCS =	$(wildcard src/*.cpp)
 # OBJS = $(SRCS:.c=.o)
 
 DET = MakeDetSysts.exe

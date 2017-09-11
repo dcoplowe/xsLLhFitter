@@ -1,0 +1,130 @@
+#ifndef __FILEIOBASE_CPP__
+#define __FILEIOBASE_CPP__
+
+#include <FileIOBase.h>
+
+#include <TFile.h>
+#include <TTree.h>
+#include <cassert>
+#include <cstdlib>
+#include <TDatime.h>
+
+using std::string;
+using std::cout;
+using std::endl;
+
+FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool verbose) : inCurrent(-1), m_verbose(verbose)
+{
+	cout << "FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool verbose)" << endl;
+	
+	string tmp_infile = "";
+	if(in_filename[0] == '/') tmp_infile = in_filename;
+	else tmp_infile = std::string(std::getenv("data")) + "/NTupleAnalysis/MC/Reduced/" + in_filename;
+
+	if(tmp_infile.empty()){
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR : File name is empty" << endl;
+		exit(0);
+	}
+
+	if(in_treename.empty()){
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR : Tree name is empty" << endl;
+		exit(0);
+	}
+
+	m_infile = new TFile(tmp_infile.c_str());
+	assert(m_infile);
+	inchain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
+	assert(inchain);
+	Init();
+
+	TDatime time;
+	m_date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
+	outfile = 0x0;
+}
+
+FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_verbose(verbose)
+{
+	cout << "FileIOBase::FileIOBase(bool verbose)" << endl;
+	m_infile = 0x0;
+	inchain = 0x0;
+
+	TDatime time;
+	m_date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
+	outfile = 0x0;
+}
+
+FileIOBase::~FileIOBase()
+{
+	if(m_infile->IsOpen()){
+		delete inchain; 
+		m_infile->Close();
+		delete m_infile;
+	}
+
+	if(outfile){
+		if(outfile->IsOpen()){
+			outfile->Close();
+			delete	outfile;
+		}
+	}
+}
+
+void FileIOBase::SetupOutFile(std::string outfilename)
+{
+	if(outfilename.empty()){
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR : Tree name is empty" << endl;
+		exit(0);
+	}
+
+	string tmp_file = "";
+	if(outfilename[0] == '/') tmp_file = outfilename;
+	else tmp_file = std::string(std::getenv("DATA_DIR")) + "/" + outfilename;
+
+	// Add date:
+	string endname = ".root";
+	size_t is_dotroot = tmp_file.find(endname);
+	if(is_dotroot != string::npos) tmp_file = tmp_file.substr(0, is_dotroot);
+	tmp_file += "_";
+	tmp_file += m_date;
+	tmp_file += endname;
+	outfile = new TFile( tmp_file.c_str(), "RECREATE");
+	assert(outfile);
+}
+
+Int_t FileIOBase::GetEntry(Long64_t entry)
+{
+// Read contents of entry.
+	if (!inchain) return 0;
+	return inchain->GetEntry(entry);
+}
+
+Long64_t FileIOBase::GetEntries()
+{
+	if (!inchain) return 0;
+	return inchain->GetEntries();	
+}
+
+void FileIOBase::SetupInFile(std::string in_filename, std::string in_treename)
+{
+	string tmp_infile = "";
+	if(in_filename[0] == '/') tmp_infile = in_filename;
+	else tmp_infile = std::string(std::getenv("data")) + "/NTupleAnalysis/MC/Reduced/" + in_filename;
+
+	if(tmp_infile.empty()){
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR : File name is empty" << endl;
+		exit(0);
+	}
+
+	if(in_treename.empty()){
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR : Tree name is empty" << endl;
+		exit(0);
+	}
+
+	m_infile = new TFile(tmp_infile.c_str());
+	assert(m_infile);
+	inchain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
+	assert(inchain);
+	Init();
+}
+
+#endif

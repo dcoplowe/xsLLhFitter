@@ -8,25 +8,14 @@
 using std::cout;
 using std::endl;
 
-DetectorSystematics::DetectorSystematics(std::string in_filename, std::string in_treename, std::string out_filename, bool verbose) : 
-	SystematicsBase(in_filename, in_treename, verbose)
-{
-	cout << "DetectorSystematics::DetectorSystematics(std::string in_filename, std::string in_treename, std::string out_filename, bool verbose)" << endl;
+DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose)
+{ 
+	cout << "DetectorSystematics::DetectorSystematics(bool verbose)" << endl;
 }
 
 DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : SystematicsBase(n_universes, verbose) 
 {
 	cout << "DetectorSystematics::DetectorSystematics(int n_universes, bool verbose)" << endl;
-}
-
-DetectorSystematics::DetectorSystematics() : SystematicsBase() 
-{ 
-	cout << "DetectorSystematics::DetectorSystematics()" << endl;
-}
-
-DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose)
-{ 
-	cout << "DetectorSystematics::DetectorSystematics(bool verbose)" << endl;
 }
 
 DetectorSystematics::~DetectorSystematics()
@@ -37,16 +26,6 @@ DetectorSystematics::~DetectorSystematics()
 void DetectorSystematics::Run()
 {
 	cout << "DetectorSystematics::Run()" << endl;
-}
-
-void DetectorSystematics::AddSample(std::string name, Int_t nbins, Double_t x_low, Double_t x_high)
-{
- 	m_samples.push_back( new Sample(name, nbins, x_low, x_high, Sample::Det) );
-}
-
-void DetectorSystematics::AddSample(std::string name, Int_t nbins, Double_t * x_bins)
-{
- 	m_samples.push_back( new Sample(name, nbins, x_bins, Sample::Det) );
 }
 
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
