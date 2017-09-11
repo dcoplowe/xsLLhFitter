@@ -19,7 +19,7 @@ int main()
 
 	syst.AddSample("signal",  29, 0., 20000.);
 	syst.AddSample("signal",  29, -300., 300.);
-	double dpv = new [ 6 ];
+	double dpv = new double [ 6 ];
 	dpv[0] = 1800.;
 	dpv[1] = 2200.;
 	dpv[2] = 3000.;
