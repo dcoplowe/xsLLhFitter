@@ -36,7 +36,7 @@ FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool ve
 	assert(m_infile);
 	inchain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
 	assert(inchain);
-	Init();
+	// Init();
 
 	TDatime time;
 	m_date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
