@@ -40,7 +40,7 @@ bool DetectorSystematics::AddLatErrorBand( const std::string& name)
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddLatErrorBand(0, name, m_Nuniverses)) counter++;
 
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddLatErrorBand( const std::string& name, const std::vector<TH1D*>& base )
@@ -49,7 +49,7 @@ bool DetectorSystematics::AddLatErrorBand( const std::string& name, const std::v
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddLatErrorBand(0, name, base)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddLatErrorBandAndFillWithCV( const std::string& name)
@@ -58,7 +58,7 @@ bool DetectorSystematics::AddLatErrorBandAndFillWithCV( const std::string& name)
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddLatErrorBandAndFillWithCV(0, name, m_Nuniverses)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddVertErrorBand( const std::string& name)
@@ -67,7 +67,7 @@ bool DetectorSystematics::AddVertErrorBand( const std::string& name)
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddVertErrorBand(0, name, m_Nuniverses)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddVertErrorBand( const std::string& name, const std::vector<TH1D*>& base )
@@ -76,7 +76,7 @@ bool DetectorSystematics::AddVertErrorBand( const std::string& name, const std::
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddVertErrorBand(0, name, base)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddVertErrorBandAndFillWithCV( const std::string& name)
@@ -85,7 +85,7 @@ bool DetectorSystematics::AddVertErrorBandAndFillWithCV( const std::string& name
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddVertErrorBandAndFillWithCV(0, name, m_Nuniverses)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddUncorrError( const std::string& name )
@@ -94,7 +94,7 @@ bool DetectorSystematics::AddUncorrError( const std::string& name )
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddUncorrError(0, name)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddUncorrError( const std::string& name, const TH1D* hist, bool errInContent)
@@ -103,7 +103,7 @@ bool DetectorSystematics::AddUncorrError( const std::string& name, const TH1D* h
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddUncorrError(0, name, hist, errInContent)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddUncorrErrorAndFillWithCV( const std::string& name )
@@ -112,7 +112,7 @@ bool DetectorSystematics::AddUncorrErrorAndFillWithCV( const std::string& name )
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddUncorrErrorAndFillWithCV(0, name)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref )
@@ -121,7 +121,7 @@ bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref )
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddMissingErrorBandsAndFillWithCV(ref)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 
 bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref )
@@ -130,7 +130,7 @@ bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref )
 	for(size_t i = 0; i < m_samples.size(); i++) 
 		if(m_samples[i]->AddMissingErrorBandsAndFillWithCV(ref)) counter++;
 	
-	return (counter == m_samples.size())
+	return (counter == m_samples.size());
 }
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------
