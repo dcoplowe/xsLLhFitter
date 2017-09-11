@@ -26,7 +26,8 @@ public:
 	std::vector<MnvH1D*> GetMnvH1D(){ return m_1Dhists; }
 	MnvH1D* GetMnvH1D(int n){ return m_1Dhists[n]; }
 	int GetNHists(){ return (int)m_1Dhists.size(); }
-	void Fill(double value, double wgt, int model = -1);
+	void Fill(const int fill_nhist, const double value, const double wgt);
+	void Fill(const double value, const double wgt);
 
 	// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 	bool AddLatErrorBand( const std::string& name, const int nhists = -1 );
