@@ -3,6 +3,8 @@
 
 #include <SystematicsBase.h>
 
+class TH1D;
+
 class DetectorSystematics : public SystematicsBase
 {
 public:

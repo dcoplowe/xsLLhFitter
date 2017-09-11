@@ -4,6 +4,7 @@
 #include <DetectorSystematics.h>
 
 #include <iostream>
+#include <TH1D.h>
 
 using std::cout;
 using std::endl;
