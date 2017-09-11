@@ -2,7 +2,7 @@
 #define __DETECTORSYSTEMATICS_CPP__
 
 #include <DetectorSystematics.h>
-
+#include <Sample.h>
 #include <iostream>
 #include <TH1D.h>
 
@@ -21,7 +21,7 @@ DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : System
 
 DetectorSystematics::~DetectorSystematics()
 {
-	m_samples.clear();
+
 }
 
 void DetectorSystematics::Run()
