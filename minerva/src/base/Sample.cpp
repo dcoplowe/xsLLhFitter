@@ -2,7 +2,7 @@
 #define __SAMPLE_CPP__
 
 #include <Sample.h>
-using namespace PlotUtils;
+// using namespace PlotUtils;
 // #include <TH1D.h>
 // using namespace PlotUtils;
 
