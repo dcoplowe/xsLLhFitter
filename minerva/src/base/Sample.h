@@ -5,9 +5,13 @@
 #include <vector>
 // #include <TROOT.h>
 
-class MnvH1D;
-class MnvH2D;
-class TH1D;
+// class MnvH1D;
+// class MnvH2D;
+// class TH1D;
+
+#include <PlotUtils/MnvH1D.h> 
+#include <PlotUtils/MnvH2D.h> 
+using namespace PlotUtils;
 
 class Sample
 {
