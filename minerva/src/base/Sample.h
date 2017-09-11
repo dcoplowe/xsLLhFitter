@@ -16,7 +16,7 @@ public:
 	// Just make this more of a wrapper for the Minverva histo class.
 
 	Sample(std::string name, int nbins, double x_low, double x_high);
-	Sample(std::string name, int nbins, double * x_bins, Type type);
+	Sample(std::string name, int nbins, double * x_bins);
 	~Sample();
 
 	std::vector<MnvH1D*> GetMnvH1D(){ return m_1Dhists; }
