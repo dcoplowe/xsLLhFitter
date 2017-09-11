@@ -10,14 +10,14 @@ Sample::Sample(const std::string& name, const int nbins, const double x_low, con
 {
 	// Do we want to inlcude under and overflow bins in this class?
 	// This makes a histogram for each interaction/reweightable var. type if we are producing splines
-	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_low, x_high) );
+	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new PlotUtils::MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_low, x_high) );
 }
 
 Sample::Sample(const std::string& name, const int nbins, const double * x_bins) : m_Nhists(1), m_det(true), m_name( (name + "_Det") )
 {
 	// Do we want to inlcude under and overflow bins in this class?
 	// This makes a histogram for each interaction/reweightable var. type if we are producing splines
-	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_bins) );
+	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new PlotUtils::MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_bins) );
 }
 
 Sample::~Sample()
