@@ -15,7 +15,7 @@ public:
 	// Should simplify this and remove the model bit. 
 	// Just make this more of a wrapper for the Minverva histo class.
 
-	Sample(std::string name, int nbins, double x_low, double x_high, Type type);
+	Sample(std::string name, int nbins, double x_low, double x_high);
 	Sample(std::string name, int nbins, double * x_bins, Type type);
 	~Sample();
 
