@@ -34,7 +34,7 @@ void Sample::Fill(const int fill_nhist, const double value, const double wgt)
 
 void Sample::Fill(const double value, const double wgt)
 {
-	for(size_t i = 0; i < m_1Dhist.size(); i++) m_1Dhists[i]->Fill(value, wgt);
+	for(size_t i = 0; i < m_1Dhists.size(); i++) m_1Dhists[i]->Fill(value, wgt);
 }
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
@@ -60,7 +60,7 @@ bool Sample::AddLatErrorBand(const std::string& name, const std::vector<TH1D*>& 
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
-		if(m_1Dhists[i]->AddLatErrorBand(name, nhists)) counter++;
+		if(m_1Dhists[i]->AddLatErrorBand(name, base)) counter++;
 	}
 	return (counter == m_1Dhists.size());
 }
@@ -68,7 +68,7 @@ bool Sample::AddLatErrorBand(const std::string& name, const std::vector<TH1D*>& 
 bool Sample::AddLatErrorBand(const int set_nhist, const std::string& name, const std::vector<TH1D*>& base )
 {
 	if(set_nhist < (int)m_1Dhists.size()) return false;
-	return m_1Dhists[set_nhist]->AddLatErrorBand(name, nhists);
+	return m_1Dhists[set_nhist]->AddLatErrorBand(name, base);
 }
 
 bool Sample::AddLatErrorBandAndFillWithCV(const std::string& name, const int nhists)
