@@ -27,7 +27,7 @@ int main()
 	// Want to fill the different samples given some 
 	for(Int_t i = 0; i < 10; i++){
 		reader.GetEntry(i);
-		coust << "reader.muon_E = " << reader.muon_E << endl;
+		cout << "reader.muon_E = " << reader.muon_E << endl;
 		syst.FillSample("signal", reader.muon_E, reader.mc_cvweight_total );
 	}
 
