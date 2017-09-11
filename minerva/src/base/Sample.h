@@ -39,19 +39,19 @@ public:
 	bool AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref );
 	bool AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref );
 
-	bool FillLatErrorBand(int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
+	bool FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
 		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(int fill_nhist, const std::string& name, const double val, const double * shifts, const double cvweight = 1.0,
+	bool FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double * shifts, const double cvweight = 1.0,
 		const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(int fill_nhist, const std::string& name, const double val, const double shiftDown, const double shiftUp,
+	bool FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double shiftDown, const double shiftUp,
 		const double cvweight = 1.0, const bool fillcv = true );
-	bool FillVertErrorBand(int fill_nhist, const std::string& name, const double val, const std::vector<double>& weights,
+	bool FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& weights,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(int fill_nhist, const std::string& name, const double val, const double * weights,
+	bool FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const double * weights,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(int fill_nhist, const std::string& name, const double val, const double weightDown, const double weightUp,
+	bool FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const double weightDown, const double weightUp,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
-	bool FillUncorrError(int fill_nhist, const std::string& name, const double val, const double err, const double cvweight = 1.0 );
+	bool FillUncorrError(const int fill_nhist, const std::string& name, const double val, const double err, const double cvweight = 1.0 );
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 
 private:

@@ -38,7 +38,7 @@ bool DetectorSystematics::AddLatErrorBand( const std::string& name)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddLatErrorBand(name, m_Nuniverses)) counter++;
+		if(m_samples[i]->AddLatErrorBand(0, name, m_Nuniverses)) counter++;
 
 	return (counter == m_samples.size())
 }
@@ -47,7 +47,7 @@ bool DetectorSystematics::AddLatErrorBand( const std::string& name, const std::v
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddLatErrorBand(name, base)) counter++;
+		if(m_samples[i]->AddLatErrorBand(0, name, base)) counter++;
 	
 	return (counter == m_samples.size())
 }
@@ -56,7 +56,7 @@ bool DetectorSystematics::AddLatErrorBandAndFillWithCV( const std::string& name)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddLatErrorBandAndFillWithCV(name, m_Nuniverses)) counter++;
+		if(m_samples[i]->AddLatErrorBandAndFillWithCV(0, name, m_Nuniverses)) counter++;
 	
 	return (counter == m_samples.size())
 }
@@ -65,7 +65,7 @@ bool DetectorSystematics::AddVertErrorBand( const std::string& name)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddVertErrorBand(name, m_Nuniverses)) counter++;
+		if(m_samples[i]->AddVertErrorBand(0, name, m_Nuniverses)) counter++;
 	
 	return (counter == m_samples.size())
 }
@@ -74,7 +74,7 @@ bool DetectorSystematics::AddVertErrorBand( const std::string& name, const std::
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddVertErrorBand(name, base)) counter++;
+		if(m_samples[i]->AddVertErrorBand(0, name, base)) counter++;
 	
 	return (counter == m_samples.size())
 }
@@ -83,17 +83,16 @@ bool DetectorSystematics::AddVertErrorBandAndFillWithCV( const std::string& name
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddVertErrorBandAndFillWithCV(name, m_Nuniverses)) counter++;
+		if(m_samples[i]->AddVertErrorBandAndFillWithCV(0, name, m_Nuniverses)) counter++;
 	
 	return (counter == m_samples.size())
 }
-
 
 bool DetectorSystematics::AddUncorrError( const std::string& name )
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddUncorrError(name)) counter++;
+		if(m_samples[i]->AddUncorrError(0, name)) counter++;
 	
 	return (counter == m_samples.size())
 }
@@ -102,7 +101,7 @@ bool DetectorSystematics::AddUncorrError( const std::string& name, const TH1D* h
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddUncorrError(name, hist, errInContent)) counter++;
+		if(m_samples[i]->AddUncorrError(0, name, hist, errInContent)) counter++;
 	
 	return (counter == m_samples.size())
 }
@@ -111,11 +110,10 @@ bool DetectorSystematics::AddUncorrErrorAndFillWithCV( const std::string& name )
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
-		if(m_samples[i]->AddUncorrErrorAndFillWithCV(name)) counter++;
+		if(m_samples[i]->AddUncorrErrorAndFillWithCV(0, name)) counter++;
 	
 	return (counter == m_samples.size())
 }
-
 
 bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref )
 {

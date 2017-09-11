@@ -29,8 +29,7 @@ Sample::~Sample()
 
 void Sample::Fill(double value, double wgt)
 {
-	if(m_type == Det) m_1Dhists[0]->Fill(value, wgt);
-	else if(IsModel(model)) m_1Dhists[model]->Fill(value, wgt);
+	for(size_t i = 0; i < m_1Dhists.size(); i++) m_1Dhists[i]->Fill(value, wgt);
 }
 
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
@@ -137,52 +136,45 @@ bool Sample::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::FillLatErrorBand( const std::string& name, const double val, const std::vector<double>& shifts,
+bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
 	const double cvweight, const bool fillcv, const double *weights)
 {
-	if(m_type == Det) m_1Dhists[0]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights)
-	else if(IsModel(model)) m_1Dhists[model]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
+	m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
 }
 
-bool Sample::FillLatErrorBand( const std::string& name, cons, const double val, const double * shifts, const double cvweight,
+bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, cons, const double val, const double * shifts, const double cvweight,
 	const bool fillcv, const double *weights)
 {
-	if(m_type == Det) m_1Dhists[0]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
-	else if(IsModel(model)) m_1Dhists[model]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
+	m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
 }
 
-bool Sample::FillLatErrorBand( const std::string& name, const double val, const double shiftDown, const double shiftUp,
+bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double shiftDown, const double shiftUp,
 	const double cvweight, const bool fillcv)
 {
-	if(m_type == Det) m_1Dhists[0]->FillLatErrorBand(name, val, shiftDown, shiftUp, cvweight, fillcv);
-	else if(IsModel(model)) m_1Dhists[model]->FillLatErrorBand(name, val, shiftDown, shiftUp, cvweight, fillcv);
+	m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shiftDown, shiftUp, cvweight, fillcv);
 }
 
-bool Sample::FillVertErrorBand( const std::string& name, const double val, const std::vector<double>& weights,
+bool Sample::FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& weights,
 	const double cvweight, double cvWeightFromMe)
 {
-	if(m_type == Det) m_1Dhists[0]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
-	else if(IsModel(model)) m_1Dhists[model]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
+	m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
 }
 
-bool Sample::FillVertErrorBand( const std::string& name, const double val, const double * weights,
+bool Sample::FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const double * weights,
 	const double cvweight, double cvWeightFromMe)
 {
-	if(m_type == Det) m_1Dhists[0]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
-	else if(IsModel(model)) m_1Dhists[model]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
+	m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
 }
 
-bool Sample::FillVertErrorBand( const std::string& name, const double val, const double weightDown, const double weightUp,
+bool Sample::FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const double weightDown, const double weightUp,
 	const double cvweight, double cvWeightFromMe)
 {
-	if(m_type == Det) m_1Dhists[0]->FillVertErrorBand(name, val, weightDown, weightUp, cvweight, cvWeightFromMe);
-	else if(IsModel(model)) m_1Dhists[model]->FillVertErrorBand(name, val, weightDown, weightUp, cvweight, cvWeightFromMe);
+	m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weightDown, weightUp, cvweight, cvWeightFromMe);
 }
 
-bool Sample::FillUncorrError( const std::string& name, const double val, const double err, const double cvweight)
+bool Sample::FillUncorrError(const int fill_nhist, const std::string& name, const double val, const double err, const double cvweight)
 {
-	if(m_type == Det) m_1Dhists[0]->FillUncorrError(name, val, err, cvweight);
-	else if(IsModel(model)) m_1Dhists[model]->FillUncorrError(name, val, err, cvweight);
+	m_1Dhists[fill_nhist]->FillUncorrError(name, val, err, cvweight);
 }
 
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------
