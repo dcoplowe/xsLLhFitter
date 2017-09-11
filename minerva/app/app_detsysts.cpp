@@ -17,6 +17,7 @@ int main()
 
 	DetectorSystematics syst(10, verbose);
 
+	syst.AddSample("signal", 29, 0., 20000.);
 	syst.AddSample("signal", 29, -300., 300.);
 	// syst.AddSample("Wgt1800", 29, 1800., 10000.);
 
