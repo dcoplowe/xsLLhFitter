@@ -190,7 +190,7 @@ bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const PlotUt
 	return m_1Dhists[set_nhist]->AddMissingErrorBandsAndFillWithCV(ref); 
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV(const MnvH2D& ref)
+bool Sample::AddMissingErrorBandsAndFillWithCV(const PlotUtils::MnvH2D& ref)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -199,7 +199,7 @@ bool Sample::AddMissingErrorBandsAndFillWithCV(const MnvH2D& ref)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH2D& ref )
+bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const PlotUtils::MnvH2D& ref )
 {
 	if(set_nhist < (int)m_1Dhists.size()) return false;
 	return m_1Dhists[set_nhist]->AddMissingErrorBandsAndFillWithCV(ref); 
