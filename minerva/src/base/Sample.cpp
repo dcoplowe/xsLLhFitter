@@ -4,8 +4,6 @@
 #include <Sample.h>
 using namespace PlotUtils;
 // #include <TH1D.h>
-// #include <PlotUtils/MnvH1D.h> 
-// #include <PlotUtils/MnvH2D.h> 
 // using namespace PlotUtils;
 
 Sample::Sample(const std::string& name, const int nbins, const double x_low, const double x_high) : m_Nhists(1), m_det(true), m_name( (name + "_Det") )

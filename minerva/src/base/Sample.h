@@ -81,7 +81,7 @@ private:
 	int	m_Nhists;
 	bool m_det;
 	std::string m_name;
-	std::vector<MnvH1D*> m_1Dhists;
+	std::vector<PlotUtils::MnvH1D*> m_1Dhists;
 };
 
 #endif
