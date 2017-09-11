@@ -6,7 +6,8 @@
 class TH1D;
 
 #include <PlotUtils/MnvH1D.h> 
-#include <PlotUtils/MnvH2D.h> 
+#include <PlotUtils/MnvH2D.h>
+using namespace PlotUtils;
 
 class DetectorSystematics : public SystematicsBase
 {
@@ -29,8 +30,8 @@ public:
 	bool AddUncorrError(const std::string& name, const TH1D* hist, bool errInContent = false );
 	bool AddUncorrErrorAndFillWithCV(const std::string& name );
 
-	bool AddMissingErrorBandsAndFillWithCV(const PlotUtils::MnvH1D& ref );
-	bool AddMissingErrorBandsAndFillWithCV(const PlotUtils::MnvH2D& ref );
+	bool AddMissingErrorBandsAndFillWithCV(const MnvH1D& ref );
+	bool AddMissingErrorBandsAndFillWithCV(const MnvH2D& ref );
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	
 };

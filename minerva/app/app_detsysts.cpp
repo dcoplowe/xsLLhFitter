@@ -24,6 +24,13 @@ int main()
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
+	// Want to fill the different samples given some 
+	for(Int_t i = 0; i < 10; i++){
+		reader.GetEntry(i);
+		reader.muon_E;
+		syst.FillSample("signal", reader.muon_E, reader.mc_cvweight_total );
+	}
+
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 
