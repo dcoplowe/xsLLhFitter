@@ -2,6 +2,8 @@
 #define __SAMPLE_CPP__
 
 #include <Sample.h>
+#include <PlotUtils/MnvH1D.h> 
+#include <PlotUtils/MnvH2D.h> 
 // using namespace PlotUtils;
 // #include <TH1D.h>
 // using namespace PlotUtils;
