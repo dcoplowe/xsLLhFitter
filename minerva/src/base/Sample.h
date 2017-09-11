@@ -10,7 +10,8 @@
 // class TH1D;
 
 #include <PlotUtils/MnvH1D.h> 
-#include <PlotUtils/MnvH2D.h> 
+#include <PlotUtils/MnvH2D.h>
+using namespace PlotUtils;
 
 class Sample
 {
@@ -22,8 +23,8 @@ public:
 	Sample(const std::string& name, const int nbins, const double * x_bins);
 	~Sample();
 
-	std::vector<PlotUtils::MnvH1D*> GetMnvH1D(){ return m_1Dhists; }
-	PlotUtils::MnvH1D * GetMnvH1D(int n){ return m_1Dhists[n]; }
+	std::vector<MnvH1D*> GetMnvH1D(){ return m_1Dhists; }
+	MnvH1D * GetMnvH1D(int n){ return m_1Dhists[n]; }
 	int GetNHists(){ return (int)m_1Dhists.size(); }
 	void Fill(const int fill_nhist, const double value, const double wgt);
 	void Fill(const double value, const double wgt);
@@ -56,11 +57,11 @@ public:
 	bool AddUncorrErrorAndFillWithCV( const std::string& name );
 	bool AddUncorrErrorAndFillWithCV(const int set_nhist, const std::string& name );
 
-	bool AddMissingErrorBandsAndFillWithCV( const PlotUtils::MnvH1D& ref );
-	bool AddMissingErrorBandsAndFillWithCV(const int set_nhist, const PlotUtils::MnvH1D& ref );
+	bool AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref );
+	bool AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH1D& ref );
 
-	bool AddMissingErrorBandsAndFillWithCV( const PlotUtils::MnvH2D& ref );
-	bool AddMissingErrorBandsAndFillWithCV(const int set_nhist, const PlotUtils::MnvH2D& ref );
+	bool AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref );
+	bool AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH2D& ref );
 
 	bool FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
 		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
@@ -81,7 +82,7 @@ private:
 	int	m_Nhists;
 	bool m_det;
 	std::string m_name;
-	std::vector<PlotUtils::MnvH1D*> m_1Dhists;
+	std::vector<MnvH1D*> m_1Dhists;
 };
 
 #endif

@@ -2,8 +2,6 @@
 #define __SAMPLE_CPP__
 
 #include <Sample.h>
-#include <PlotUtils/MnvH1D.h> 
-#include <PlotUtils/MnvH2D.h> 
 // using namespace PlotUtils;
 // #include <TH1D.h>
 // using namespace PlotUtils;
@@ -12,14 +10,14 @@ Sample::Sample(const std::string& name, const int nbins, const double x_low, con
 {
 	// Do we want to inlcude under and overflow bins in this class?
 	// This makes a histogram for each interaction/reweightable var. type if we are producing splines
-	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new PlotUtils::MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_low, x_high) );
+	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_low, x_high) );
 }
 
 Sample::Sample(const std::string& name, const int nbins, const double * x_bins) : m_Nhists(1), m_det(true), m_name( (name + "_Det") )
 {
 	// Do we want to inlcude under and overflow bins in this class?
 	// This makes a histogram for each interaction/reweightable var. type if we are producing splines
-	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new PlotUtils::MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_bins) );
+	for(int i = 0; i < m_Nhists; i++) m_1Dhists.push_back( new MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_bins) );
 }
 
 Sample::~Sample()
@@ -177,7 +175,7 @@ bool Sample::AddUncorrErrorAndFillWithCV(const int set_nhist, const std::string&
 	return m_1Dhists[set_nhist]->AddUncorrErrorAndFillWithCV(name);
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV(const PlotUtils::MnvH1D& ref)
+bool Sample::AddMissingErrorBandsAndFillWithCV(const MnvH1D& ref)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -186,13 +184,13 @@ bool Sample::AddMissingErrorBandsAndFillWithCV(const PlotUtils::MnvH1D& ref)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const PlotUtils::MnvH1D& ref )
+bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH1D& ref )
 {
 	if(set_nhist < (int)m_1Dhists.size()) return false;
 	return m_1Dhists[set_nhist]->AddMissingErrorBandsAndFillWithCV(ref); 
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV(const PlotUtils::MnvH2D& ref)
+bool Sample::AddMissingErrorBandsAndFillWithCV(const MnvH2D& ref)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -201,7 +199,7 @@ bool Sample::AddMissingErrorBandsAndFillWithCV(const PlotUtils::MnvH2D& ref)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const PlotUtils::MnvH2D& ref )
+bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH2D& ref )
 {
 	if(set_nhist < (int)m_1Dhists.size()) return false;
 	return m_1Dhists[set_nhist]->AddMissingErrorBandsAndFillWithCV(ref); 
