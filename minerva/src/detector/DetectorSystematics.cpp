@@ -166,7 +166,7 @@ bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref )
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
+bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double val, const std::vector<double>& shifts,
 	const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 )
 {
 	size_t counter = 0;
@@ -177,7 +177,7 @@ bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::stri
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double * shifts, const double cvweight,
+bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double val, const double * shifts, const double cvweight,
 	const bool fillcv, const double *weights)
 {
 	size_t counter = 0;
@@ -188,7 +188,7 @@ bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::stri
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double shiftDown, const double shiftUp,
+bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double val, const double shiftDown, const double shiftUp,
 	const double cvweight, const bool fillcv)
 {
 	size_t counter = 0;
