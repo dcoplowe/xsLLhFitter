@@ -4,6 +4,8 @@
 #include <SystematicsBase.h>
 
 class TH1D;
+class MnvH1D;
+class MnvH2D;
 
 class DetectorSystematics : public SystematicsBase
 {
