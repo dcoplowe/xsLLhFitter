@@ -16,16 +16,17 @@ int main()
 	bool verbose = true;
 
 	// Do we want something to overtake the nominal number of toys?
+
 	DetectorSystematics syst(100, verbose);
 
 	syst.AddSample("signal",  29, 0., 20000.);
 	syst.AddSample("sideband",  29, -300., 300.);
 
-	syst.AddVertErrorBand("Flux_BeamFocus");
-	syst.AddVertErrorBand("ppfx1_Total");
-	// syst.AddLatErrorBand("MINOS Energy error");
-	
 	FileIO reader(in_file, in_tree);
+
+	syst.AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
+	syst.AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
+	// syst.AddLatErrorBand("MINOS Energy error");
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
