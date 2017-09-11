@@ -15,8 +15,8 @@ public:
 	// Should simplify this and remove the model bit. 
 	// Just make this more of a wrapper for the Minverva histo class.
 
-	Sample(std::string name, int nbins, double x_low, double x_high);
-	Sample(std::string name, int nbins, double * x_bins);
+	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high);
+	Sample(const std::string& name, const int nbins, const double * x_bins);
 	~Sample();
 
 	std::vector<MnvH1D*> GetMnvH1D(){ return m_1Dhists; }
@@ -26,18 +26,37 @@ public:
 
 	// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 	bool AddLatErrorBand( const std::string& name, const int nhists = -1 );
+	bool AddLatErrorBand(const int set_nhist, const std::string& name, const int nhists = -1 );
+
 	bool AddLatErrorBand( const std::string& name, const std::vector<TH1D*>& base );
+	bool AddLatErrorBand(const int set_nhist, const std::string& name, const std::vector<TH1D*>& base );
+
 	bool AddLatErrorBandAndFillWithCV( const std::string& name, const int nhists );
+	bool AddLatErrorBandAndFillWithCV(const int set_nhist, const std::string& name, const int nhists );
+	
 	bool AddVertErrorBand( const std::string& name, const int nhists = -1 );
+	bool AddVertErrorBand(const int set_nhist, const std::string& name, const int nhists = -1 );
+
 	bool AddVertErrorBand( const std::string& name, const std::vector<TH1D*>& base );
+	bool AddVertErrorBand(const int set_nhist, const std::string& name, const std::vector<TH1D*>& base );
+
 	bool AddVertErrorBandAndFillWithCV( const std::string& name, const int nhists );
+	bool AddVertErrorBandAndFillWithCV(const int set_nhist, const std::string& name, const int nhists );
 
 	bool AddUncorrError( const std::string& name );
+	bool AddUncorrError(const int set_nhist, const std::string& name );
+
 	bool AddUncorrError( const std::string& name, const TH1D* hist, bool errInContent = false );
+	bool AddUncorrError(const int set_nhist, const std::string& name, const TH1D* hist, bool errInContent = false );
+
 	bool AddUncorrErrorAndFillWithCV( const std::string& name );
+	bool AddUncorrErrorAndFillWithCV(const int set_nhist, const std::string& name );
 
 	bool AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref );
+	bool AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH1D& ref );
+
 	bool AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref );
+	bool AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH2D& ref );
 
 	bool FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
 		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );

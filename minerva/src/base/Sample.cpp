@@ -8,14 +8,14 @@
 #include <PlotUtils/MnvH2D.h> 
 using namespace PlotUtils;
 
-Sample::Sample(std::string name, int nbins, double x_low, double x_high), m_Nhists(1), m_det(true), m_name( (name + "_Det") )
+Sample::Sample(const std::string& name, const int nbins, const double x_low, const double x_high) : m_Nhists(1), m_det(true), m_name( (name + "_Det") )
 {
 	// Do we want to inlcude under and overflow bins in this class?
 	// This makes a histogram for each interaction/reweightable var. type if we are producing splines
 	for(int i = 0; i < m_hists; i++) m_1Dhists.push_back( new MnvH1D(Form("%s_Det", m_name.c_str()), "", nbins, x_low, x_high) );
 }
 
-Sample::Sample(std::string name, int nbins, double * x_bins), m_Nhists(1), m_det(true), m_name( (name + "_Det") )
+Sample::Sample(const std::string& name, const int nbins, const double * x_bins) : m_Nhists(1), m_det(true), m_name( (name + "_Det") )
 {
 	// Do we want to inlcude under and overflow bins in this class?
 	// This makes a histogram for each interaction/reweightable var. type if we are producing splines
@@ -27,9 +27,9 @@ Sample::~Sample()
 	m_1Dhists.clear();
 }
 
-void Sample::Fill(double value, double wgt)
+void Sample::Fill(const int fill_nhist, const double value, const double wgt)
 {
-	for(size_t i = 0; i < m_1Dhists.size(); i++) m_1Dhists[i]->Fill(value, wgt);
+	m_1Dhists[fill_nhist]->Fill(value, wgt);
 }
 
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
@@ -37,7 +37,7 @@ void Sample::Fill(double value, double wgt)
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 // -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-bool Sample::AddLatErrorBand( const std::string& name, const int nhists)
+bool Sample::AddLatErrorBand(const std::string& name, const int nhists)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -46,7 +46,13 @@ bool Sample::AddLatErrorBand( const std::string& name, const int nhists)
 	return(counter == m_1Dhists.size());
 }
 
-bool Sample::AddLatErrorBand( const std::string& name, const std::vector<TH1D*>& base)
+bool Sample::AddLatErrorBand(const int set_nhist, const std::string& name, const int nhists)
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddLatErrorBand(name, nhists);
+}
+
+bool Sample::AddLatErrorBand(const std::string& name, const std::vector<TH1D*>& base)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -55,7 +61,13 @@ bool Sample::AddLatErrorBand( const std::string& name, const std::vector<TH1D*>&
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddLatErrorBandAndFillWithCV( const std::string& name, const int nhists)
+bool Sample::AddLatErrorBand(const int set_nhist, const std::string& name, const std::vector<TH1D*>& base )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddLatErrorBand(name, nhists);
+}
+
+bool Sample::AddLatErrorBandAndFillWithCV(const std::string& name, const int nhists)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -64,7 +76,13 @@ bool Sample::AddLatErrorBandAndFillWithCV( const std::string& name, const int nh
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddVertErrorBand( const std::string& name, const int nhists)
+bool Sample::AddLatErrorBandAndFillWithCV(const int set_nhist, const std::string& name, const int nhists )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddLatErrorBandAndFillWithCV(name, nhists);
+}
+
+bool Sample::AddVertErrorBand(const std::string& name, const int nhists)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -73,16 +91,29 @@ bool Sample::AddVertErrorBand( const std::string& name, const int nhists)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddVertErrorBand( const std::string& name, const std::vector<TH1D*>& base)
+bool Sample::AddVertErrorBand(const int set_nhist, const std::string& name, const int nhists)
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddVertErrorBand(name, nhists);		
+}
+
+bool Sample::AddVertErrorBand(const std::string& name, const std::vector<TH1D*>& base)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
-		if(m_1Dhists[i]->AddVertErrorBand(name, nhists)) counter++;
+		if(m_1Dhists[i]->AddVertErrorBand(name, base)) counter++;
 	}
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddVertErrorBandAndFillWithCV( const std::string& name, const int nhists)
+bool Sample::AddVertErrorBand(const int set_nhist, const std::string& name, const std::vector<TH1D*>& base )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddVertErrorBand(name, base);		
+}
+
+
+bool Sample::AddVertErrorBandAndFillWithCV(const std::string& name, const int nhists)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -91,7 +122,13 @@ bool Sample::AddVertErrorBandAndFillWithCV( const std::string& name, const int n
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddUncorrError( const std::string& name)
+bool Sample::AddVertErrorBandAndFillWithCV(const int set_nhist, const std::string& name, const int nhists )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return 	m_1Dhists[set_nhist]->AddVertErrorBandAndFillWithCV(name, nhists);
+}
+
+bool Sample::AddUncorrError(const std::string& name)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -100,7 +137,13 @@ bool Sample::AddUncorrError( const std::string& name)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddUncorrError( const std::string& name, const TH1D* hist, bool errInContent)
+bool Sample::AddUncorrError(const int set_nhist, const std::string& name )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddUncorrError(name);
+}
+
+bool Sample::AddUncorrError(const std::string& name, const TH1D* hist, bool errInContent)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -109,7 +152,13 @@ bool Sample::AddUncorrError( const std::string& name, const TH1D* hist, bool err
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddUncorrErrorAndFillWithCV( const std::string& name)
+bool Sample::AddUncorrError(const int set_nhist, const std::string& name, const TH1D* hist, bool errInContent)
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddUncorrError(name, hist, errInContent);
+}
+
+bool Sample::AddUncorrErrorAndFillWithCV(const std::string& name)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -118,7 +167,13 @@ bool Sample::AddUncorrErrorAndFillWithCV( const std::string& name)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref)
+bool Sample::AddUncorrErrorAndFillWithCV(const int set_nhist, const std::string& name )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddUncorrErrorAndFillWithCV(name);
+}
+
+bool Sample::AddMissingErrorBandsAndFillWithCV(const MnvH1D& ref)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
@@ -127,54 +182,73 @@ bool Sample::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref)
 	return (counter == m_1Dhists.size());
 }
 
-bool Sample::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref)
+bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH1D& ref )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddMissingErrorBandsAndFillWithCV(ref); 
+}
+
+bool Sample::AddMissingErrorBandsAndFillWithCV(const MnvH2D& ref)
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_1Dhists.size(); i++){
 		if(m_1Dhists[i]->AddMissingErrorBandsAndFillWithCV(ref)) counter++;
 	}
 	return (counter == m_1Dhists.size());
+}
+
+bool Sample::AddMissingErrorBandsAndFillWithCV(const int set_nhist, const MnvH2D& ref )
+{
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[set_nhist]->AddMissingErrorBandsAndFillWithCV(ref); 
 }
 
 bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
 	const double cvweight, const bool fillcv, const double *weights)
 {
-	m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
 }
 
 bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, cons, const double val, const double * shifts, const double cvweight,
 	const bool fillcv, const double *weights)
 {
-	m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
 }
 
 bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double shiftDown, const double shiftUp,
 	const double cvweight, const bool fillcv)
 {
-	m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shiftDown, shiftUp, cvweight, fillcv);
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shiftDown, shiftUp, cvweight, fillcv);
 }
 
 bool Sample::FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& weights,
 	const double cvweight, double cvWeightFromMe)
 {
-	m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
 }
 
 bool Sample::FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const double * weights,
 	const double cvweight, double cvWeightFromMe)
 {
-	m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weights, cvweight, cvWeightFromMe);
 }
 
 bool Sample::FillVertErrorBand(const int fill_nhist, const std::string& name, const double val, const double weightDown, const double weightUp,
 	const double cvweight, double cvWeightFromMe)
 {
-	m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weightDown, weightUp, cvweight, cvWeightFromMe);
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[fill_nhist]->FillVertErrorBand(name, val, weightDown, weightUp, cvweight, cvWeightFromMe);
 }
 
 bool Sample::FillUncorrError(const int fill_nhist, const std::string& name, const double val, const double err, const double cvweight)
 {
-	m_1Dhists[fill_nhist]->FillUncorrError(name, val, err, cvweight);
+	if(fill_nhist < (int)m_1Dhists.size()) return false;
+	return m_1Dhists[fill_nhist]->FillUncorrError(name, val, err, cvweight);
 }
 
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------
