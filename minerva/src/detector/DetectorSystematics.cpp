@@ -115,7 +115,7 @@ bool DetectorSystematics::AddUncorrErrorAndFillWithCV( const std::string& name )
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref )
+bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const PlotUtils::MnvH1D& ref )
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
@@ -124,7 +124,7 @@ bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref )
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref )
+bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const PlotUtils::MnvH2D& ref )
 {
 	size_t counter = 0;
 	for(size_t i = 0; i < m_samples.size(); i++) 
