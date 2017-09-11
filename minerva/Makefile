@@ -12,7 +12,7 @@ DIR_LIST = src src/base src/fileio src/detector
 INCS = $(foreach dir, $(DIR_LIST),-I$(dir))
 # INCS =	-Isrc/ -Isrc/base/ -Isrc/detector/ -Isrc/model/ -Isrc/
 INCS += -I$(PLOTUTILSROOT)/
-LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG)
+LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 # SRCS =	$(wildcard src/*.cpp)
