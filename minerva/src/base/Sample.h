@@ -74,6 +74,9 @@ public:
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 
 private:
+	int	m_Nhists;
+	bool m_det;
+	std::string m_name;
 	std::vector<MnvH1D*> m_1Dhists;
 };
 
