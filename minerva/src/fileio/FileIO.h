@@ -15,8 +15,6 @@ public:
 	FileIOBase(in_filename, in_treename, verbose){;}
 	FileIO(bool verbose = false) : FileIOBase(verbose){;}
 
-	// Long64_t ;
-
 private:
 	void Init();
 

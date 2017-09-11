@@ -11,7 +11,7 @@
 using std::cout;
 using std::endl;
 
-FileIO::Init()
+void FileIO::Init()
 {
 	cout << "FileIO::Init()" << endl;
 
