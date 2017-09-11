@@ -23,7 +23,7 @@ public:
 	Sample(const std::string& name, const int nbins, const double * x_bins);
 	~Sample();
 
-	std::vector<MnvH1D*> GetMnvH1D(){ return m_1Dhists; }
+	std::vector<PlotUtils::MnvH1D*> GetMnvH1D(){ return m_1Dhists; }
 	MnvH1D* GetMnvH1D(int n){ return m_1Dhists[n]; }
 	int GetNHists(){ return (int)m_1Dhists.size(); }
 	void Fill(const int fill_nhist, const double value, const double wgt);
