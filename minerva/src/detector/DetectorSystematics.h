@@ -32,6 +32,21 @@ public:
 
 	bool AddMissingErrorBandsAndFillWithCV(const MnvH1D& ref );
 	bool AddMissingErrorBandsAndFillWithCV(const MnvH2D& ref );
+
+	bool FillLatErrorBand(const std::string& name, const double val, const std::vector<double>& shifts,
+		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
+	bool FillLatErrorBand(const std::string& name, const double val, const double * shifts, const double cvweight = 1.0,
+		const bool fillcv = true, const double *weights = 0 );
+	bool FillLatErrorBand(const std::string& name, const double val, const double shiftDown, const double shiftUp,
+		const double cvweight = 1.0, const bool fillcv = true );
+	bool FillVertErrorBand(const std::string& name, const double val, const std::vector<double>& weights,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+	bool FillVertErrorBand(const std::string& name, const double val, const double * weights,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+	bool FillVertErrorBand(const std::string& name, const double val, const double weightDown, const double weightUp,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
+	bool FillUncorrError(const std::string& name, const double val, const double err, const double cvweight = 1.0 );
+	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	
 };

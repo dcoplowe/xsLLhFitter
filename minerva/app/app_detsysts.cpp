@@ -15,24 +15,16 @@ int main()
 	std::string out_file = "DetSyst_Test.root";
 	bool verbose = true;
 
-	DetectorSystematics syst(10, verbose);
+	// Do we want something to overtake the nominal number of toys?
+	DetectorSystematics syst(100, verbose);
 
 	syst.AddSample("signal",  29, 0., 20000.);
-	syst.AddSample("signal",  29, -300., 300.);
-	double * dpv = new double [ 6 ];
-	dpv[0] = 1800.;
-	dpv[1] = 2200.;
-	dpv[2] = 3000.;
-	dpv[3] = 5000.;
-	dpv[4] = 6000.;
-	dpv[5] = 10000.;
+	syst.AddSample("sideband",  29, -300., 300.);
 
-	syst.AddSample("Wgt1800", 5, dpv);
-
-	double ffffd[ 6 ] = { 1800., 2200., 3000., 5000., 6000., 10000. };
-	syst.AddSample("Wgt1800", 5, ffffd);
-
-
+	syst.AddVertErrorBand("Flux_BeamFocus");
+	syst.AddVertErrorBand("ppfx1_Total");
+	// syst.AddLatErrorBand("MINOS Energy error");
+	
 	FileIO reader(in_file, in_tree);
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
@@ -42,7 +34,13 @@ int main()
 		reader.GetEntry(i);
 		cout << "reader.muon_E = " << reader.muon_E << endl;
 
-		syst.FillSample("signal", reader.muon_E, reader.mc_cvweight_total );
+		syst.FillSample("signal", reader.muon_E, reader.wgt );
+
+		syst.FillVertErrorBand("Flux_BeamFocus", reader.muon_E, reader.mc_wgt_Flux_BeamFocus, wgt);
+     	syst.FillVertErrorBand("ppfx1_Total", reader.muon_E, reader.mc_wgt_ppfx1_Total, wgt);
+     	// syst.FillLatErrorBand("MINOS Energy error", reader.muon_E, CCInclusiveReco_sys_muon_energy_shift[0], CCInclusiveReco_sys_muon_energy_shift[1] )
+		// mc_wgt_Flux_BeamFocus
+
 	}
 
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples

@@ -165,6 +165,82 @@ bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref )
 	
 	return (counter == m_samples.size());
 }
+
+bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const std::vector<double>& shifts,
+	const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 )
+{
+	size_t counter = 0;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it)
+		if( it->second->FillLatErrorBand(0, name, val, shifts, cvweight, fillcv, weights) ) counter++;
+
+	return (counter == m_samples.size());
+}
+
+bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double * shifts, const double cvweight,
+	const bool fillcv, const double *weights)
+{
+	size_t counter = 0;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it)
+		if( it->second->FillLatErrorBand(0, name, val, shifts, cvweight, fillcv, weights) ) counter++;
+	
+	return (counter == m_samples.size());
+}
+
+bool DetectorSystematics::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double shiftDown, const double shiftUp,
+	const double cvweight, const bool fillcv)
+{
+	size_t counter = 0;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it)
+		if( it->second->FillLatErrorBand(0, name, val, shiftDown, shiftUp, cvweight, fillcv) ) counter++;
+	
+	return (counter == m_samples.size());
+}
+
+bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double val, const std::vector<double>& weights,
+	const double cvweight, double cvWeightFromMe)
+{
+	size_t counter = 0;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it)
+		if( it->second->FillVertErrorBand(0, name, val, weights, cvweight, cvWeightFromMe) ) counter++;
+	return (counter == m_samples.size());
+}
+
+bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double val, const double * weights,
+	const double cvweight, double cvWeightFromMe)
+{
+	size_t counter = 0;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it)
+		if( it->second->FillVertErrorBand(0, name, val, weights, cvweight, cvWeightFromMe) ) counter++;
+	
+	return (counter == m_samples.size());
+}
+
+bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double val, const double weightDown, const double weightUp,
+	const double cvweight, double cvWeightFromMe)
+{
+	size_t counter = 0;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it)
+		if( it->second->FillVertErrorBand(0, name, val, weightDown, weightUp, cvweight, cvWeightFromMe) ) counter++;
+	
+	return (counter == m_samples.size());
+}
+
+bool DetectorSystematics::FillUncorrError(const std::string& name, const double val, const double err, const double cvweight)
+{
+	size_t counter = 0;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it)
+		if( it->second->FillUncorrError(0, name, val, err, cvweight) ) counter++;
+	
+	return (counter == m_samples.size());
+}
+
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------
