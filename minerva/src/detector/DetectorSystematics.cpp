@@ -167,7 +167,7 @@ bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref )
 }
 
 bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double val, const std::vector<double>& shifts,
-	const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 )
+	const double cvweight, const bool fillcv, const double *weights)
 {
 	size_t counter = 0;
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
