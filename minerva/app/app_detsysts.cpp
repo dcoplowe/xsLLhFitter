@@ -30,7 +30,7 @@ int main()
 	syst.AddSample("Wgt1800", 5, dpv);
 
 	double ffffd[ 6 ] = { 1800., 2200., 3000., 5000., 6000., 10000. };
-	syst.AddSample("Wgt1800", ffffd);
+	syst.AddSample("Wgt1800", 5, ffffd);
 
 
 	FileIO reader(in_file, in_tree);
