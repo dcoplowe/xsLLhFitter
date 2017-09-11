@@ -37,8 +37,8 @@ int main()
 
 		syst.FillSample("signal", reader.muon_E, reader.wgt );
 
-		// syst.FillVertErrorBand("Flux_BeamFocus", reader.muon_E, &(*reader.mc_wgt_Flux_BeamFocus), reader.wgt);
-  //    	syst.FillVertErrorBand("ppfx1_Total", reader.muon_E, &(*reader.mc_wgt_ppfx1_Total), reader.wgt);
+		syst.FillVertErrorBand("Flux_BeamFocus", reader.muon_E, &(*reader.mc_wgt_Flux_BeamFocus), reader.wgt);
+     	syst.FillVertErrorBand("ppfx1_Total", reader.muon_E, &(*reader.mc_wgt_ppfx1_Total), reader.wgt);
      	// syst.FillLatErrorBand("MINOS Energy error", reader.muon_E, CCInclusiveReco_sys_muon_energy_shift[0], CCInclusiveReco_sys_muon_energy_shift[1] )
 		// mc_wgt_Flux_BeamFocus
 
