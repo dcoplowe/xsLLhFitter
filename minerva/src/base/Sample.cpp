@@ -214,7 +214,7 @@ bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, con
 	return m_1Dhists[fill_nhist]->FillLatErrorBand(name, val, shifts, cvweight, fillcv, weights);
 }
 
-bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, cons, const double val, const double * shifts, const double cvweight,
+bool Sample::FillLatErrorBand(const int fill_nhist, const std::string& name, const double val, const double * shifts, const double cvweight,
 	const bool fillcv, const double *weights)
 {
 	if(fill_nhist < (int)m_1Dhists.size()) return false;
