@@ -1,7 +1,7 @@
-set(SRCFILES AnaFitParameters.cc DetParameters.cc FitParameters.cc
+set(SRCFILES AnaFitParameters.cc ResponseParameters.cc DetParameters.cc FitParameters.cc
   FluxParameters.cc FluxParameters_norm.cc FSIParameters.cc NuclFSIParameters.cc
   XsecParameters.cc)
-set(HEADERS AnaFitParameters.hh DetParameters.hh FitParameters.hh
+set(HEADERS AnaFitParameters.hh ResponseParameters.hh DetParameters.hh FitParameters.hh
   FluxParameters.hh FluxParameters_norm.hh FSIParameters.hh NuclFSIParameters.hh
   XsecParameters.hh)
 

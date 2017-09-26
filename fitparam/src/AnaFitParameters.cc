@@ -51,11 +51,16 @@ double AnaFitParameters::GetChi2(std::vector<double> &params)
   //if no covariance matrix ...
   if(!hasCovMat) return 0.0;
 
+    cout << "Get Chi2 " << endl;
+    
   if(!checkDims) //check dimensions of various things are ok
   {
     CheckDims(params);
-    cout << "AnaFitParameters.cc: Warning, dimension check failed" << endl;
+    cout << "AnaFitParameters::GetChi2 : Warning, dimension check failed" << endl;
+      
     if(!checkDims) return 0.0;
+      
+      cout << "AnaFitParameters::GetChi2 : Dimension correct" << endl;
   }
 
   //for(size_t i=0;i<params.size();i++)  cout<<i<<" "<<params[i]<<" "<<pars_prior[i]<<endl;

@@ -4,7 +4,11 @@
 #If it was sourced as . setup.sh then you can't scrub off the end... assume that
 #we are in the correct directory.
 RLINK="pwd"
-export XSLLINPUTDIR=/minerva/data/users/dcoplowe/xsLLFitter_IO
+export XSLLINPUTDIR=/minerva/data/users/$USER/xsLLFitter_IO
+
+if [ ! -d ${XSLLINPUTDIR} ]; then
+	mkdir -p ${XSLLINPUTDIR}
+fi
 
 #Need to setup the relevent baths for build:
 minerva_version=v10r8p12

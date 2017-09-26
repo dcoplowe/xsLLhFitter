@@ -27,7 +27,54 @@
 
 #include "TH1I.h"
 
-void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString fakeDataFilename, TString outputFileName, TString finalIter = ""){
+//using namespace std;
+
+void BWNorm(TH1D * h1 ){
+    
+    int nbins = h1->GetNbinsX();
+
+    for (int i=1; i < nbins + 1; i++) {
+        double tmp_m =  (h1->GetBinContent(i)/h1->GetBinWidth(i));
+        double tmp_e = (h1->GetBinError(i)/h1->GetBinWidth(i));
+        //tmp->SetBinContent(i, h1->GetBinWidth(i));
+        //printf("Hist: %s : Bin %d: (%f p/m %f)/%f = %f p/m %f\n", h1->GetName(), i, h1->GetBinContent(i), h1->GetBinError(i), h1->GetBinWidth(i), tmp_m, tmp_e);
+        h1->SetBinContent(i, tmp_m);
+        h1->SetBinError(i,tmp_e);
+    }
+}
+
+void GeV2MeV(TH1D *&h1){
+    if(!h1){
+        printf("myrootfunc::Error GeV2MeV: Could not find TH1D\n");
+        return;
+    }
+    TString histname = h1->GetName();
+    printf("GeV2MeV******\n Name: %s\n",histname.Data());
+    //Int_t nbins = h1->GetNbinsX();
+    const int nbins = h1->GetXaxis()->GetNbins();
+    const TArrayD * x_bins = h1->GetXaxis()->GetXbins();
+    
+    Double_t * array = x_bins->GetArray();
+    
+    for(int i=0; i < nbins + 1; i++){
+        printf("Bin %d : %f ",(i+1), array[i]);
+
+        array[i] *= 1000;
+        printf("MeV: %f\n",array[i]);
+        
+    }
+    
+    TH1D *tmph = new TH1D("tmph","",nbins,array);
+    for(Int_t b=1; b < nbins+1; b++){
+        tmph->SetBinContent(b,h1->GetBinContent(b));
+        tmph->SetBinError(b,h1->GetBinError(b));
+    }
+    h1->Reset();
+    h1 = (TH1D*)tmph->Clone(histname.Data());
+    delete tmph;
+}
+
+void calcXsecWithErrors (TString mcFilename = "/Users/davidcoplowe/work/t2k/signal_extraction/llFormat/neutP6BWA_nall_data_170316_llFormat.root", TString fitResultFilename = "/Users/davidcoplowe/work/t2k/signal_extraction/fitResult/data_25_05_16/neutP6BWA_nall_data_170316_varbinning_nb9_m300_p300_OF_re11_tar1_dpTT05_fit_25_05_16.root", TString fakeDataFilename = "/Users/davidcoplowe/work/t2k/signal_extraction/llFormat/neutP6BWA_nall_data_170316_llFormat.root", TString outputFileName = "/Users/davidcoplowe/work/t2k/signal_extraction/testing/plotting_style_neutP6BWA_nall_data_170316_varbinning_nb9_m300_p300_OF_re11_tar1_dpTT05_xsec_15_09_16.root", TString finalIter = ""){
    
     TFile* mcFile = new TFile(mcFilename);
     TFile* fitResultFile = new TFile(fitResultFilename);
@@ -145,31 +192,93 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     //const int nbins = 1;
     //const double bins[nbins+1] =  {0.00, 2.0};
     
-    TH1D* mcSpect = new TH1D("mcSpect","mcSpect",nbinsAuto,binsAuto->GetArray());
-    TH1D* fakeDataTrueSpect = new TH1D("fakeDataTrueSpect","fakeDataTrueSpect",nbinsAuto,binsAuto->GetArray());
+    
+    int low = 0;
+    int nobins = nbinsAuto;
+    
+    TArrayD * binning;// = new TArrayD(nbinsAuto-2);
+    
+    if(fitResultFilename.Contains("OF")){
+        low = 1;
+        nobins = nbinsAuto - 2;// + 1;
+        binning = new TArrayD( (int)(nbinsAuto - 1) );
+        int number = 0;
+     
+        for(int i = low; i < nbinsAuto; i++){
+            printf("i = %d : number = %d : p = %f\n", i, number, binsAuto->At(i));
+            binning->SetAt(binsAuto->At(i), number);
+            number++;
+        }
+        
+        printf("Min = %f, Max = %f\n", binning->At(0), binning->At(nobins));
+        totalSpectMC_allSam->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        totalSpectFit_allSam->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        totalSpectFD_allSam->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        
+        
+        totalSpectMC_sam0->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        totalSpectFit_sam0->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        totalSpectFD_sam0->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        totalSpectMC_sam1->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        totalSpectFit_sam1->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        totalSpectFD_sam1->GetXaxis()->SetRangeUser(binning->At(0), binning->At(nobins));
+        
+    }
+    else{
+        binning = new TArrayD(*binsAuto);
+    }
+    
+    for(int i = 0; i < binning->GetSize(); i++){
+        printf("Bin %d Value: %f\n", i, binning->At(i));
+    }
+    
+    TH1D * mcSpect = new TH1D("mcSpect","mcSpect", nobins, binning->GetArray());
+    TH1D * fakeDataTrueSpect = new TH1D("fakeDataTrueSpect","fakeDataTrueSpect", nobins,binning->GetArray());
+    TH1D * mcRecoSig = new TH1D("mcRecoSig","", nobins, binning->GetArray());
+    
+    //TH1D* mcSpect = new TH1D("mcSpect","mcSpect",nbinsAuto,binsAuto->GetArray());
+    //TH1D* fakeDataTrueSpect = new TH1D("fakeDataTrueSpect","fakeDataTrueSpect",nbinsAuto,binsAuto->GetArray());
     
     //Find out if the files has reweighted the signal: This is determined by the name of the file.
     if(fakeDataFilename.Contains("reweight") || fakeDataFilename.Contains("wght")){
-        printf("REWEIGGHERD DDDDDD\n");
+        printf("REWEIGHTED\n");
         selEvtsFakeDataTree->Draw("D1True/1000>>fakeDataTrueSpect", "(cutBranch==0 && nu_truereac == 11 && target==1 && TMath::Abs(D1True/1000) < 1e-5)");
-        TH1F * shist = (TH1F*)fakeDataFile->Get("scale");
-        double scale = shist->GetBinContent(1);
-        fakeDataTrueSpect->Scale(scale);
-        int testn = (int)scale*(fakeDataTrueSpect->Integral());
-        printf("SIGNAL : %d\n",testn);
+        /*TH1F * shist = (TH1F*)fakeDataFile->Get("scale");
+        if(shist) {
+            double scale = (double)(shist->GetBinContent(1));
+            fakeDataTrueSpect->Scale(scale);
+            int testn = (int)scale*(fakeDataTrueSpect->Integral());
+            printf("SIGNAL : %d\n",testn);
+        }*/
     }
     else selEvtsFakeDataTree->Draw("D1True/1000>>fakeDataTrueSpect", "cutBranch==0 && nu_truereac ==11 && target==1 && TMath::Abs(D1True/1000) < 1e-5");
     
     selEvtsTree->Draw("D1True/1000>>mcSpect", "(cutBranch==0 && nu_truereac ==11 && target==1 && TMath::Abs(D1True/1000) < 1e-5)");
+    
+    selEvtsTree->Draw("D1Rec/1000>>mcRecoSig", "(cutBranch==0 && nu_truereac ==11 && target==1 && TMath::Abs(D1True/1000) < 1e-5)");
     //selEvtsFakeDataTree->Draw("D1True/1000>>fakeDataTrueSpect", "cutBranch==0 && nu_truereac ==11 && target==1 && TMath::Abs(D1True/1000) < 1e-5");
     
-    TH1D* fitSpect = new TH1D("fitSpect","fitSpect",nbinsAuto,binsAuto->GetArray());
+    TH1D* fitSpect = new TH1D("fitSpect","fitSpect", nobins, binning->GetArray());
+    //TH1D* fitSpect = new TH1D("fitSpect","fitSpect",nbinsAuto,binsAuto->GetArray());
     
-    for(int i=1;i<=nbinsAuto;i++){
-        fitSpect->SetBinContent( i,( (mcSpect->GetBinContent(i))*(fitParamValues->GetBinContent(i)) ) );
-        fitSpect->SetBinError( i,( (mcSpect->GetBinContent(i))*(fitParamErrors->GetBinContent(i)) ) );
+    //for(int i=1;i<=nbinsAuto;i++){
+    //    fitSpect->SetBinContent( i,( (mcSpect->GetBinContent(i))*(fitParamValues->GetBinContent(i)) ) );
+    //    fitSpect->SetBinError( i,( (mcSpect->GetBinContent(i))*(fitParamErrors->GetBinContent(i)) ) );
+    //}
+    
+    for(int i=1;i<=nobins;i++){
+        fitSpect->SetBinContent( i,( (mcSpect->GetBinContent(i))*(fitParamValues->GetBinContent(i + low)) ) );
+        fitSpect->SetBinError( i,( (mcSpect->GetBinContent(i))*(fitParamErrors->GetBinContent(i + low))) );
+        printf("BIN %d : Entries = %d, Error = %f\n", i, fitSpect->GetBinContent(i), fitSpect->GetBinError(i) );
     }
     
+    GeV2MeV(totalSpectMC_allSam);
+    GeV2MeV(totalSpectFD_allSam);
+    GeV2MeV(fitSpect);
+    GeV2MeV(totalSpectFit_allSam);
+    GeV2MeV(fakeDataTrueSpect);
+    GeV2MeV(mcSpect);
+    GeV2MeV(mcRecoSig);
     
     TH1D * hlist[6] = {totalSpectFit_allSam, totalSpectFit_allSam, totalSpectFD_allSam, mcSpect, fakeDataTrueSpect, fitSpect};
     
@@ -177,24 +286,28 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     for(int i = 0; i < 6; i++){
         TH1D * tmphist = hlist[i];
         if(i == 0) xmax = tmphist->GetBinContent(tmphist->GetMaximumBin());
+        int tmp_maxcand = tmphist->GetBinContent(tmphist->GetMaximumBin()) +  tmphist->GetBinError(tmphist->GetMaximumBin());
         
-        if(xmax < tmphist->GetBinContent(tmphist->GetMaximumBin())) xmax = tmphist->GetBinContent(tmphist->GetMaximumBin());
+        if(xmax < tmp_maxcand) xmax = tmp_maxcand;
         //printf("%s : Underflow = %f, Overflow = %f\n",tmphist->GetName(),tmphist->GetBinContent(0), tmphist->GetBinContent(tmphist->GetNbinsX()+1));
     }
     
-    fitSpect->SetLineColor(kRed+2);//
+    fitSpect->SetLineColor(kBlack);//
     fitSpect->SetLineWidth(2);
     fitSpect->SetLineStyle(2);//Fitted signal
     fitSpect->SetMarkerStyle(26);//26 or 32
-    fitSpect->SetMarkerColor(kRed+2);//26 or 32
+    fitSpect->SetMarkerColor(kBlack);//26 or 32
     fitSpect->SetMarkerSize(2);
 
     mcSpect->SetLineColor(kOrange+10);
     mcSpect->SetLineWidth(2);
     mcSpect->SetLineStyle(2);
     mcSpect->SetMarkerStyle(22);//26 or 32
-    mcSpect->SetMarkerColor(kGray+2);
+    //mcSpect->SetMarkerColor(kGray+2);
     
+    mcRecoSig->SetLineWidth(2);
+    mcRecoSig->SetLineStyle(7);
+    mcRecoSig->SetLineColor(kGray+2);
     
     fakeDataTrueSpect->SetLineColor(kGreen+2);
     fakeDataTrueSpect->SetLineWidth(2);
@@ -202,6 +315,7 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     
     fitSpect->Write();
     mcSpect->Write();
+    mcRecoSig->Write();
     fakeDataTrueSpect->Write();
     
     totalSpectFit_sam0->SetLineColor(kRed);
@@ -219,7 +333,7 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     totalSpectFD_sam1->SetLineColor(kOrange-2);
     totalSpectFD_sam1->SetLineWidth(2);
     
-    totalSpectFit_allSam->SetLineColor(kOrange+7);//Fitted dpTT dist.
+    totalSpectFit_allSam->SetLineColor(kGray);//Fitted dpTT dist.
     totalSpectFit_allSam->SetLineWidth(2);
     
     totalSpectMC_allSam->SetLineColor(kAzure+2);
@@ -237,11 +351,10 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     totalSpectFit_sam1->Write();
     totalSpectFD_sam1 ->Write();
     
-    
     TCanvas* canv = new TCanvas("Signal Comp","Signal Comp");
     fitSpect->Draw();
     mcSpect->Draw("same");
-    fakeDataTrueSpect->Draw("same");
+    fakeDataTrueSpect->Draw("sameHIST");
     canv->Write();
     
     TCanvas* canv2 = new TCanvas("Sample0 Comp","Sample0 Comp");
@@ -257,26 +370,50 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     canv3->Write();
     
     TCanvas* canv4 = new TCanvas("All Sample Comp","All Sample Comp");
-    totalSpectFit_allSam->Draw();
-    totalSpectMC_allSam->Draw("same");  
+    totalSpectFit_allSam->Draw("HIST");
+    totalSpectMC_allSam->Draw("sameHIST");
     totalSpectFD_allSam->Draw("sameE"); 
     canv4->Write();
     
     //Final canvas for showing distributions:
     
+    //Get the true and fitted signal events:
+    int sigfit = (int)(fitSpect->GetBinContent(fitSpect->GetMaximumBin()));
+    int sigerror = (int)(fitSpect->GetBinError(fitSpect->GetMaximumBin()));
+    int sigtrue = (int)(fakeDataTrueSpect->GetBinContent(fakeDataTrueSpect->GetMaximumBin()));
+    int mc_signal = (int)mcSpect->GetBinContent(mcSpect->GetMaximumBin());
+    
+    BWNorm(totalSpectMC_allSam);
+    BWNorm(totalSpectFD_allSam);
+    BWNorm(fitSpect);
+    BWNorm(totalSpectFit_allSam);
+    BWNorm(fakeDataTrueSpect);
+    BWNorm(mcSpect);
+    BWNorm(mcRecoSig);
+    
+    xmax = 0;
+    for(int i = 0; i < 6; i++){
+        TH1D * tmphist = hlist[i];
+        if(i == 0) xmax = tmphist->GetBinContent(tmphist->GetMaximumBin());
+        int tmp_maxcand = tmphist->GetBinContent(tmphist->GetMaximumBin()) +  tmphist->GetBinError(tmphist->GetMaximumBin());
+        
+        if(xmax < tmp_maxcand) xmax = tmp_maxcand;
+        //printf("%s : Underflow = %f, Overflow = %f\n",tmphist->GetName(),tmphist->GetBinContent(0), tmphist->GetBinContent(tmphist->GetNbinsX()+1));
+    }
+    
     double leg51_x = 0.5;
     double leg51_y = 0.6;
     TLegend * leg51 = new TLegend(leg51_x,leg51_y,leg51_x+0.3,leg51_y+0.1);
     leg51->SetHeader("Pre-fit Inputs");
-    leg51->AddEntry(totalSpectMC_allSam,"Reco MC","l");//Pre-fit dpTT dist.
-    leg51->AddEntry(totalSpectFD_allSam,"Reco Fake Data","pl");//Fake Data
+    leg51->AddEntry(totalSpectMC_allSam,"MC Reco.","l");//Pre-fit dpTT dist.
+    leg51->AddEntry(totalSpectFD_allSam,"Fake Data (7x10^{21} POT)","pl");//Fake Data
     
     double leg52_x = 0.5;
     double leg52_y = leg51_y+0.1;
     TLegend * leg52 = new TLegend(leg52_x,leg52_y,leg52_x+0.3,leg52_y+0.1);
     leg52->SetHeader("Fitted Output");
     leg52->AddEntry(fitSpect,"Signal","pl");
-    leg52->AddEntry(totalSpectFit_allSam,"Reco. Fake Data.","l");
+    leg52->AddEntry(totalSpectFit_allSam,"Fitted Reco.","l");
     
     double leg53_x = 0.5;
     double leg53_y = leg52_y+0.1;
@@ -284,11 +421,6 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     leg53->SetHeader("True Dist.");
     leg53->AddEntry(fakeDataTrueSpect,"Fake Data Signal","l");
     leg53->AddEntry(mcSpect,Form("MC Signal (%d)",(int)mcSpect->GetBinContent(mcSpect->GetMaximumBin())),"l");
-    
-    //Get the true and fitted signal events:
-    int sigfit = (int)(fitSpect->GetBinContent(fitSpect->GetMaximumBin()));
-    int sigerror = (int)(fitSpect->GetBinError(fitSpect->GetMaximumBin()));
-    int sigtrue = (int)(fakeDataTrueSpect->GetBinContent(fakeDataTrueSpect->GetMaximumBin()));
     
     double leg54_x = 0.5;
     double leg54_y = leg53_y+0.1;
@@ -298,14 +430,14 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     leg54->AddEntry((TObject*)0,Form("Fitted %d #pm %d",sigfit, sigerror),"");
     
     TCanvas* canv5 = new TCanvas("All Truth and Rec","All Truth and Rec");
-    fitSpect->GetXaxis()->SetTitle("#delta#it{p}_{TT} (GeV/c)");
-    fitSpect->GetYaxis()->SetTitle("Counts");
-    fitSpect->GetYaxis()->SetRangeUser(0, 1.2*xmax);
-    fitSpect->Draw();
-    mcSpect->Draw("same");
-    fakeDataTrueSpect->Draw("same");
-    totalSpectFit_allSam->Draw("same");
-    totalSpectMC_allSam->Draw("same");  
+    fitSpect->GetXaxis()->SetTitle("#delta#it{p}_{TT} (MeV/c)");
+    fitSpect->GetYaxis()->SetTitle("Counts/Bin Width");
+    fitSpect->GetYaxis()->SetRangeUser(0, 1.1*xmax);
+    fitSpect->Draw("E");
+    mcSpect->Draw("sameHIST");
+    fakeDataTrueSpect->Draw("sameHIST");
+    totalSpectFit_allSam->Draw("sameHIST");
+    totalSpectMC_allSam->Draw("sameHIST");
     totalSpectFD_allSam->Draw("sameE");
     leg51->Draw();
     leg52->Draw();
@@ -313,5 +445,77 @@ void calcXsecWithErrors (TString mcFilename, TString fitResultFilename, TString 
     leg54->Draw();
     canv5->Write();
     
+    double leg61_x = 0.19;
+    double leg61_y = 0.57;
+    TLegend * leg61 = new TLegend(leg61_x,leg61_y,leg61_x+0.29,leg61_y+0.2);
+    //leg61->SetHeader("Pre-fit Inputs");
+    leg61->AddEntry(totalSpectMC_allSam,"MC Reco.","l");//Pre-fit dpTT dist.
+    leg61->AddEntry(totalSpectFD_allSam,"Fake Data (7x10^{21} POT)","pl");//Fake Data
+    //leg61->AddEntry(mcSpect,Form("MC Signal (%d)",mc_signal),"l");
+    leg61->SetFillStyle(0);
+    
+    double leg62_x = 0.69;
+    double leg62_y = 0.57;
+    TLegend * leg62 = new TLegend(leg62_x,leg62_y,leg62_x+0.29,leg62_y+0.15);
+    //leg62->SetHeader("Pre-fit Inputs");
+    leg62->AddEntry(mcSpect,Form("MC Signal (%d)", mc_signal),"l");
+    leg62->AddEntry(mcRecoSig,"MC Reco. Signal","l");
+    leg62->SetFillStyle(0);
+    
+    double leg63_x = 0.19;
+    double leg63_y = 0.67;
+    TLegend * leg63 = new TLegend(leg63_x,leg63_y,leg63_x+0.29,leg63_y+0.2);
+    leg63->SetHeader("Pre-fit Inputs");
+    leg63->SetFillStyle(0);
+    
+    TLatex * text_1 = new TLatex(40, xmax*0.95, "#font[72]{T2K Work In Progress}");
+    text_1->SetTextSize(0.04);
+    
+    TCanvas* canv6 = new TCanvas("PreFit Rec and Truth","PreFit Rec and Truth");
+    mcSpect->GetXaxis()->SetTitle("#delta#it{p}_{TT} (MeV/c)");
+    mcSpect->GetYaxis()->SetTitle("Counts/Bin Width");
+    mcSpect->GetYaxis()->SetTitleOffset(0.9);
+    mcSpect->GetYaxis()->SetRangeUser(0, 1.07*xmax);
+    mcSpect->Draw("HIST");
+    mcRecoSig->Draw("sameHIST");
+    totalSpectMC_allSam->Draw("sameHIST");
+    totalSpectFD_allSam->Draw("sameE");
+    leg61->Draw();
+    leg62->Draw();
+    leg63->Draw();
+    text_1->Draw();
+    canv6->Write();
+    
+    double leg71_x = 0.58;
+    double leg71_y = 0.62;
+    TLegend * leg71 = new TLegend(leg71_x,leg71_y,leg71_x+0.3,leg71_y+0.2);
+    leg71->SetHeader("Signal");
+    leg71->AddEntry(fakeDataTrueSpect,Form("True %d",sigtrue),"l");
+    leg71->AddEntry(fitSpect,Form("Fitted %d #pm %d",sigfit, sigerror),"pl");
+    leg71->SetFillStyle(0);
+    
+    double leg72_x = 0.21;
+    double leg72_y = 0.61;
+    TLegend * leg72 = new TLegend(leg72_x,leg72_y,leg72_x+0.32,leg72_y+0.22);
+    leg72->AddEntry(totalSpectFit_allSam,"Fitted Reco.","l");
+    leg72->AddEntry(totalSpectFD_allSam,"Fake Data (7x10^{21} POT)","pl");
+    leg72->SetFillStyle(0);
+    
+    TLatex * text_2 = new TLatex(-280, xmax*0.98, "#font[72]{T2K Work In Progress}");
+    text_2->SetTextSize(0.04);
+    
+    TCanvas* canv7 = new TCanvas("PostFit Rec and Truth","PostFit Rec and Truth");
+    fitSpect->GetXaxis()->SetTitle("#delta#it{p}_{TT} (MeV/c)");
+    fitSpect->GetYaxis()->SetTitle("Counts/Bin Width");
+    fitSpect->GetYaxis()->SetTitleOffset(0.8);
+    fitSpect->GetYaxis()->SetRangeUser(0, 1.07*xmax);
+    fitSpect->Draw("E");
+    fakeDataTrueSpect->Draw("sameHIST");
+    totalSpectFit_allSam->Draw("sameHIST");
+    totalSpectFD_allSam->Draw("sameE");
+    leg71->Draw();
+    leg72->Draw();
+    text_2->Draw();
+    canv7->Write();
     
 }

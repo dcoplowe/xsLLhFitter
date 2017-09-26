@@ -1,0 +1,38 @@
+#! /bin/bash
+# Script to compile cmake command
+# This is  executed as follows.
+#   
+#  - To compile the library:
+#       compile_cmake compile package_root tag
+#
+#  - To clean up the library:
+#       compile_cmake  clean package_root tag
+
+COMMAND=$1; shift
+PACKAGE=$1; shift
+TAG=$1; shift
+
+# Set up environment variables need to compile the external source
+
+# Make sure the CMT environment is properly configured (requires bash!)
+source ../cmt/setup.sh
+
+
+# Process the command line "COMMANDS".  This is either "compile" or "clean".
+case ${COMMAND} in 
+compile)
+    echo Compile ${PACKAGE} for architecture ${TAG}
+    cd ${CMAKEROOT}/${TAG}
+    tar -xzf ${CMAKEROOT}/cmake-${CMAKERELEASE}.tar.gz
+    cd cmake-${CMAKERELEASE}/
+    ./bootstrap 
+    make
+    ;;
+
+clean)
+    cd ${CMAKEROOT}/${CMAKECONFIG}
+    pwd
+    rm -R *
+    ;;
+
+esac

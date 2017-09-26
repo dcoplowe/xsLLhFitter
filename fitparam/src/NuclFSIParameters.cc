@@ -44,9 +44,9 @@ NuclFSIParameters::~NuclFSIParameters()
 void NuclFSIParameters::StoreResponseFunctions(vector<TFile*> respfuncs, std::vector<std::pair <double,double> > v_D1edges, 
                         std::vector<std::pair <double,double> > v_D2edges)
 {
-  for ( int stInt = muTPC; stInt != crDIS+1; stInt++ ){
+  for ( int stInt = 0; stInt < 1; stInt++ ){
     SampleTypes sampletype = static_cast <SampleTypes> (stInt);
-    for ( int rtInt = cc0pi0p; rtInt != OutFGD+1; rtInt++){
+    for ( int rtInt = 0; rtInt < 1; rtInt++){
       ReactionTypes reactype = static_cast<ReactionTypes>(rtInt);
       cout<<"reading response functions for topology "<<stInt<<"  reaction "<<rtInt<<endl;
       int nccqebins=v_D1edges.size();

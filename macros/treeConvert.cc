@@ -28,7 +28,6 @@ treeConvert::~treeConvert(){
 }
 
 void treeConvert::Convert(TString inFileName, TString inTreeName, TString outFileName, TString D1NameRec, TString D1NameTrue, TString D2NameRec, TString D2NameTrue, bool scale, double scale_size){
-
     
     const int nbranches = 1;
     const int accumToCut[nbranches] = {7};
@@ -106,7 +105,7 @@ void treeConvert::Convert(TString inFileName, TString inTreeName, TString outFil
     //intree->SetBranchAddress("selmu_trueztheta", &muThetaTrue);
     intree->SetBranchAddress("truemu_costheta", &muCosThetaTrue);//in coplowe's HL2
     //intree->SetBranchAddress("nu_trueE", &RecoNuEnergy);
-    intree->SetBranchAddress("nu_trueE", &TrueNuEnergy);//in coplowe's HL2
+    intree->SetBranchAddress("Enutrue", &TrueNuEnergy);//in coplowe's HL2 -- nu_trueE <- Changed for Enu dep. xsec
     intree->SetBranchAddress("weight", &weight);//in coplowe's HL2
     
     //**********  Coplowe vars **********//
@@ -170,8 +169,8 @@ void treeConvert::Convert(TString inFileName, TString inTreeName, TString outFil
         RecoNuEnergy=TrueNuEnergy;
         
         if(jentry%5000==0) printf("%d/%d complete\n",jentry, nentries);
-        D2true = muMomTrue;
-        D2Reco = muMomRec;
+        //D2true = muMomTrue;
+        //D2Reco = muMomRec;
         //scale the signal weights only:
         //printf("Weight = %f : ",weight);
         if(scale && nu_truereac == 11 && target == 1 && TMath::Abs(D1true/1000) < 1e-5){

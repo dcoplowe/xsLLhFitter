@@ -19,36 +19,66 @@ public:
 	void Run();
 
 	// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-	bool AddLatErrorBand(const std::string& name, const int n_universes = -999);
-	bool AddLatErrorBand(const std::string& name, const std::vector<TH1D*>& base);
-	bool AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999);
-	bool AddVertErrorBand(const std::string& name, const int n_universes = -999);
-	bool AddVertErrorBand(const std::string& name, const std::vector<TH1D*>& base);
-	bool AddVertErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999);
+	bool AddLatErrorBand(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
+	bool AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
+	bool AddVertErrorBand(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
+	bool AddVertErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
+	bool AddUncorrError(const std::string& name, std::string fill_samples = "");
+	bool AddUncorrErrorAndFillWithCV(const std::string& name, std::string fill_samples = "");
 
-	bool AddUncorrError(const std::string& name );
-	bool AddUncorrError(const std::string& name, const TH1D* hist, bool errInContent = false );
-	bool AddUncorrErrorAndFillWithCV(const std::string& name );
+	void GetReady();
 
-	bool AddMissingErrorBandsAndFillWithCV(const MnvH1D& ref );
-	bool AddMissingErrorBandsAndFillWithCV(const MnvH2D& ref );
-
-	bool FillLatErrorBand(const std::string& name, const double val, const std::vector<double>& shifts,
+	bool FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
 		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& name, const double val, const double * shifts, const double cvweight = 1.0,
+	bool FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight = 1.0,
 		const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& name, const double val, const double shiftDown, const double shiftUp,
+	bool FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
 		const double cvweight = 1.0, const bool fillcv = true );
-	bool FillVertErrorBand(const std::string& name, const double val, const std::vector<double>& weights,
+	bool FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& name, const double val, const double * weights,
+	bool FillVertErrorBand(const std::string& name, const double * weights,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& name, const double val, const double weightDown, const double weightUp,
+	bool FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
-	bool FillUncorrError(const std::string& name, const double val, const double err, const double cvweight = 1.0 );
+	bool FillUncorrError(const std::string& name, const double err, const double cvweight = 1.0 );
+
+	// For simplicity fill samples with error bands:
+	bool FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& shifts,
+		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
+	bool FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * shifts, const double cvweight = 1.0,
+		const bool fillcv = true, const double *weights = 0 );
+	bool FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double shiftDown, const double shiftUp,
+		const double cvweight = 1.0, const bool fillcv = true );
+	bool FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& weights,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+	bool FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * weights,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+	bool FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double weightDown, const double weightUp,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
+	bool FillUncorrError(const std::string& sam_name, const std::string& name, const double value, const double err, const double cvweight = 1.0 );
+
+	void BuildAnaHist(const bool includeStat = true);
+	MnvH1D * GetAnaHist() const { return m_anaHist; }
+	TMatrixD GetCovMatrix(const bool includeStat = true, const bool asFrac = false, const bool cov_area_normalize = false) const;
+
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
-	
+
+private:
+	int m_counter;
+	std::vector<ErrorType*> m_errors;
+	bool IsUniqueError(const std::string &name);
+
+	void Prepare();
+	bool m_anaHist_set;
+	TH1D * m_HanaHist;
+	MnvH1D * m_anaHist;	
+
+	// static int FillSampleNo;
+
+	static const std::string m_ver_name;
+	static const std::string m_lat_name;
+	static const std::string m_uncer_name;
 };
 
 #endif

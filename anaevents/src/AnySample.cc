@@ -309,7 +309,7 @@ double AnySample::CalcChi2()
       
       
       //DEBUG Time:
-      cout << "obs / exp / chi2: " <<obs<<"/"<<exp<<"/"<<chi2<<endl;
+      //cout << "obs / exp / chi2: " <<obs<<"/"<<exp<<"/"<<chi2<<endl;
     }
   
   if(chi2 != chi2)

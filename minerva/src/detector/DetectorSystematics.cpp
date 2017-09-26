@@ -5,23 +5,36 @@
 #include <Sample.h>
 #include <iostream>
 #include <TH1D.h>
+#include <TMatrixD.h>
+#include <sstream>
 
 using std::cout;
 using std::endl;
+using std::string;
 
-DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose)
+const std::string DetectorSystematics::m_ver_name = "_Vert";
+const std::string DetectorSystematics::m_lat_name = "_Lat";
+const std::string DetectorSystematics::m_uncer_name = "_UnCorEr";
+
+DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose), m_counter(-1), m_anaHist_set(false), m_isready(false)
 { 
 	cout << "DetectorSystematics::DetectorSystematics(bool verbose)" << endl;
+	m_errors.clear();
+	m_anaHist = 0x0;
 }
 
-DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : SystematicsBase(n_universes, verbose) 
+DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : SystematicsBase(n_universes, verbose), m_counter(-1), m_isready(false)
+	m_anaHist_set(false)
 {
 	cout << "DetectorSystematics::DetectorSystematics(int n_universes, bool verbose)" << endl;
+	m_anaHist = 0x0;
+	m_errors.clear();
 }
 
 DetectorSystematics::~DetectorSystematics()
 {
-
+	m_errors.clear();
+	if(m_anaHist) delete m_anaHist;
 }
 
 void DetectorSystematics::Run()
@@ -29,216 +42,649 @@ void DetectorSystematics::Run()
 	cout << "DetectorSystematics::Run()" << endl;
 }
 
-// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-bool DetectorSystematics::AddLatErrorBand( const std::string& name, const int n_universes)
+void DetectorSystematics::GetReady()
+{
+	m_isready = true;
+	// Need to reset the fill counters
+}
+
+bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-			if( it->second->AddLatErrorBand(0, name, (n_universes == -999 ? m_Nuniverses : n_universes)) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddLatErrorBand(0, name, m_Nuniverses)) counter++;
-
+	string tmp_name = name + m_lat_name;
+	if(IsUniqueError(tmp_name)){ 
+		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kLateral);
+		m_errors.push_back(tmp_et);
+		
+		std::map<std::string,Sample*>::iterator it= m_samples.begin();
+		for (; it != m_samples.end(); ++it){ 
+			it->second->AddError(tmp_et);
+			if(it->second->AddLatErrorBand(name, (n_universes == -999 ? m_Nuniverses : n_universes) ) ) counter++;
+		}
+		(void)fill_samples;
+	}
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddLatErrorBand( const std::string& name, const std::vector<TH1D*>& base )
+someStorage.insert( std::make_pair("key", std::make_pair("key2", "value2")) );
+
+bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes, std::string fill_samples)
 {
 	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddLatErrorBand(0, name, base) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddLatErrorBand(0, name, base)) counter++;
 	
+	string tmp_name = name + m_lat_name;
+	if(IsUniqueError(tmp_name)){
+		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kLateralCV); 
+		m_errors.push_back(tmp_et);
+		
+		std::map<std::string,Sample*>::iterator it= m_samples.begin();
+		for (; it != m_samples.end(); ++it){ 
+			it->second->AddError(tmp_et);
+			if(it->second->AddLatErrorBandAndFillWithCV(name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+		}
+		(void)fill_samples;
+	}
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddLatErrorBandAndFillWithCV( const std::string& name, const int n_universes)
+bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_universes, std::string fill_samples)
 {
 	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddLatErrorBandAndFillWithCV(0, name, (n_universes == -999 ? m_Nuniverses : n_universes)) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddLatErrorBandAndFillWithCV(0, name, m_Nuniverses)) counter++;
+
+	string tmp_name = name + m_ver_name;
+	if(IsUniqueError(tmp_name)){ 
+		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kVertical);
+		m_errors.push_back(tmp_et);
 	
+		std::map<std::string,Sample*>::iterator it= m_samples.begin();
+		for (; it != m_samples.end(); ++it){ 
+			it->second->AddError(tmp_et);
+			if(it->second->AddVertErrorBand(name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+		}
+		(void)fill_samples;
+	}
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddVertErrorBand( const std::string& name, const int n_universes)
+bool DetectorSystematics::AddVertErrorBandAndFillWithCV(const std::string& name, const int n_universes, std::string fill_samples)
 {
 	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddVertErrorBand(0, name, (n_universes == -999 ? m_Nuniverses : n_universes)) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddVertErrorBand(0, name, m_Nuniverses)) counter++;
+
+	string tmp_name = name + m_ver_name;
+	if(IsUniqueError(tmp_name)){ 
+		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kVerticalCV);
+		m_errors.push_back(tmp_et);
 	
+		std::map<std::string,Sample*>::iterator it= m_samples.begin();
+		for (; it != m_samples.end(); ++it){ 
+			it->second->AddError(tmp_et);
+			if(it->second->AddVertErrorBandAndFillWithCV(name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+		}
+		(void)fill_samples;
+	}
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddVertErrorBand( const std::string& name, const std::vector<TH1D*>& base )
+bool DetectorSystematics::AddUncorrError(const std::string& name, std::string fill_samples)
 {
 	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddVertErrorBand(0, name, base) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddVertErrorBand(0, name, base)) counter++;
-	
+
+	string tmp_name = name + m_uncer_name;
+	if(IsUniqueError(tmp_name)){ 
+		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kUnCorError);
+		m_errors.push_back(tmp_et);
+
+		std::map<std::string,Sample*>::iterator it= m_samples.begin();
+		for (; it != m_samples.end(); ++it){ 
+			it->second->AddError(tmp_et);
+			if(it->second->AddUncorrError(name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+		}
+		(void)fill_samples;
+	}
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddVertErrorBandAndFillWithCV( const std::string& name, const int n_universes)
+bool DetectorSystematics::AddUncorrErrorAndFillWithCV(const std::string& name, std::string fill_samples)
 {
 	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddVertErrorBandAndFillWithCV(0, name, (n_universes == -999 ? m_Nuniverses : n_universes)) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddVertErrorBandAndFillWithCV(0, name, m_Nuniverses)) counter++;
-	
+
+	string tmp_name = name + m_uncer_name;
+	if(IsUniqueError(tmp_name)){ 
+		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kUnCorErrorCV);
+		m_errors.push_back(tmp_et);
+
+		std::map<std::string,Sample*>::iterator it= m_samples.begin();
+		for (; it != m_samples.end(); ++it){ 
+			it->second->AddError(tmp_et);
+			if(it->second->AddUncorrErrorAndFillWithCV(name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+		}
+		(void)fill_samples;
+	}
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddUncorrError( const std::string& name )
-{
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddUncorrError(0, name) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddUncorrError(0, name)) counter++;
-	
-	return (counter == m_samples.size());
-}
-
-bool DetectorSystematics::AddUncorrError( const std::string& name, const TH1D* hist, bool errInContent)
-{
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddUncorrError(0, name, hist, errInContent) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddUncorrError(0, name, hist, errInContent)) counter++;
-	
-	return (counter == m_samples.size());
-}
-
-bool DetectorSystematics::AddUncorrErrorAndFillWithCV( const std::string& name )
-{
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddUncorrErrorAndFillWithCV(0, name) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddUncorrErrorAndFillWithCV(0, name)) counter++;
-	
-	return (counter == m_samples.size());
-}
-
-bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH1D& ref )
-{
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddMissingErrorBandsAndFillWithCV(ref) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddMissingErrorBandsAndFillWithCV(ref)) counter++;
-	
-	return (counter == m_samples.size());
-}
-
-bool DetectorSystematics::AddMissingErrorBandsAndFillWithCV( const MnvH2D& ref )
-{
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->AddMissingErrorBandsAndFillWithCV(ref) ) counter++;
-	// for(size_t i = 0; i < m_samples.size(); i++) 
-	// 	if(m_samples[i]->AddMissingErrorBandsAndFillWithCV(ref)) counter++;
-	
-	return (counter == m_samples.size());
-}
-
-bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double val, const std::vector<double>& shifts,
+bool DetectorSystematics::FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
 	const double cvweight, const bool fillcv, const double *weights)
 {
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->FillLatErrorBand(0, name, val, shifts, cvweight, fillcv, weights) ) counter++;
-
-	return (counter == m_samples.size());
+	if(!m_isready){
+		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
+		exit(0);
+	}
+	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
+	bool pass = false;
+	ErrorType * error_no = FindError( (name + m_lat_name) );
+	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
+	if(it != m_samples.end()){
+		if(it->second->FillError(error_no)){
+			if(it->second->FillLatErrorBand(name, shifts, cvweight, fillcv, weights)) pass = true;
+		}
+	}
+	else{
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_lat_name << "\" Unable to find." << endl;
+		exit(0);
+	}
+	return pass;
 }
 
-bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double val, const double * shifts, const double cvweight,
+bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight,
 	const bool fillcv, const double *weights)
 {
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->FillLatErrorBand(0, name, val, shifts, cvweight, fillcv, weights) ) counter++;
-	
-	return (counter == m_samples.size());
+	if(!m_isready){
+		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
+		exit(0);
+	}
+	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
+	bool pass = false;
+	ErrorType * error_no = FindError( (name + m_lat_name) );
+	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
+	if(it != m_samples.end()){
+		if(it->second->FillError(error_no)){
+			if(it->second->FillLatErrorBand(name, shifts, cvweight, fillcv, weights)) pass = true;
+		}
+	}
+	else{
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_lat_name << "\" Unable to find." << endl;
+		exit(0);
+	}
+	return pass;
 }
 
-bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double val, const double shiftDown, const double shiftUp,
+bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
 	const double cvweight, const bool fillcv)
 {
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->FillLatErrorBand(0, name, val, shiftDown, shiftUp, cvweight, fillcv) ) counter++;
-	
-	return (counter == m_samples.size());
+	if(!m_isready){
+		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
+		exit(0);
+	}
+	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
+	bool pass = false;
+	ErrorType * error_no = FindError( (name + m_lat_name) );
+	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
+	if(it != m_samples.end()){
+		if(it->second->FillError(error_no)){
+			if(it->second->FillLatErrorBand(name, shiftDown, shiftUp, cvweight, fillcv)) pass = true;
+		}
+	}
+	else{
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_lat_name << ".\" Unable to find." << endl;
+		exit(0);
+	}
+	return pass;
 }
 
-bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double val, const std::vector<double>& weights,
+bool DetectorSystematics::FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
+	const double cvweight , double cvWeightFromMe)
+{
+	if(!m_isready){
+		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
+		exit(0);
+	}
+	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
+	bool pass = false;
+	ErrorType * error_no = FindError( (name + m_ver_name) );
+	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
+	if(it != m_samples.end()){
+		if(it->second->FillError(error_no)){
+			if(it->second->FillVertErrorBand(name, m_value, weights, cvweight, cvWeightFromMe)) pass = true;
+		}
+	}
+	else{
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_ver_name << ".\" Unable to find." << endl;
+		exit(0);
+	}
+	return pass;
+}
+
+bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double * weights,
+	const double cvweight , double cvWeightFromMe)
+{
+	if(!m_isready){
+		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
+		exit(0);
+	}
+	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
+	bool pass = false;
+	ErrorType * error_no = FindError( (name + m_ver_name) );
+	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
+	if(it != m_samples.end()){
+		if(it->second->FillError(error_no)){
+			if(it->second->FillVertErrorBand(name, m_value, weights, cvweight, cvWeightFromMe)) pass = true;
+		}
+	}
+	else{
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_ver_name << ".\" Unable to find." << endl;
+		exit(0);
+	}
+	return pass;
+}
+
+bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
+	const double cvweight , double cvWeightFromMe)
+{
+	if(!m_isready){
+		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
+		exit(0);
+	}
+	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
+	bool pass = false;
+	ErrorType * error_no = FindError( (name + m_ver_name) );
+	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
+	if(it != m_samples.end()){
+		if(it->second->FillError(error_no)){
+			if(it->second->FillVertErrorBand(name, m_value, weightDown, weightUp, cvweight, cvWeightFromMe)) pass = true;
+		}
+	}
+	else{
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_ver_name << ".\" Unable to find." << endl;
+		exit(0);
+	}
+	return pass;
+}
+
+bool DetectorSystematics::FillUncorrError(const std::string& name, const double err, const double cvweight)
+{
+	if(!m_isready){
+		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
+		exit(0);
+	}
+	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
+	bool pass = false;
+	ErrorType * error_no = FindError( (name + m_uncer_name) );
+	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
+	if(it != m_samples.end()){
+		if(it->second->FillError(error_no)){
+			if(it->second->FillUncorrError(name, m_value, err, cvweight)) pass = true;
+		}
+	}
+	else{
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_uncer_name << ".\" Unable to find." << endl;
+		exit(0);
+	}
+	return pass;
+}
+
+// For simplicity fill samples with error bands:
+bool DetectorSystematics::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& shifts,
+	const double cvweight, const bool fillcv, const double *weights)
+{
+	bool pass = false;
+	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
+	if(it != m_samples.end()){
+		if( it->second->FillLatErrorBand(name, value, shifts, cvweight, fillcv, weights) ) pass = true;
+	}
+	return pass;
+}
+
+bool DetectorSystematics::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * shifts, const double cvweight,
+	const bool fillcv, const double *weights)
+{
+	bool pass = false;
+	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
+	if(it != m_samples.end()){
+		if( it->second->FillLatErrorBand(name, value, shifts, cvweight, fillcv, weights) ) pass = true;
+	}
+	return pass;
+}
+
+bool DetectorSystematics::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double shiftDown, const double shiftUp,
+	const double cvweight, const bool fillcv)
+{
+	bool pass = false;
+	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
+	if(it != m_samples.end()){
+		if( it->second->FillLatErrorBand(name, value, shiftDown, shiftUp, cvweight, fillcv) ) pass = true;
+	}
+	return pass;
+}
+
+bool DetectorSystematics::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& weights,
 	const double cvweight, double cvWeightFromMe)
 {
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->FillVertErrorBand(0, name, val, weights, cvweight, cvWeightFromMe) ) counter++;
-	return (counter == m_samples.size());
+	bool pass = false;
+	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
+	if(it != m_samples.end()){
+		if( it->second->FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe) ) pass = true;
+	}
+	return pass;
 }
 
-bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double val, const double * weights,
+bool DetectorSystematics::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * weights,
 	const double cvweight, double cvWeightFromMe)
 {
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->FillVertErrorBand(0, name, val, weights, cvweight, cvWeightFromMe) ) counter++;
-	
-	return (counter == m_samples.size());
+	bool pass = false;
+	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
+	if(it != m_samples.end()){
+		if( it->second->FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe) ) pass = true;
+	}
+	return pass;
 }
 
-bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double val, const double weightDown, const double weightUp,
+bool DetectorSystematics::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double weightDown, const double weightUp,
 	const double cvweight, double cvWeightFromMe)
 {
-	size_t counter = 0;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
-	for (; it != m_samples.end(); ++it)
-		if( it->second->FillVertErrorBand(0, name, val, weightDown, weightUp, cvweight, cvWeightFromMe) ) counter++;
-	
-	return (counter == m_samples.size());
+	bool pass = false;
+	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
+	if(it != m_samples.end()){
+		if( it->second->FillVertErrorBand(name, value, weightDown, weightUp, cvweight, cvWeightFromMee) ) pass = true;
+	}
+	return pass;
 }
 
-bool DetectorSystematics::FillUncorrError(const std::string& name, const double val, const double err, const double cvweight)
+bool DetectorSystematics::FillUncorrError(const std::string& sam_name, const std::string& name, const double value, const double err, const double cvweight)
 {
-	size_t counter = 0;
+	bool pass = false;
+	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
+	if(it != m_samples.end()){
+		if( it->second->FillUncorrError(name, value, err, cvweight) ) pass = true;
+	}
+	return pass;
+}
+
+bool DetectorSystematics::IsUniqueError(const std::string &name)
+{
+	bool is_unique = true;
+	for(size_t i = 0; i < m_errors.size(); i++){
+		if(m_errors[i].GetName().compare(name) == 0){ 
+			is_unique = false;
+			break;
+		}
+	}
+	return is_unique; 
+}
+
+
+ErrorType * DetectorSystematics::FindError(const std::string &name)
+{
+	for(size_t i = 0; i < m_errors.size(); i++){
+		ErrorType * tmp = m_errors[i]->GetName();
+		if(tmp->GetName().compare(name) == 0) return tmp;
+	}
+	return new ErrorType(); 
+}
+
+void DetectorSystematics::Prepare()
+{
+	// if(!m_anaHist_set){
+	// 	int nbins = 0;
+	// 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	// 	for (; it != m_samples.end(); ++it){ 
+	// 		// Include under/overflow bins
+	// 		nbins += it->second->GetXaxis()->GetNbins() + 2;
+	// 	}
+		
+	// 	m_anaHist = new MnvH1D(Form("analysis_bins_n%d", nbins), "", nbins, 0., nbins + 1);
+	// 	// Tell samples which analysis bins they are to fill:
+	// 	for(size_t i =0; i < m_errors.size(); i++){
+	// 		ErrorType ee = m_errors[i];
+	// 		if(ee->GetType() == ErrorType::kLateral) m_anaHist->AddLatErrorBand(ee.GetName(), ee.GetNUniverses());
+	// 		else if(ee->GetType() == ErrorType::kLateralCV) m_anaHist->AddLatErrorBandAndFillWithCV(ee.GetName(), ee.GetNUniverses());
+	// 		else if(ee->GetType() == ErrorType::kVertical) m_anaHist->AddVertErrorBand(ee.GetName(), ee.GetNUniverses());
+	// 		else if(ee->GetType() == ErrorType::kVerticalCV) m_anaHist->AddVertErrorBandAndFillWithCV(ee.GetName(), ee.GetNUniverses());
+	// 		else if(ee->GetType() == ErrorType::kUnCorError) m_anaHist->AddUncorrError(ee.GetName());
+	// 		else if(ee->GetType() == ErrorType::kUnCorErrorCV) m_anaHist->AddUncorrErrorAndFillWithCV(ee.GetName());
+	// 		else{
+	// 			cout << __FILE__ << ":" << __LINE__ << " : Unkown Error Type" << endl;
+	// 		}
+	// 	}
+	// 	m_anaHist_set = true;
+	// }
+}
+
+void DetectorSystematics::BuildAnaHist(const bool includeStat){
+	// Get total number of bins from samples:
+	int tot_bins = 0;
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
 	for (; it != m_samples.end(); ++it)
-		if( it->second->FillUncorrError(0, name, val, err, cvweight) ) counter++;
-	
-	return (counter == m_samples.size());
+		tot_bins += it->second->GetNbinsX();
+
+	if(m_HanaHist){
+		delete m_HanaHist;
+		m_HanaHist = 0x0;
+	}
+
+	m_HanaHist = new TH1D("Analysis_Hist_TH1D", "", tot_bins, 0, tot_bins); 
+
+	int current_bin = 1;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it){
+		MnvH1D * histo = it->second;
+		for(i = 0; i < histo->GetNbinsX(); i++){
+			m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
+			if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));
+			current_bin++;
+		}
+	}
+   // Create an MnvH1D out of the combined histo
+	if(m_anaHist){ 
+		delete m_anaHist;
+		m_anaHist = 0x0;
+	}
+
+	m_anaHist = new MnvH1D(*m_HanaHist);
+}
+
+TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool asFrac, const bool cov_area_normalize) const
+{
+	if(!m_anaHist){
+		cout << __FILE__ << ":" << __LINE__ << " : Warning : No histogram made. Building using " << m_samples.size() << " samples." << endl;
+		BuildAnaHist(includeStat);
+
+		if(!m_anaHist){
+			cout << __FILE__ << ":" << __LINE__ << " : Error : Could not building n sample histogram." << endl;
+			exit(0);
+		}
+	}
+
+	// Check that all the samples have the same errors:	
+	for(size_t er = 0; er < m_error.size(); er++){
+		ErrorType * er_type = m_error[i];
+
+		// int er_nhists_tot = 0;
+		int er_nhists = 0;
+		bool same_universes = true;
+		std::vector<double> univ_wgts;
+
+		// Check that we have a histo with a particular error type:
+		std::map<std::string,Sample*>::iterator it= m_samples.begin();
+		int counter = 0;
+		for (; it != m_samples.end(); ++it){
+			MnvH1D * histo = it->second;
+
+			// We know which type of error we have from error type so could sort this out into
+			// cases for the various error types. could be easy
+			bool has_error = false;
+			switch(er_type->GetType()){
+				case ErrorType::kLateral:
+				case ErrorType::kLateralCV:
+					if( histo->HasLatErrorBand( er_type->GetName() ) ) has_error = true;
+					break;
+				case ErrorType::kVertical:
+				case ErrorType::kVerticalCV:
+					if( histo->HasVertErrorBand( er_type->GetName() ) ) has_error = true;
+					break;
+				case ErrorType::kUnCorError:
+				case ErrorType::kUnCorErrorCV:
+					if( histo->HasUncorrError(er_type->GetName() ) ){
+						has_error = true;
+						er_nhists = 1;
+						counter++;
+					}
+					break;
+				default:
+					cout << "No handling for error: " << er_type->GetName() << endl;
+					break;
+			}
+
+			if( has_error ){
+				int nhists = histo->GetHists().size();
+				// er_nhists_tot += nhists;
+				if(nhists > 0 && counter == 0){ 
+					er_nhists = nhists;
+					counter++;
+
+					// Get the wgts from this sample (as it will be the same in all sample for this error)
+					univ_wgts.clear();
+					switch(er_type->GetType()){
+						case ErrorType::kLateral:
+						case ErrorType::kLateralCV:
+							for(int uni = 0; uni < er_nhists; uni++) univ_wgts.push_back( histo->GetLatErrorBand(er_type->GetName())->GetUnivWgt(uni) );
+							break;
+						case ErrorType::kVertical:
+						case ErrorType::kVerticalCV:
+							for(int uni = 0; uni < er_nhists; uni++) univ_wgts.push_back( histo->GetVertErrorBand(er_type->GetName())->GetUnivWgt(uni) );
+							break;
+						// case ErrorType::kUnCorError:
+						// case ErrorType::kUnCorErrorCV:
+						// 	break;
+						default:
+							cout << "No handling for error: " << er_type->GetName() << endl;
+						break;
+					}
+				}
+				// check that the samples have the same number of hists (or zero for no universes):
+				if( nhists != er_nhists && nhists != 0){
+					cout << __FILE__ << ":" << __LINE__ << " Error : Sample has different number of histograms.";
+					cout << " Expect " << er_nhists << " observe " << nhists << endl; 
+					exit(0);
+				}
+
+				if(nhist != er_nhists){// could also do nhists == 0
+					// For the case where we have a sample with no error of type
+					same_universes = false;
+				}
+			}
+		}
+
+		// Check that we have errors:
+		if(er_nhists > 0){
+			// Lets include this error!!:
+			std::vector<TH1D*> new_erhists;
+
+			for(int j = 0; j<er_nhists; j++) {
+				std::stringstream ss; ss<<j;
+				string temp_name = er_type->GetName() + "_Combined_" + ss.str();
+
+				TH1D *temp = (TH1D*)m_HanaHist->Clone(temp_name.c_str());
+				temp->Clear();
+
+				// Sample loop:
+				current_bin = 1;
+				for(it = m_samples.begin(); it != m_samples.end(); ++it){
+					MnvH1D * histo = it->second;
+					
+					// Area scale is not yet correct, need to understand if the idea is to area noramise the errors to a single sample. 
+					// Maybe only ever area normalise by the signal bin.
+					double area_scale = 1.;
+					switch(er_type->GetType()){
+						case ErrorType::kLateral:
+						case ErrorType::kLateralCV:
+							area_scale = histo->Integral()/histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+							break;
+						case ErrorType::kVertical:
+						case ErrorType::kVerticalCV:
+							area_scale = histo->Integral()/histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+							break;
+						default:
+						cout << "This shouldn't evetr be called..." << endl;
+						break;
+					}
+
+					int nhists = histo->GetHists().size();
+					for(int bin = 1; bin < histo->GetNbinsX() + 1; bin++){
+						double bin_content = 0.;
+						if(nhists != 0){
+							switch(er_type->GetType()){
+								case ErrorType::kLateral:
+								case ErrorType::kLateralCV:
+									bin_content = histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->GetBinContent(bin);
+									break;
+								case ErrorType::kVertical:
+								case ErrorType::kVerticalCV:
+									bin_content = histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->GetBinContent(bin);
+									break;
+								default:
+									cout << "This shouldn't evetr be called..." << endl;
+									break;
+							}
+							if(cov_area_normalize) bin_content *= area_scale;
+						}
+						else if(er_type->>GetType() == ErrorType::kUnCorError || er_type->>GetType() == ErrorType::kUnCorErrorCV){
+							if(histo->HasUncorrError( er_type->GetName() ) ) 
+								bin_content = histo->GetUncorrError( er_type->GetName() )->GetBinContent(bin);
+							else
+								bin_content = 0.;
+						}
+						else bin_content = histo->GetBinContent(bin);
+				
+						// Fill the analhysis bin:
+						temp->SetBinContent(current_bin, bin_content);
+						current_bin++;
+					}//bin loop
+				}// samples loop
+				new_erhists.push_back(temp);
+			} //j<er_nhists loop 
+		
+			// Taken from the initialisation of Lat/Ver error bands in MnvH1D:
+			bool UseSpreadError = (er_nhists == 1) ? true : false;
+
+			// Now fill the analysis histogram with the errors determined from the samples:
+			switch(er_type->GetType()){
+				case ErrorType::kLateral:
+				case ErrorType::kLateralCV:
+					m_anaHist->AddLatErrorBand(er_type->GetName(), new_erhists);
+					m_anaHist->GetLatErrorBand(er_type->GetName())->SetUseSpreadError(UseSpreadError);
+	     			// Set universe weights; does not work if universes are different for two histograms
+					if(same_universes) {
+						for(int j = 0; j < er_nhists; j++)
+							m_anaHist->GetLatErrorBand( er_type->GetName() )->SetUnivWgt(j, univ_wgts[j] );
+					}
+					break;
+				case ErrorType::kVertical:
+				case ErrorType::kVerticalCV:
+					m_anaHist->AddVertErrorBand( er_type->GetName(),  new_erhists);
+					m_anaHist->GetVertErrorBand(er_type->GetName())->SetUseSpreadError(UseSpreadError);
+	     			// Set universe weights; does not work if universes are different for two histograms
+					if(same_universes) {
+						for(int j = 0; j<er_nhists; j++)
+							m_anaHist->GetVertErrorBand(er_type->GetName())->SetUnivWgt(j, univ_wgts[j]);
+					}
+					break;
+				case ErrorType::kUnCorError:
+				case ErrorType::kUnCorErrorCV:
+					if(new_erhists.size() == 1) m_anaHist->AddUncorrError(er_type->GetName(), new_erhists[0]);
+					else{
+						cout << __FILE__ << ":" << __LINE__ << " Error : Could not add uncorrelated error to analysis hist. Wrong size: " << new_erhists.size() << endl; 
+						exit(0);
+					}
+					break;
+				default:
+					cout << "This shouldn't evetr be called..." << endl;
+					break;
+			}
+			new_erhists.empty();
+		} //er_nhists > 0	
+	} //m_error loop
+	return m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
 }
 
 // -------------------------------------------------------- END MnvH1D --------------------------------------------------------

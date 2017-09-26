@@ -1,0 +1,24 @@
+package CMAKE
+version v3r5p0n0
+set CMAKERELEASE 3.5.0
+
+manager Alex Finch <A.Finch@lancaster.ac.uk>
+author t2k-nd280-software@nngroup.physics.sunysb.edu
+
+use EXTERN
+
+branches cmt doc src
+
+
+# the command to compile cmake
+document external cmake compile_cmake  $(cmake_SOURCE)
+
+
+# Add the executable location.
+ path_remove PATH "$(CMAKEROOT)"
+ path_remove PATH "CMAKE" 
+ path_remove PATH "cmake"
+ path_prepend PATH "$(CMAKEROOT)/$(CMAKE_tag)/bin"
+ path_prepend PATH "$(CMAKEROOT)/$(CMAKE_tag)/cmake-$(CMAKERELEASE)/bin"
+
+

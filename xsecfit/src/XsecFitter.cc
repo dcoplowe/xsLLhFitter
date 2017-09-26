@@ -19,8 +19,7 @@ bool xsfVerbose = false;
 TVirtualFitter *fitter = 0;
 
 //dummy function for SetFCN
-void dummy_fcn( Int_t &npar, Double_t *gin, Double_t &f,
-               Double_t *par, Int_t iflag )
+void dummy_fcn( Int_t &npar, Double_t *gin, Double_t &f, Double_t *par, Int_t iflag )
 {
     XsecFitter *myObj;
     myObj = dynamic_cast<XsecFitter*>(fitter->GetObjectFit());
@@ -39,9 +38,11 @@ XsecFitter::XsecFitter(int seed)
     
     //DC: Added 13/05/16
     iterations = new TH1I("iterations","No. of Iterations", 1, 0, 1);
-    free_par = -1;
     
-    tmp_count = 0;
+    free_par.push_back((int)-1);
+    
+    nbins = -1;
+    
 }
 
 // dtor
@@ -49,6 +50,7 @@ XsecFitter::~XsecFitter()
 {
     if(rand) rand->Delete();
     m_dir = NULL;
+    if(par_cov_mat) delete par_cov_mat;
 }
 
 // SetSeed
@@ -62,6 +64,18 @@ void XsecFitter::SetSeed(int seed)
     else
         rand->SetSeed(seed);
 }
+
+void XsecFitter::SetFreePar(std::vector<int> var1, int var2){
+    
+    if( (int)free_par.size() != 0) free_par.clear();
+    
+    for (int i=0; i< (int)var1.size(); i++){
+        free_par.push_back(var1[i]);
+    }
+    
+    nbins = var2;
+}
+
 
 void XsecFitter::FixParameter(string par_name, double value){
     for(int i=0;i<m_npar;i++)
@@ -84,6 +98,8 @@ void XsecFitter::InitFitter(std::vector<AnaFitParameters*> &fitpara, Double_t re
     vector<double> par_step, par_low, par_high;
     //vector<int> par_fix;
     
+    cout << "XsecFitter::InitFitter : Npars = " << m_fitpara.size() << endl;
+    
     m_npar = 0;
     m_nparclass.clear();
     //get the parameter info
@@ -100,7 +116,10 @@ void XsecFitter::InitFitter(std::vector<AnaFitParameters*> &fitpara, Double_t re
         vector<double> vec1, vec2;
         m_fitpara[i]->GetParPriors(vec1);
         par_prefit.insert(par_prefit.end(), vec1.begin(), vec1.end());
-        
+
+        // Set the toy data as the priors first:
+        par_toydata.insert(par_toydata.end(), vec1.begin(), vec1.end());
+
         m_fitpara[i]->GetParSteps(vec1);
         par_step.insert(par_step.end(), vec1.begin(), vec1.end());
         
@@ -139,11 +158,36 @@ void XsecFitter::InitFitter(std::vector<AnaFitParameters*> &fitpara, Double_t re
     fitter->ExecuteCommand("SET PRINT", arglist, 1);
     
     //init fitter stuff
+    int free_par_size = (int)free_par.size();
+    int split = nbins/free_par_size;
+    
     for(int i=0;i<m_npar;i++)
     {
         fitter->SetParameter(i, par_names[i].c_str(), par_prefit[i], par_step[i], par_low[i], par_high[i]);
-        if(i != free_par && free_par != -1) fitter->FixParameter(i);
+        
+        for(int kkk = 0; kkk < free_par_size; kkk++){
+            //cout << "Par " << i << " : free_par[" << kkk << "] = "<< free_par[kkk] << " kkk*split = " << kkk*split << " (kkk+1)*split = " <<  (kkk+1)*split;// << endl;
+            if(i != free_par[kkk] && free_par[kkk] != -1 && i >= kkk*split && i < (kkk+1)*split){
+                //cout << "    PASSED ";
+                if( !fitter->IsFixed(i) ) {
+                    //cout << "    FIXED";// << endl;
+                    fitter->SetParameter(i, par_names[i].c_str(), par_prefit[i], 0, par_prefit[i], par_prefit[i]);
+                    fitter->FixParameter(i);
+                }
+                cout <<" "<< endl;
+            }
+            else {
+                //cout << "    FREEEEEEEEEE" << endl;
+            }
+        }
     }
+    
+    for(int i=0;i<m_npar;i++){
+        cout << "Par " << i << " : Name: " << fitter->GetParName(i) << " : ";
+        if (fitter->IsFixed(i)) cout << " ** FIXED **";
+        cout<<" " << endl;
+    }
+        
 }
 
 // Fit
@@ -182,6 +226,15 @@ void XsecFitter::Fit(std::vector<AnaSample*> &samples, int datatype)
     }
     if(m_freq>=0  && m_dir) DoSaveEvents(m_calls);
     
+    // Check for fixed parameters and remove:
+    vector< double > par_toydata_tmp;    
+    for(size_t d = 0; d < par_toydata.size(); d++){
+        if(!fitter->IsFixed(d)) par_toydata_tmp.push_back( par_toydata[d] );
+    }
+    par_toydata.clear();
+    for(size_t d = 0; d < par_toydata_tmp.size(); d++) par_toydata.push_back( par_toydata_tmp[d] );
+    // Finished checking fixed parameters.
+
     //Do fit
     cout<<"Fit prepared"<<endl;
     double arglist[5];
@@ -203,20 +256,36 @@ void XsecFitter::Fit(std::vector<AnaSample*> &samples, int datatype)
     TVectorD fitVec(nparx);
     vector< vector<double> > res_pars;
     vector< vector<double> > err_pars;
+
+    vector< vector<double> > free_pars_res;
+    vector< vector<double> > free_pars_err;
+
     int k=0;
     for(size_t i=0;i<m_fitpara.size();i++)
     {
         vector<double> vec_res;
         vector<double> vec_err;
+
+        vector<double> free_vec_res;
+        vector<double> free_vec_err;
+
         for(int j=0;j<m_nparclass[i];j++){
             vec_err.push_back(fitter->GetParError(k));
             double parvalue=fitter->GetParameter(k);
             vec_res.push_back(parvalue);
+
+            if(!fitter->IsFixed(k)){ 
+                free_vec_res.push_back( parvalue );
+                free_vec_err.push_back( fitter->GetParError(k) );
+            }
             fitVec(k) = parvalue;
             k++;
         }
         res_pars.push_back(vec_res);
         err_pars.push_back(vec_err);
+
+        free_pars_res.push_back(free_vec_res);
+        free_pars_err.push_back(free_vec_err);
     }
     
     if(k != nparx){
@@ -227,7 +296,25 @@ void XsecFitter::Fit(std::vector<AnaSample*> &samples, int datatype)
     TMatrixDSym matrix(nvpar,fitter->GetCovarianceMatrix());
     matrix.Write("res_cov_matrix");
     fitVec.Write("res_vector");
+
+    par_postfit.clear();
     
+    for(size_t i = 0; i < free_pars_res.size(); i++){
+        for(size_t j = 0; j < free_pars_res[i].size(); j++){
+            par_postfit.push_back( free_pars_res[i][j] );
+        }
+    }
+
+    // for(size_t i = 0; i < free_pars_err.size(); i++){
+    //     for(size_t j = 0; j < free_pars_err[i].size(); j++){
+    //         par_postfit.push_back( free_pars_err[i][j] );
+    //     }
+    // }
+
+    par_cov_mat = new TMatrixDSym(matrix);
+    par_cov_matI = new TMatrixDSym(matrix);
+    par_cov_matI->Invert();
+
     DoSaveResults(res_pars,err_pars,amin);
     if(m_freq>=0  && m_dir) DoSaveEvents(m_calls);
 }
@@ -237,6 +324,7 @@ void XsecFitter::GenerateToyData(int toyindx)
 {
     //do parameter throws
     vector< vector<double> > par_throws;
+
     double chi2_sys = 0.0;
     for(size_t i=0;i<m_fitpara.size();i++)
     {
@@ -256,6 +344,14 @@ void XsecFitter::GenerateToyData(int toyindx)
     vec_chi2_stat.push_back(chi2_stat);
     
     if(m_freq>=0  && m_dir) DoSaveParams(par_throws);
+
+    par_toydata.clear();
+    for(size_t d = 0; d < par_throws.size(); d++){
+        for(size_t j = 0; j < par_throws[d].size(); j++){
+            par_toydata.push_back(par_throws[d][j]);
+        }
+    }
+
 }
 
 
@@ -267,8 +363,7 @@ double XsecFitter::FillSamples(vector< vector<double> > new_pars, int datatype)
     double chi2 = 0.0;
     
     //if(xsfVerbose){
-    tmp_count++;
-    cout << "nfitpar is: " << m_fitpara.size()  << " TMP COUNT " << tmp_count << endl;
+    cout << "nfitpar is: " << m_fitpara.size() << endl;
     //}
     
     //loop over samples
@@ -294,6 +389,8 @@ double XsecFitter::FillSamples(vector< vector<double> > new_pars, int datatype)
         }
         m_samples[s]->FillEventHisto(datatype);
         
+        cout << "1. Working after for loop in XsecFitter::FillSamples" << endl;
+        
         //calculate chi2 for each sample
         chi2 += m_samples[s]->CalcChi2();
         
@@ -308,6 +405,7 @@ double XsecFitter::FillSamples(vector< vector<double> > new_pars, int datatype)
 void XsecFitter::fcn(Int_t &npar, Double_t *gin, Double_t &f, Double_t *par, Int_t iflag)
 {
     m_calls++;
+    cout << "XsecFitter::fcn: Call No. = " << m_calls << endl;
     
     //Regularisation:
     double chi2_reg=0.0;
@@ -340,6 +438,8 @@ void XsecFitter::fcn(Int_t &npar, Double_t *gin, Double_t &f, Double_t *par, Int
     
     chi2_sys += chi2_reg;
     vec_chi2_sys.push_back(chi2_sys);//This is for saving
+    
+    cout << "New pars dim: " << new_pars.size() << endl;
     
     double chi2_stat = FillSamples(new_pars, 0);
     vec_chi2_stat.push_back(chi2_stat);

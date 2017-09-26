@@ -13,6 +13,8 @@
 
 #include "TH1I.h"
 
+// class TMatrixDSym;
+
 class XsecFitter : public TObject
 {
 public:
@@ -27,10 +29,17 @@ public:
     { m_dir = dirout; m_freq = freq; }
     
     //DC: Added 13/05/16
-    void SetFreePar(int var){ free_par = var; }
+    void SetFreePar(std::vector<int> var1, int var2);//{ free_par = var1; nbins = var2; }
     
     ClassDef(XsecFitter, 0);
     
+    std::vector<double> GetFitResults(void) const { return par_postfit; } 
+    std::vector<double> GetFitErrors(void) const { return par_errfit; } 
+    std::vector<double> GetToyInputs(void) const { return par_toydata; } 
+
+    TMatrixDSym * GetFitCovariance(void) const { return par_cov_mat; }
+    TMatrixDSym * GetFitCovarianceI(void) { return par_cov_matI; }
+
 private:
     void GenerateToyData(int toyindx = 0);
     double FillSamples(std::vector< std::vector<double> > new_pars,
@@ -56,11 +65,13 @@ private:
     std::vector<double> vec_chi2_stat;
     std::vector<double> vec_chi2_sys;
     
+    TMatrixDSym * par_cov_mat;
+    TMatrixDSym * par_cov_matI;
+
     //DC: Added 13/05/16
     TH1I * iterations;
-    int free_par;
-    
-    int tmp_count;
-    
+    std::vector<int> free_par;
+    int nbins;
+        
 };
 #endif

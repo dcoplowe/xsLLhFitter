@@ -25,9 +25,7 @@ struct DetBin
 class DetParameters : public AnaFitParameters
 {
 public:
-  DetParameters(const char *fname, 
-                TVectorD* detweights, std::vector<AnaSample*> samples,
-                const char *name = "par_det");
+  DetParameters(const char *fname, TVectorD* detweights, std::vector<AnaSample*> samples, const char *name = "par_det");
   ~DetParameters();
   
   void InitEventMap(std::vector<AnaSample*> &sample);
@@ -38,7 +36,7 @@ public:
   void SetBinning(const char *fname, std::vector<AnaSample*> &sample);
 
 private:
-  int GetBinIndex(double p, double D2, int sample_id); //binning function
+  int GetBinIndex(double D1, double D2, int sample_id); //binning function
                  std::vector<DetBin> m_bins;
 };
 

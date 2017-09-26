@@ -28,8 +28,15 @@ protected:
 	std::map<std::string, Sample*> m_samples;
 	// std::vector<Sample*> m_samples;
 	// std::map<std::string, int> m_sample_map;
-	bool IsUniqueName(const std::string &name);
+	bool IsUniqueSample(const std::string &name);
+	virtual	void Prepare() = 0;
 
+	bool m_isready;
+	double m_value;
+    double m_wgt;
+	std::string m_CurrentSample;
+
+	// static FillSample;
 };
 
 #endif
