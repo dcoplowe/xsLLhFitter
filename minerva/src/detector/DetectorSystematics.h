@@ -28,35 +28,6 @@ public:
 
 	void GetReady();
 
-	bool FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
-		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight = 1.0,
-		const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
-		const double cvweight = 1.0, const bool fillcv = true );
-	bool FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& name, const double * weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
-	bool FillUncorrError(const std::string& name, const double err, const double cvweight = 1.0 );
-
-	// For simplicity fill samples with error bands:
-	bool FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& shifts,
-		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * shifts, const double cvweight = 1.0,
-		const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double shiftDown, const double shiftUp,
-		const double cvweight = 1.0, const bool fillcv = true );
-	bool FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double weightDown, const double weightUp,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
-	bool FillUncorrError(const std::string& sam_name, const std::string& name, const double value, const double err, const double cvweight = 1.0 );
-
 	void BuildAnaHist(const bool includeStat = true);
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
 	TMatrixD GetCovMatrix(const bool includeStat = true, const bool asFrac = false, const bool cov_area_normalize = false) const;

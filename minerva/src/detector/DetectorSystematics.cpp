@@ -16,14 +16,14 @@ const std::string DetectorSystematics::m_ver_name = "_Vert";
 const std::string DetectorSystematics::m_lat_name = "_Lat";
 const std::string DetectorSystematics::m_uncer_name = "_UnCorEr";
 
-DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose), m_counter(-1), m_anaHist_set(false), m_isready(false)
+DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose), m_counter(-1), m_anaHist_set(false)
 { 
 	cout << "DetectorSystematics::DetectorSystematics(bool verbose)" << endl;
 	m_errors.clear();
 	m_anaHist = 0x0;
 }
 
-DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : SystematicsBase(n_universes, verbose), m_counter(-1), m_isready(false)
+DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : SystematicsBase(n_universes, verbose), m_counter(-1),
 	m_anaHist_set(false)
 {
 	cout << "DetectorSystematics::DetectorSystematics(int n_universes, bool verbose)" << endl;
@@ -65,8 +65,6 @@ bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_u
 	}
 	return (counter == m_samples.size());
 }
-
-someStorage.insert( std::make_pair("key", std::make_pair("key2", "value2")) );
 
 bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes, std::string fill_samples)
 {
@@ -161,243 +159,6 @@ bool DetectorSystematics::AddUncorrErrorAndFillWithCV(const std::string& name, s
 		(void)fill_samples;
 	}
 	return (counter == m_samples.size());
-}
-
-bool DetectorSystematics::FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
-	const double cvweight, const bool fillcv, const double *weights)
-{
-	if(!m_isready){
-		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
-	bool pass = false;
-	ErrorType * error_no = FindError( (name + m_lat_name) );
-	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
-	if(it != m_samples.end()){
-		if(it->second->FillError(error_no)){
-			if(it->second->FillLatErrorBand(name, shifts, cvweight, fillcv, weights)) pass = true;
-		}
-	}
-	else{
-		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_lat_name << "\" Unable to find." << endl;
-		exit(0);
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight,
-	const bool fillcv, const double *weights)
-{
-	if(!m_isready){
-		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
-	bool pass = false;
-	ErrorType * error_no = FindError( (name + m_lat_name) );
-	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
-	if(it != m_samples.end()){
-		if(it->second->FillError(error_no)){
-			if(it->second->FillLatErrorBand(name, shifts, cvweight, fillcv, weights)) pass = true;
-		}
-	}
-	else{
-		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_lat_name << "\" Unable to find." << endl;
-		exit(0);
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
-	const double cvweight, const bool fillcv)
-{
-	if(!m_isready){
-		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
-	bool pass = false;
-	ErrorType * error_no = FindError( (name + m_lat_name) );
-	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
-	if(it != m_samples.end()){
-		if(it->second->FillError(error_no)){
-			if(it->second->FillLatErrorBand(name, shiftDown, shiftUp, cvweight, fillcv)) pass = true;
-		}
-	}
-	else{
-		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_lat_name << ".\" Unable to find." << endl;
-		exit(0);
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
-	const double cvweight , double cvWeightFromMe)
-{
-	if(!m_isready){
-		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
-	bool pass = false;
-	ErrorType * error_no = FindError( (name + m_ver_name) );
-	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
-	if(it != m_samples.end()){
-		if(it->second->FillError(error_no)){
-			if(it->second->FillVertErrorBand(name, m_value, weights, cvweight, cvWeightFromMe)) pass = true;
-		}
-	}
-	else{
-		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_ver_name << ".\" Unable to find." << endl;
-		exit(0);
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double * weights,
-	const double cvweight , double cvWeightFromMe)
-{
-	if(!m_isready){
-		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
-	bool pass = false;
-	ErrorType * error_no = FindError( (name + m_ver_name) );
-	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
-	if(it != m_samples.end()){
-		if(it->second->FillError(error_no)){
-			if(it->second->FillVertErrorBand(name, m_value, weights, cvweight, cvWeightFromMe)) pass = true;
-		}
-	}
-	else{
-		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_ver_name << ".\" Unable to find." << endl;
-		exit(0);
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
-	const double cvweight , double cvWeightFromMe)
-{
-	if(!m_isready){
-		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
-	bool pass = false;
-	ErrorType * error_no = FindError( (name + m_ver_name) );
-	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
-	if(it != m_samples.end()){
-		if(it->second->FillError(error_no)){
-			if(it->second->FillVertErrorBand(name, m_value, weightDown, weightUp, cvweight, cvWeightFromMe)) pass = true;
-		}
-	}
-	else{
-		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_ver_name << ".\" Unable to find." << endl;
-		exit(0);
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillUncorrError(const std::string& name, const double err, const double cvweight)
-{
-	if(!m_isready){
-		cout << "DetectorSystematics::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-	// Should only be filling one sample at anyone time. Hence only get the sample just filled.
-	bool pass = false;
-	ErrorType * error_no = FindError( (name + m_uncer_name) );
-	std::map<std::string,Sample*>::iterator it = m_samples.find( m_CurrentSample );
-	if(it != m_samples.end()){
-		if(it->second->FillError(error_no)){
-			if(it->second->FillUncorrError(name, m_value, err, cvweight)) pass = true;
-		}
-	}
-	else{
-		cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << m_uncer_name << ".\" Unable to find." << endl;
-		exit(0);
-	}
-	return pass;
-}
-
-// For simplicity fill samples with error bands:
-bool DetectorSystematics::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& shifts,
-	const double cvweight, const bool fillcv, const double *weights)
-{
-	bool pass = false;
-	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
-	if(it != m_samples.end()){
-		if( it->second->FillLatErrorBand(name, value, shifts, cvweight, fillcv, weights) ) pass = true;
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * shifts, const double cvweight,
-	const bool fillcv, const double *weights)
-{
-	bool pass = false;
-	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
-	if(it != m_samples.end()){
-		if( it->second->FillLatErrorBand(name, value, shifts, cvweight, fillcv, weights) ) pass = true;
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double shiftDown, const double shiftUp,
-	const double cvweight, const bool fillcv)
-{
-	bool pass = false;
-	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
-	if(it != m_samples.end()){
-		if( it->second->FillLatErrorBand(name, value, shiftDown, shiftUp, cvweight, fillcv) ) pass = true;
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& weights,
-	const double cvweight, double cvWeightFromMe)
-{
-	bool pass = false;
-	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
-	if(it != m_samples.end()){
-		if( it->second->FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe) ) pass = true;
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * weights,
-	const double cvweight, double cvWeightFromMe)
-{
-	bool pass = false;
-	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
-	if(it != m_samples.end()){
-		if( it->second->FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe) ) pass = true;
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double weightDown, const double weightUp,
-	const double cvweight, double cvWeightFromMe)
-{
-	bool pass = false;
-	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
-	if(it != m_samples.end()){
-		if( it->second->FillVertErrorBand(name, value, weightDown, weightUp, cvweight, cvWeightFromMee) ) pass = true;
-	}
-	return pass;
-}
-
-bool DetectorSystematics::FillUncorrError(const std::string& sam_name, const std::string& name, const double value, const double err, const double cvweight)
-{
-	bool pass = false;
-	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
-	if(it != m_samples.end()){
-		if( it->second->FillUncorrError(name, value, err, cvweight) ) pass = true;
-	}
-	return pass;
 }
 
 bool DetectorSystematics::IsUniqueError(const std::string &name)

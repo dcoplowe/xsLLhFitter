@@ -16,15 +16,33 @@ int main()
 	bool verbose = true;
 
 	// Do we want something to overtake the nominal number of toys?
+	// WTf do I mean here??? IDIOT
+	// Ah the number of toys is the systname_sz
 
 	DetectorSystematics syst(100, verbose);
 
 	// Ozgur's signal:
-	syst.AddSample("signal",  100, 0., 10000.);
+	// In ten's of MeV
+	double lowMass = 60.;
+	double higMass = 200.;
+	double maxMass = 500.;
+
+	int nlowMass_bins = (int)lowMass/10.;
+	int nsigMass_bins = (int)(higMass - lowMass)/10.;
+	int nhigMass_bins = (int)(maxMass - higMass)/10.;
+
+	syst.AddSample("pi0LowMass", nlowMass_bins, 0.,      lowMass);
+	syst.AddSample("signal",  	 nlowMass_bins, lowMass, higMass);
+	syst.AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass);
+	// syst.AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass);
 	// Both his sidebands:
-	syst.AddSample("sideband",  100, 10000., 20000.);
+	// syst.AddSample("sideband",  100, 10000., 20000.);
 
 	FileIO reader(in_file, in_tree);
+
+	TFile * ofile = FileIO::MakeOutFile(out_file);
+	ofile->cd();
+	reader.SetupLLNTuple();
 
 	syst.AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	syst.AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
@@ -32,35 +50,48 @@ int main()
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
-	// Want to fill the different samples given some 
-	for(Int_t i = 0; i < 10; i++){
-		syst.GetReady();
+	Int_t entries = reader.GetEntries();
+	Int_t per10 = (Int_t)entries/10;
 
+	for(Int_t i = 0; i < 100; i++){
+		// syst.GetReady();
 		reader.GetEntry(i);
-		cout << "reader.muon_E = " << reader.muon_E << endl;
-
+		cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
 
 		// Want to make sure only one sample is filled in each interation
-		if(reader.muon_E < 10000.){
-			syst.FillSample("signal", reader.muon_E, reader.wgt);
-			syst.FillVertErrorBand("signal", "Flux_BeamFocus", reader.muon_E, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-			syst.FillVertErrorBand("signal", "ppfx1_Total", reader.muon_E, reader.mc_wgt_ppfx1_Total, reader.wgt);
+		if(0. < reader.pi0_invMass && reader.pi0_invMass < lowMass){
+			syst.FillSample("pi0LowMass", reader.muon_E, reader.wgt);
+			syst.FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			syst.FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			reader.SetSample(0);
+		}
+		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
+			syst.FillSample("signal", reader.pi0_invMass, reader.wgt);
+			syst.FillVertErrorBand("signal", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			syst.FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			reader.SetSample(1);
+		}
+		else if(higMass < reader.pi0_invMass && reader.pi0_invMass < maxMass){
+			syst.FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
+			syst.FillVertErrorBand("pi0HigMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			syst.FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			reader.SetSample(2);
 		}
 		else{
-			syst.FillSample("sideband", reader.muon_E, reader.wgt);
-			syst.FillVertErrorBand("sideband", "Flux_BeamFocus", reader.muon_E, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-			syst.FillVertErrorBand("sideband", "ppfx1_Total", reader.muon_E, reader.mc_wgt_ppfx1_Total, reader.wgt);
-		} 
+			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
+			reader.SetSample(3);
+		}
+		reader.Fill();
 	}
+
+	reader.Write();
 
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 
-
-
-	// syst.MakeCovarianceMatrix();
+	syst.MakeCovarianceMatrix();
 
 	return 1;
 }

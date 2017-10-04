@@ -14,7 +14,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool verbose) : inCurrent(-1), m_verbose(verbose)
+FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_treename, bool verbose) : inCurrent(-1), sample(kIniValue) m_verbose(verbose)
 {
 	cout << "FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool verbose)" << endl;
 	
@@ -37,9 +37,9 @@ FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool ve
 	inchain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
 	assert(inchain);
 	// Init();
+	m_LLtuple = 0x0;
 
-	TDatime time;
-	m_date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
+	m_date = FileIOBase::GetDate();
 	outfile = 0x0;
 }
 
@@ -68,9 +68,23 @@ FileIOBase::~FileIOBase()
 			delete	outfile;
 		}
 	}
+
+	if(m_LLtuple) delete m_LLtuple;
 }
 
-void FileIOBase::SetupOutFile(std::string outfilename)
+void FileIOBase::SetupOutFile(const std::string &outfilename)
+{
+	outfile = FileIOBase::MakeOutFile(outfilename);
+}
+
+std::string FileIOBase::GetDate()
+{
+	TDatime time;
+	std::string date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
+	return date;
+}
+
+TFile * FileIOBase::MakeOutFile(const std::string &outfilename)
 {
 	if(outfilename.empty()){
 		cout << __FILE__ << ":" << __LINE__ << " : ERROR : Tree name is empty" << endl;
@@ -88,13 +102,19 @@ void FileIOBase::SetupOutFile(std::string outfilename)
 	tmp_file += "_";
 	tmp_file += m_date;
 	tmp_file += endname;
-	outfile = new TFile( tmp_file.c_str(), "RECREATE");
-	assert(outfile);
+
+	cout << "Creating outfile with name: " << tmp_file << endl;
+	TFile * file = new TFile( tmp_file.c_str(), "RECREATE");
+	assert(file);
+	return file;
 }
 
 Int_t FileIOBase::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
+	// Always result the sample no before filling the vars (might want to do this for other vars
+	// but then again we should only be passing variables from one tree to another):
+	m_sample = kIniValue;
 	if (!inchain) return 0;
 	return inchain->GetEntry(entry);
 }
@@ -105,7 +125,7 @@ Long64_t FileIOBase::GetEntries()
 	return inchain->GetEntries();	
 }
 
-void FileIOBase::SetupInFile(std::string in_filename, std::string in_treename)
+void FileIOBase::SetupInFile(const std::string &in_filename, const std::string &in_treename)
 {
 	string tmp_infile = "";
 	if(in_filename[0] == '/') tmp_infile = in_filename;
@@ -126,6 +146,24 @@ void FileIOBase::SetupInFile(std::string in_filename, std::string in_treename)
 	inchain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
 	assert(inchain);
 	Init();
+}
+
+void FileIOBase::SetupLLNTuple()
+{
+	m_LLtuple = new TTree("selectedEvents", "selectedEvents");	
+	m_LLtuple->Branch("cutBranch", &m_sample, "cutBranch/I");
+	InitLLNTuple();
+}
+	// Sample flag needs to be set for LL fitter to read in
+
+void FileIOBase::Fill()
+{
+	m_LLtuple->Fill();
+}
+
+void FileIOBase::Write()
+{
+	m_LLtuple->Write();
 }
 
 #endif

@@ -17,6 +17,7 @@ public:
 
 private:
 	void Init();
+	void InitLLNTuple();
 
 public:
 	// Vars from ntuple (user must add them from tree.makeclass()):

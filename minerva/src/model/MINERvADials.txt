@@ -1,0 +1,58 @@
+// MODEL PARAMS:
+//----------- kNoInteraction=0, 
+
+//----------- kQEL=1
+        // truth_genie_wgt_CCQEPauliSupViaKF[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_EtaNCEL[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_MaCCQE[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_MaCCQEshape[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_MaNCEL[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_NormCCQE[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_VecFFCCQEshape[7];   //[genie_wgt_n_shifts]
+
+//----------- kRES=2
+        // truth_genie_wgt_MaRES[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_MvRES[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_NormCCRES[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_NormNCRES[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_Rvn1pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_Rvn2pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_Rvp1pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_Rvp2pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_Theta_Delta2Npi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_RDecBR1gamma[7];   //[genie_wgt_n_shifts]
+
+//----------- kDIS=3
+        // truth_genie_wgt_AGKYxF1pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_AhtBY[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_BhtBY[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_CV1uBY[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_CV2uBY[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_NormDISCC[7];   //[genie_wgt_n_shifts]
+
+//----------- kCOHPI=4
+
+//----------- kAMNUGAMMA=5
+
+//----------- kIMD=6
+
+//----------- kNUEEL=7
+
+
+//----------- kUnknownInt=8
+
+// ----------- FSI Dials:
+        // truth_genie_wgt_FrAbs_N[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrAbs_pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrCEx_N[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrCEx_pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrElas_N[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrElas_pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrInel_N[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrInel_pi[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrPiProd_N[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_FrPiProd_pi[7];   //[genie_wgt_n_shifts]
+
+		// FSI Dial: Mean free path variation:
+        // truth_genie_wgt_MFP_N[7];   //[genie_wgt_n_shifts]
+        // truth_genie_wgt_MFP_pi[7];   //[genie_wgt_n_shifts]
