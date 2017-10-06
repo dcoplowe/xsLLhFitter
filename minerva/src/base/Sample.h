@@ -28,39 +28,46 @@ public:
 	bool FillError(const ErrorType * type) const;
 
 	void SetStartingAnalBin(const int nth_bin){ m_start = nth_bin; }
-	int GetAnaBin() const { return (m_anabin + nth_bin); }
+	int GetAnaBin() const { return (m_anabin + m_start); }
 	MnvH1D * GetAnaHist() const;
 
 	int Fill(double var, double wgt);
 
 	bool FillLatErrorBand(const std::string& name, const double value, const std::vector<double>& shifts,
 		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
-		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
-
+	
 	bool FillLatErrorBand(const std::string& name, const double value, const double * shifts, const double cvweight = 1.0,
-		const bool fillcv = true, const double *weights = 0 );
-	bool FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight = 1.0,
 		const bool fillcv = true, const double *weights = 0 );
 	
 	bool FillLatErrorBand(const std::string& name, const double value, const double shiftDown, const double shiftUp,
 		const double cvweight = 1.0, const bool fillcv = true );
-	bool FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
-		const double cvweight = 1.0, const bool fillcv = true );
 	
 	bool FillVertErrorBand(const std::string& name, const double value, const std::vector<double>& weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
 	
 	bool FillVertErrorBand(const std::string& name, const double value, const double * weights,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	bool FillVertErrorBand(const std::string& name, const double * weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
 	
 	bool FillVertErrorBand(const std::string& name, const double value, const double weightDown, const double weightUp,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
-	bool FillVertErrorBand(const std::string& name, const double value, const double weightDown, const double weightUp,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+	
+	// For internally stored value:
+	bool FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
+		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
+	
+	bool FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight = 1.0,
+		const bool fillcv = true, const double *weights = 0 );
+
+	bool FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
+		const double cvweight = 1.0, const bool fillcv = true );
+	
+	bool FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+	
+	bool FillVertErrorBand(const std::string& name, const double * weights,
+		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+
+	bool FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
 	
 	bool FillUncorrError(const std::string& name, const double value, const double err, const double cvweight = 1.0 );
@@ -77,9 +84,6 @@ private:
 
 	int	m_start;
 	int m_anabin;
-
-
-
 };
 
 #endif
