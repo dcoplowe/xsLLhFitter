@@ -272,21 +272,31 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 		for (; it != m_samples.end(); ++it){
 			MnvH1D * histo = it->second;
 
+			// GetLatErrorBand( const std::string& name );
+			// MnvVertErrorBand* GetVertErrorBand( const std::string& name );
+
 			// We know which type of error we have from error type so could sort this out into
 			// cases for the various error types. could be easy
+			int nhists = 0;// histo->GetHists().size();
 			bool has_error = false;
 			switch(er_type->GetType()){
 				case ErrorType::kLateral:
 				case ErrorType::kLateralCV:
-					if( histo->HasLatErrorBand( er_type->GetName() ) ) has_error = true;
+					if( histo->HasLatErrorBand( er_type->GetName() ) ){ 
+						has_error = true;
+						nhists = (int)histo->GetLatErrorBand( er_type->GetName() )->GetHists().size();
+					}
 					break;
 				case ErrorType::kVertical:
 				case ErrorType::kVerticalCV:
-					if( histo->HasVertErrorBand( er_type->GetName() ) ) has_error = true;
+					if( histo->HasVertErrorBand( er_type->GetName() ) ){ 
+						has_error = true;
+						nhists = (int)histo->GetVertErrorBand( er_type->GetName() )->GetHists().size();
+					}
 					break;
 				case ErrorType::kUnCorError:
 				case ErrorType::kUnCorErrorCV:
-					if( histo->HasUncorrError(er_type->GetName() ) ){
+					if( histo->HasUncorrError( er_type->GetName() ) ){
 						has_error = true;
 						er_nhists = 1;
 						counter++;
@@ -298,7 +308,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			}
 
 			if( has_error ){
-				int nhists = histo->GetHists().size();
+				// int nhists = histo->GetHists().size();
 				// er_nhists_tot += nhists;
 				if(nhists > 0 && counter == 0){ 
 					er_nhists = nhists;
