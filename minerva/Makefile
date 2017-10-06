@@ -48,4 +48,3 @@ $(MOD): $(MODOBJS)
 .PHONY: clean
 clean:
 	$(RM) *.o *~ $(DET) $(DETOBJS)
-
