@@ -148,7 +148,7 @@ bool Sample::FillUncorrError(const std::string& name, const double value, const 
 	return (h1_fill && h2_fill);
 }	
 
-bool Sample::FillError(const ErrorType * type) const
+bool Sample::FillError(ErrorType * type) const
 {
 	bool pass = false;
 	for(size_t i = 0; i < m_error.size(); i++){

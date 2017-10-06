@@ -24,8 +24,8 @@ public:
 	Sample(const std::string& name, const int nbins, const double * x_bins);
 	~Sample();
 
-	void AddError(const ErrorType * type){ m_error.push_back(type); }
-	bool FillError(const ErrorType * type) const;
+	void AddError(ErrorType * type){ m_error.push_back(type); }
+	bool FillError(ErrorType * type) const;
 
 	void SetStartingAnalBin(const int nth_bin){ m_start = nth_bin; }
 	int GetAnaBin() const { return (m_anabin + m_start); }
