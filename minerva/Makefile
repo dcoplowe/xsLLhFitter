@@ -5,27 +5,31 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 RM = rm -fv
 
-DIR_LIST = src src/base src/fileio src/detector 
+DIR_LIST = src src/base src/fileio
 # src/model/
 
 # files := $(foreach dir,$(dirs),$(wildcard $(dir)/*))
 INCS = $(foreach dir, $(DIR_LIST),-I$(dir))
+INCS += src/detector src/model
 # INCS =	-Isrc/ -Isrc/base/ -Isrc/detector/ -Isrc/model/ -Isrc/
 INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
+
+DSRCS = src/detector/*.cpp $(SRCS)
+MSRCS = src/model/*.cpp $(SRCS)
 # SRCS =	$(wildcard src/*.cpp)
 # OBJS = $(SRCS:.c=.o)
 
 DET = MakeDetSysts.exe
 DETCPP = app/app_detsysts.cpp
-DETALL = $(DETCPP) $(SRCS)
+DETALL = $(DETCPP) $(DSRCS)
 DETOBJS = $(DETALL:.cpp=.o)
 
 MOD = MakeModSysts.exe
 MODCPP = app/app_modelsysts.cpp
-MODALL = $(MODCPP) $(SRCS)
+MODALL = $(MODCPP) $(MSRCS)
 MODOBJS = $(MODALL:.cpp=.o)
 
 all: $(DET) $(MOD)
@@ -34,8 +38,10 @@ all: $(DET) $(MOD)
 
 $(DET): $(DETOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+
 $(MOD): $(MODOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+
 .cpp.o:
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
 
