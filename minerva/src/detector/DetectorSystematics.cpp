@@ -227,7 +227,7 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat){
 	m_HanaHist = new TH1D("Analysis_Hist_TH1D", "", tot_bins, 0, tot_bins); 
 
 	int current_bin = 1;
-	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	it = m_samples.begin();
 	for (; it != m_samples.end(); ++it){
 		MnvH1D * histo = it->second;
 		for(i = 0; i < histo->GetNbinsX(); i++){
