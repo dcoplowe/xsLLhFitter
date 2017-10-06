@@ -17,8 +17,8 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 
-DSRCS = src/detector/*.cpp $(SRCS)
-MSRCS = src/model/*.cpp $(SRCS)
+DSRCS = $(wildcard src/detector/*.cpp) $(SRCS)
+MSRCS = $(wildcard src/model/*.cpp) $(SRCS)
 # SRCS =	$(wildcard src/*.cpp)
 # OBJS = $(SRCS:.c=.o)
 
