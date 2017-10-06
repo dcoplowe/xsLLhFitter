@@ -2,6 +2,8 @@
 #define __DETECTORSYSTEMATICS_H__
 
 #include <SystematicsBase.h>
+#include <TMatrixD.h>
+#include <vector>
 
 class TH1D;
 
@@ -46,7 +48,6 @@ private:
 	MnvH1D * m_anaHist;	
 
 	// static int FillSampleNo;
-
 	static const std::string m_ver_name;
 	static const std::string m_lat_name;
 	static const std::string m_uncer_name;

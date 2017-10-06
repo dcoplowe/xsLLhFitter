@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <iostream>
 
+#include <TMatrixD.h>
+
 using std::cout;
 using std::endl;
 
@@ -90,8 +92,8 @@ int main()
 
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
-
-	syst.MakeCovarianceMatrix();
-
+	TMatrixD cov = syst.GetCovMatrix();
+	cov.Print();
+	
 	return 1;
 }
