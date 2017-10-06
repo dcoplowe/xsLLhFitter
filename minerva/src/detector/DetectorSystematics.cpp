@@ -67,7 +67,7 @@ bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_u
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes, std::string fill_samples)
+bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
 	
@@ -86,7 +86,7 @@ bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, 
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_universes, std::string fill_samples)
+bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
 
@@ -105,7 +105,7 @@ bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddVertErrorBandAndFillWithCV(const std::string& name, const int n_universes, std::string fill_samples)
+bool DetectorSystematics::AddVertErrorBandAndFillWithCV(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
 
@@ -124,7 +124,7 @@ bool DetectorSystematics::AddVertErrorBandAndFillWithCV(const std::string& name,
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddUncorrError(const std::string& name, std::string fill_samples)
+bool DetectorSystematics::AddUncorrError(const std::string& name, const std::string &fill_samples)
 {
 	size_t counter = 0;
 
@@ -143,7 +143,7 @@ bool DetectorSystematics::AddUncorrError(const std::string& name, std::string fi
 	return (counter == m_samples.size());
 }
 
-bool DetectorSystematics::AddUncorrErrorAndFillWithCV(const std::string& name, std::string fill_samples)
+bool DetectorSystematics::AddUncorrErrorAndFillWithCV(const std::string& name, const std::string &fill_samples)
 {
 	size_t counter = 0;
 
