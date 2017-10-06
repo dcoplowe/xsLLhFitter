@@ -22,12 +22,12 @@ public:
 	void Run();
 
 	// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
-	bool AddLatErrorBand(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
-	bool AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
-	bool AddVertErrorBand(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
-	bool AddVertErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999, std::string fill_samples = "");
-	bool AddUncorrError(const std::string& name, std::string fill_samples = "");
-	bool AddUncorrErrorAndFillWithCV(const std::string& name, std::string fill_samples = "");
+	bool AddLatErrorBand(const std::string& name, const int n_universes = -999, const std::string &fill_samples = "");
+	bool AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999, const std::string &fill_samples = "");
+	bool AddVertErrorBand(const std::string& name, const int n_universes = -999, const std::string &fill_samples = "");
+	bool AddVertErrorBandAndFillWithCV(const std::string& name, const int n_universes = -999, const std::string &fill_samples = "");
+	bool AddUncorrError(const std::string& name, const std::string &fill_samples = "");
+	bool AddUncorrErrorAndFillWithCV(const std::string& name, const std::string &fill_samples = "");
 
 	void GetReady();
 
