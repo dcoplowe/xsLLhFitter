@@ -166,7 +166,7 @@ bool DetectorSystematics::IsUniqueError(const std::string &name)
 {
 	bool is_unique = true;
 	for(size_t i = 0; i < m_errors.size(); i++){
-		if(m_errors[i].GetName().compare(tmp_name) == 0){ 
+		if(m_errors[i]->GetName().compare(name) == 0){ 
 			is_unique = false;
 			break;
 		}
@@ -178,7 +178,7 @@ bool DetectorSystematics::IsUniqueError(const std::string &name)
 ErrorType * DetectorSystematics::FindError(const std::string &name)
 {
 	for(size_t i = 0; i < m_errors.size(); i++){
-		ErrorType * tmp = m_errors[i]->GetName();
+		ErrorType * tmp = m_errors[i];//->GetName();
 		if(tmp->GetName().compare(tmp_name) == 0) return tmp;
 	}
 	return new ErrorType(); 
