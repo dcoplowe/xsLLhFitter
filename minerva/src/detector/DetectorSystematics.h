@@ -42,6 +42,7 @@ private:
 	int m_counter;
 	std::vector<ErrorType*> m_errors;
 	bool IsUniqueError(const std::string &name);
+	ErrorType * FindError(const std::string &name);
 
 	void Prepare();
 	bool m_anaHist_set;
