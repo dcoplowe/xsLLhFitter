@@ -53,7 +53,6 @@ int main()
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
 	Int_t entries = reader.GetEntries();
-	Int_t per10 = (Int_t)entries/10;
 
 	for(Int_t i = 0; i < 100; i++){
 		// syst.GetReady();
@@ -94,6 +93,6 @@ int main()
 	// 1) we want to add a variation to all samples 
 	TMatrixD cov = syst.GetCovMatrix();
 	cov.Print();
-	
+
 	return 1;
 }

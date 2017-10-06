@@ -39,6 +39,9 @@ FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_tre
 	// Init();
 	m_LLtuple = 0x0;
 
+	m_entries = inchain->GetEntries();
+	m_per10 = (Int_t)m_entries/10;
+
 	m_date = FileIOBase::GetDate();
 	outfile = 0x0;
 }
@@ -115,6 +118,7 @@ Int_t FileIOBase::GetEntry(Long64_t entry)
 	// Always result the sample no before filling the vars (might want to do this for other vars
 	// but then again we should only be passing variables from one tree to another):
 	m_sample = kIniValue;
+	if(entry % m_per10 == 0) cout << "Analysed " << Form("%.2d%%") << " : " << entry << "/" << m_entries << endl;
 	if (!inchain) return 0;
 	return inchain->GetEntry(entry);
 }

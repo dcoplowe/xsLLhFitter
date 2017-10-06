@@ -51,6 +51,9 @@ private:
 	std::string	m_date;
 
 	Int_t m_sample;
+
+	Int_t m_entries;
+	Int_t m_per10;
 };
 
 #endif
