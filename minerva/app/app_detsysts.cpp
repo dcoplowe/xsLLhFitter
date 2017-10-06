@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <TMatrixD.h>
+#include <TFile.h>
 
 using std::cout;
 using std::endl;
@@ -93,6 +94,7 @@ int main()
 	// 1) we want to add a variation to all samples 
 	TMatrixD cov = syst.GetCovMatrix();
 	cov.Print();
+	cov.Write("detsyst");
 
 	return 1;
 }
