@@ -230,7 +230,7 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat){
 	it = m_samples.begin();
 	for (; it != m_samples.end(); ++it){
 		MnvH1D * histo = it->second;
-		for(i = 0; i < histo->GetNbinsX(); i++){
+		for(int i = 0; i < histo->GetNbinsX(); i++){
 			m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
 			if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));
 			current_bin++;
