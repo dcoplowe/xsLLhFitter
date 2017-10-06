@@ -514,6 +514,7 @@ void FileIO::Init()
     inchain->SetBranchAddress("pi0_P", &pi0_P, &b_pi0_P);
     inchain->SetBranchAddress("pi0_cos_openingAngle", &pi0_cos_openingAngle, &b_pi0_cos_openingAngle);
     inchain->SetBranchAddress("pi0_invMass", &pi0_invMass, &b_pi0_invMass);
+    inchain->SetBranchAddress("truth_pi0_invMass", &truth_pi0_invMass, &b_truth_pi0_invMass);
     inchain->SetBranchAddress("pi0_invMass_Old", &pi0_invMass_Old, &b_pi0_invMass_Old);
     inchain->SetBranchAddress("pi0_openingAngle", &pi0_openingAngle, &b_pi0_openingAngle);
     inchain->SetBranchAddress("pi0_phi", &pi0_phi, &b_pi0_phi);

@@ -478,6 +478,7 @@ public:
         Double_t        pi0_P;
         Double_t        pi0_cos_openingAngle;
         Double_t        pi0_invMass;
+        Double_t        thruth_pi0_invMass;
         Double_t        pi0_invMass_Old;
         Double_t        pi0_openingAngle;
         Double_t        pi0_phi;
@@ -1238,6 +1239,7 @@ public:
         TBranch        *b_pi0_P;   //!
         TBranch        *b_pi0_cos_openingAngle;   //!
         TBranch        *b_pi0_invMass;   //!
+        TBranch        *b_truth_pi0_invMass;   //!
         TBranch        *b_pi0_invMass_Old;   //!
         TBranch        *b_pi0_openingAngle;   //!
         TBranch        *b_pi0_phi;   //!

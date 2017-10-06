@@ -62,7 +62,7 @@ int main()
 
 		// Want to make sure only one sample is filled in each interation
 		if(0. < reader.pi0_invMass && reader.pi0_invMass < lowMass){
-			syst.FillSample("pi0LowMass", reader.muon_E, reader.wgt);
+			syst.FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
 			syst.FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
 			syst.FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(0);
