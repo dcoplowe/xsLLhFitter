@@ -28,14 +28,14 @@ MODCPP = app/app_modelsysts.cpp
 MODALL = $(MODCPP) $(SRCS)
 MODOBJS = $(MODALL:.cpp=.o)
 
-# all: $(DET) $(MOD)
-all: $(DET)
-	@echo  $(DET) and not $(MOD) have compiled successfully.
+all: $(DET) $(MOD)
+	@echo  $(DET) and $(MOD) have compiled successfully.
+# all: $(DET)
 
 $(DET): $(DETOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
-# $(MOD): $(MODOBJS)
-# 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+$(MOD): $(MODOBJS)
+	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 .cpp.o:
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
 
