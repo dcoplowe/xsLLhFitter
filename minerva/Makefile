@@ -10,7 +10,7 @@ DIR_LIST = src src/base src/fileio
 
 # files := $(foreach dir,$(dirs),$(wildcard $(dir)/*))
 INCS = $(foreach dir, $(DIR_LIST),-I$(dir))
-INCS += src/detector src/model
+INCS += -Isrc/detector -Isrc/model
 # INCS =	-Isrc/ -Isrc/base/ -Isrc/detector/ -Isrc/model/ -Isrc/
 INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
