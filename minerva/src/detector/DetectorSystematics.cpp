@@ -7,6 +7,7 @@
 #include <TH1D.h>
 #include <TMatrixD.h>
 #include <sstream>
+#include <ErrorType.h>
 
 using std::cout;
 using std::endl;

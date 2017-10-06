@@ -6,6 +6,7 @@
 #include <vector>
 
 class TH1D;
+class ErrorType;
 
 #include <PlotUtils/MnvH1D.h> 
 #include <PlotUtils/MnvH2D.h>
