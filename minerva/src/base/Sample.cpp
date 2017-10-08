@@ -10,7 +10,8 @@ Sample::Sample(const std::string& name, const int nbins, const double x_low, con
 {
 	m_error.clear();
 
-	m_anaHist = new MnvH1D(Form("%s_anaHist", GetName()), GetNbinsX() + 2, 0, GetNbinsX() + 2);
+	int n_anabins = GetNbinsX() + 2;
+	m_anaHist = new MnvH1D(Form("%s_nbins%.3d_anaHist", GetName(), n_anabins), (double)n_anabins, 0., (double)n_anabins);
 	// Do we want to inlcude under and overflow bins in this class?
 	// This makes a histogram for each interaction/reweightable var. type if we are producing splines
 }
@@ -20,7 +21,8 @@ Sample::Sample(const std::string& name, const int nbins, const double * x_bins) 
 	m_value(-999.), m_wgt(-999.), m_start(-999), m_anabin(-999)
 {
 	m_error.clear();
-	m_anaHist = new MnvH1D(Form("%s_anaHist", GetName()), GetNbinsX() + 2, 0, GetNbinsX() + 2);
+	int n_anabins = GetNbinsX() + 2;
+	m_anaHist = new MnvH1D(Form("%s_nbins%.3d_anaHist", GetName(), n_anabins), (double)n_anabins, 0, (double)n_anabins);
 }
 
 Sample::~Sample()
