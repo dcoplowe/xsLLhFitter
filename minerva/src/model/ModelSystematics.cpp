@@ -116,7 +116,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 {
 
 	TFile ofile(outfname.c_str(), "RECREATE");
-	assert(ofile);
+	assert(ofile == 0x0);
 	ofile.cd();
 
 	string name = "";
