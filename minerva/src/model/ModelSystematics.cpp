@@ -6,11 +6,15 @@
 #include <iostream>
 #include <TGraph.h>
 #include <TH1D.h>
+#include <TFile.h>
 #include <cassert>
+#include <PlotUtils/MnvH1D.h> 
 
 using std::cout;
 using std::endl;
 using std::string;
+
+using namespace PlotUtils;
 
 ModelSystematics::ModelSystematics(const int n_genie_shifts, const bool verbose) :
 	SystematicsBase(n_genie_shifts, verbose)
