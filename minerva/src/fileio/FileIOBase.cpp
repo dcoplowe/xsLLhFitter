@@ -14,6 +14,8 @@ using std::string;
 using std::cout;
 using std::endl;
 
+const std::string FileIOBase::m_date = FileIOBase::SetDate();
+
 FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_treename, bool verbose) : inCurrent(-1), m_sample(kIniValue), m_verbose(verbose)
 {
 	cout << "FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool verbose)" << endl;
@@ -42,7 +44,6 @@ FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_tre
 	m_entries = inchain->GetEntries();
 	m_per10 = (Int_t)m_entries/10;
 
-	m_date = FileIOBase::GetDate();
 	outfile = 0x0;
 }
 
@@ -53,7 +54,7 @@ FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_sample(kIniValue), m_ver
 	inchain = 0x0;
 
 	TDatime time;
-	m_date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
+	// m_date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
 	outfile = 0x0;
 }
 
@@ -80,7 +81,7 @@ void FileIOBase::SetupOutFile(const std::string &outfilename)
 	outfile = FileIOBase::MakeOutFile(outfilename);
 }
 
-std::string FileIOBase::GetDate()
+std::string FileIOBase::SetDate()
 {
 	TDatime time;
 	std::string date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );

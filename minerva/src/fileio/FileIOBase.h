@@ -31,7 +31,7 @@ public:
 	// the filling of the Likelihood Fit ntuple)
 	TFile * outfile;
 	void SetupOutFile(const std::string &outfilename);
-	static std::string GetDate();
+	static std::string SetDate();
 	static TFile * MakeOutFile(const std::string &outfilename);
 	void SetupLLNTuple();
 	void SetSample(Int_t sample_no){ m_sample = sample_no; }
@@ -48,7 +48,7 @@ protected:
 
 private:
 	TFile * m_infile;
-	std::string	m_date;
+	static const std::string m_date;
 
 	Int_t m_sample;
 
