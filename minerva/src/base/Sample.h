@@ -51,28 +51,28 @@ public:
 	bool FillVertErrorBand(const std::string& name, const double value, const double weightDown, const double weightUp,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
 	
-	// For internally stored value:
-	bool FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
-		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
-	
-	bool FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight = 1.0,
-		const bool fillcv = true, const double *weights = 0 );
-
-	bool FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
-		const double cvweight = 1.0, const bool fillcv = true );
-	
-	bool FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-	
-	bool FillVertErrorBand(const std::string& name, const double * weights,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1.);
-
-	bool FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
-		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
-	
 	bool FillUncorrError(const std::string& name, const double value, const double err, const double cvweight = 1.0 );
-	bool FillUncorrError(const std::string& name, const double err, const double cvweight = 1.0 );
+	
+	// // For internally stored value:
+	// bool FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
+	// 	const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
+	
+	// bool FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight = 1.0,
+	// 	const bool fillcv = true, const double *weights = 0 );
 
+	// bool FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
+	// 	const double cvweight = 1.0, const bool fillcv = true );
+	
+	// bool FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
+	// 	const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+	
+	// bool FillVertErrorBand(const std::string& name, const double * weights,
+	// 	const double cvweight  = 1.0, double cvWeightFromMe = 1.);
+
+	// bool FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
+	// 	const double cvweight  = 1.0, double cvWeightFromMe = 1. );
+	// bool FillUncorrError(const std::string& name, const double err, const double cvweight = 1.0 );
+	
 	// void Fill(const double value, const double wgt);
 private:
 	// std::string m_name;
