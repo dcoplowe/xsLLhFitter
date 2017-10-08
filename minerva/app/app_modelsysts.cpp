@@ -9,7 +9,7 @@ using std::endl;
 
 int main(int argc, char const *argv[])
 {
-	std::string in_file = "ReducedNTuple_TransverseAnalysis.root"; 
+	std::string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root"; 
 	std::string in_tree = "CCProtonPi0";
 	std::string out_file = "DetSyst_Test.root";
 
