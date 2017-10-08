@@ -13,12 +13,12 @@ public:
 	ModelSystematics(const int n_genie_shifts = 7, const bool verbose = false);
 	~ModelSystematics();
 
-	bool AddLatErrorBand(const std::string& name, const int reaction_type);
-	bool AddLatErrorBandAndFillWithCV(const std::string& name, const int reaction_type);
-	bool AddVertErrorBand(const std::string& name, const int reaction_type);
-	bool AddVertErrorBandAndFillWithCV(const std::string& name, const int reaction_type);
-	bool AddUncorrError(const std::string& name, const int reaction_type);
-	bool AddUncorrErrorAndFillWithCV(const std::string& name, const int reaction_type);
+	// bool AddLatErrorBand(const std::string& name, const int reaction_type);
+	// bool AddLatErrorBandAndFillWithCV(const std::string& name, const int reaction_type);
+	// bool AddVertErrorBand(const std::string& name, const int reaction_type);
+	// bool AddVertErrorBandAndFillWithCV(const std::string& name, const int reaction_type);
+	// bool AddUncorrError(const std::string& name, const int reaction_type);
+	// bool AddUncorrErrorAndFillWithCV(const std::string& name, const int reaction_type);
 
 	bool AddLatErrorBand(const std::string& name, const std::string& reaction_type);
 	bool AddLatErrorBandAndFillWithCV(const std::string& name, const std::string& reaction_type);
