@@ -361,28 +361,30 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 				temp->Clear();
 
 				// Sample loop:
-				current_bin = 1;
+				int current_bin = 1;
 				for(it = m_samples.begin(); it != m_samples.end(); ++it){
 					MnvH1D * histo = it->second;
 					
 					// Area scale is not yet correct, need to understand if the idea is to area noramise the errors to a single sample. 
 					// Maybe only ever area normalise by the signal bin.
+					int nhists = 0;
 					double area_scale = 1.;
 					switch(er_type->GetType()){
 						case ErrorType::kLateral:
 						case ErrorType::kLateralCV:
 							area_scale = histo->Integral()/histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+							nhists = (int)histo->GetLatErrorBand( er_type->GetName() )->GetHists().size();
 							break;
 						case ErrorType::kVertical:
 						case ErrorType::kVerticalCV:
 							area_scale = histo->Integral()/histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+							nhists = (int)histo->GetVertErrorBand( er_type->GetName() )->GetHists().size();
 							break;
 						default:
 						cout << "This shouldn't evetr be called..." << endl;
 						break;
 					}
 
-					int nhists = histo->GetHists().size();
 					for(int bin = 1; bin < histo->GetNbinsX() + 1; bin++){
 						double bin_content = 0.;
 						if(nhists != 0){
