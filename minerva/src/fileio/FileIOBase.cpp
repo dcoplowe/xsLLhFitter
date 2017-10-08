@@ -14,7 +14,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_treename, bool verbose) : inCurrent(-1), m_sample(kIniValue) m_verbose(verbose)
+FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_treename, bool verbose) : inCurrent(-1), m_sample(kIniValue), m_verbose(verbose)
 {
 	cout << "FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool verbose)" << endl;
 	
@@ -46,7 +46,7 @@ FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_tre
 	outfile = 0x0;
 }
 
-FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_verbose(verbose)
+FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_sample(kIniValue), m_verbose(verbose)
 {
 	cout << "FileIOBase::FileIOBase(bool verbose)" << endl;
 	m_infile = 0x0;
