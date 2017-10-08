@@ -2,6 +2,7 @@
 #define __MODELSYSTEMATICS_CPP__
 
 #include <ModelSystematics.h>
+#include <Sample.h>
 
 #include <iostream>
 #include <TGraph.h>
