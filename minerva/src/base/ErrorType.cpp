@@ -10,7 +10,7 @@ ErrorType::ErrorType(const std::string &name, const int n_universes, const Type 
 
 ErrorType::~ErrorType()
 {
-	m_fill_sample.clear();
+	m_fill_samples.clear();
 }
 
 #endif
