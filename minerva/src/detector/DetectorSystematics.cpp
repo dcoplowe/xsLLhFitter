@@ -212,7 +212,8 @@ void DetectorSystematics::Prepare()
 	// }
 }
 
-void DetectorSystematics::BuildAnaHist(const bool includeStat) const{
+void DetectorSystematics::BuildAnaHist(const bool includeStat)
+{
 	// Get total number of bins from samples:
 	int tot_bins = 0;
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
@@ -245,11 +246,11 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat) const{
 	m_anaHist = new MnvH1D(*m_HanaHist);
 }
 
-TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool asFrac, const bool cov_area_normalize) const
+TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool asFrac, const bool cov_area_normalize)
 {
 	if(!m_anaHist){
 		cout << __FILE__ << ":" << __LINE__ << " : Warning : No histogram made. Building using " << m_samples.size() << " samples." << endl;
-		this->BuildAnaHist(includeStat);
+		BuildAnaHist(includeStat);
 
 		if(!m_anaHist){
 			cout << __FILE__ << ":" << __LINE__ << " : Error : Could not building n sample histogram." << endl;
@@ -458,10 +459,4 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 	} //m_errors loop
 	return m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
 }
-
-// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
-// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 #endif

@@ -31,9 +31,9 @@ public:
 
 	void GetReady();
 
-	void BuildAnaHist(const bool includeStat = true) const;
+	void BuildAnaHist(const bool includeStat = true);
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
-	TMatrixD GetCovMatrix(const bool includeStat = true, const bool asFrac = false, const bool cov_area_normalize = false) const;
+	TMatrixD GetCovMatrix(const bool includeStat = true, const bool asFrac = false, const bool cov_area_normalize = false);
 
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
@@ -46,6 +46,7 @@ private:
 
 	void Prepare();
 	bool m_anaHist_set;
+	// This is shit, should try and move away from mutables:
 	TH1D * m_HanaHist;
 	MnvH1D * m_anaHist;	
 
