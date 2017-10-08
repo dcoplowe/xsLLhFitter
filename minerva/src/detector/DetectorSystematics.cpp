@@ -38,11 +38,6 @@ DetectorSystematics::~DetectorSystematics()
 	if(m_anaHist) delete m_anaHist;
 }
 
-void DetectorSystematics::Run()
-{
-	cout << "DetectorSystematics::Run()" << endl;
-}
-
 void DetectorSystematics::GetReady()
 {
 	m_isready = true;
