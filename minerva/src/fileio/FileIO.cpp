@@ -6,6 +6,7 @@
 #include <iostream>
 #include <TTree.h>
 #include <TBranch.h>
+#include <cassert>
 
 using std::cout;
 using std::endl;
@@ -18,6 +19,13 @@ void FileIO::InitLLNTuple()
     
     // This are the analysis bins:
     // If doing the 
+    // Want to set these vars in main scope: Need to think about how this is set, probably need to be global vars in base, could then
+    // set the vars in get entry
+    Double_t D1true = kIniValue;
+    Double_t D1Reco = kIniValue;
+    Double_t D2true = kIniValue;
+    Double_t D2Reco = kIniValue;
+
     m_LLtuple->Branch("D1True", &D1true, ("D1True/F"));
     m_LLtuple->Branch("D1Rec", &D1Reco, ("D1Rec/F"));
     m_LLtuple->Branch("D2True", &D2true, ("D2True/F"));
@@ -26,6 +34,7 @@ void FileIO::InitLLNTuple()
     // Other branches used by fitter:
     Int_t mectopology = kIniValue;
 
+    // Analysis cut branches:
     m_LLtuple->Branch("reaction",       &mc_intType, "reaction/I");
     m_LLtuple->Branch("mectopology",    &mectopology, "mectopology/I");
     m_LLtuple->Branch("muMomRec",       &muon_P, "muMomRec/F");

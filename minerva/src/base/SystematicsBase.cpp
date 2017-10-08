@@ -11,14 +11,14 @@ using std::cout;
 using std::endl;
 
 SystematicsBase::SystematicsBase(const int n_universes, const bool verbose) : m_Nuniverses(n_universes), m_verbose(verbose),
-	m_CurrentSample(""), m_isready(false) // , m_counter(-1)
+	m_isready(false), m_CurrentSample("") // , m_counter(-1)
 {
 	cout << "SystematicsBase::SystematicsBase(int n_universes, bool verbose)" << endl;
 	m_samples.clear();
 	// m_sample_map.clear();
 }
 
-SystematicsBase::SystematicsBase(const bool verbose) :  m_Nuniverses(1), m_verbose(verbose), m_CurrentSample(""), m_isready(false)
+SystematicsBase::SystematicsBase(const bool verbose) :  m_Nuniverses(1), m_verbose(verbose), m_isready(false), m_CurrentSample("")
 {
 	cout << "SystematicsBase::SystematicsBase(bool verbose)" << endl;
 	m_samples.clear();

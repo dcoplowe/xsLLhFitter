@@ -478,7 +478,7 @@ public:
         Double_t        pi0_P;
         Double_t        pi0_cos_openingAngle;
         Double_t        pi0_invMass;
-        Double_t        thruth_pi0_invMass;
+        Double_t        truth_pi0_invMass;
         Double_t        pi0_invMass_Old;
         Double_t        pi0_openingAngle;
         Double_t        pi0_phi;
