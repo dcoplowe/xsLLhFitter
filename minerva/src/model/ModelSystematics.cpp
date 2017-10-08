@@ -89,7 +89,7 @@ bool ModelSystematics::AddUncorrErrorAndFillWithCV(const std::string& name, cons
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
 	for (; it != m_samples.end(); ++it){ 
 		if(it->first.find(reaction_type) == string::npos) continue;
-		if(it->second->AddUncorrErrorAndFillWithCV(name, m_Nuniverses) ) counter++;
+		if(it->second->AddUncorrErrorAndFillWithCV(name)) counter++;
 	}
 	return (counter == m_Nuniverses);
 }
