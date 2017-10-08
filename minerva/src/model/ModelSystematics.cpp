@@ -144,7 +144,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 				// We include under and overflow bins here (may be 1);
 				for(int tbins = 0; tbins < ntbins + 2; tbins++){
 					name = Form("%s_%s_b%.3d_nb%.3d", it->first.c_str(), error.c_str(), tbins, ntbins);
-					TGraph * res = MakeResFunc(hist_list, bin);
+					TGraph * res = MakeResFunc(hist_list, tbins);
 					res->SetName( name.c_str() );
 					res->Write();
 					delete res;
