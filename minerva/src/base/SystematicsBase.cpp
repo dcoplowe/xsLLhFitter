@@ -145,7 +145,7 @@ bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::
 	bool pass = false;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
-		if( it->second->FillVertErrorBand(name, value, weightDown, weightUp, cvweight, cvWeightFromMee) ) pass = true;
+		if( it->second->FillVertErrorBand(name, value, weightDown, weightUp, cvweight, cvWeightFromMe) ) pass = true;
 	}
 	return pass;
 }

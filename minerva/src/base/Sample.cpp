@@ -56,7 +56,6 @@ bool Sample::FillLatErrorBand(const std::string& name, const double value, const
 	return (h1_fill && h2_fill);
 }
 
-
 bool Sample::FillLatErrorBand(const std::string& name, const double value, const double shiftDown, const double shiftUp,
 	const double cvweight, const bool fillcv)
 {
