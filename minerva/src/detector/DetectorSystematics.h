@@ -19,7 +19,7 @@ public:
 	DetectorSystematics(bool verbose = true);
 	~DetectorSystematics();
 
-	void Run();
+	// void Run();
 
 	// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 	bool AddLatErrorBand(const std::string& name, const int n_universes = -999, const std::string &fill_samples = "");

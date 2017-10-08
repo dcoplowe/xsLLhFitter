@@ -13,7 +13,7 @@ public:
 	SystematicsBase(const int n_universes, const bool verbose);
 	SystematicsBase(const bool verbose);
 	~SystematicsBase();
-	virtual void Run() = 0;
+	// virtual void Run() = 0;
 
 	void SetNUniverses(const int var){ m_Nuniverses = var; }
 	void AddSample(const std::string &name, const int nbins, const double x_low, const double x_high);
@@ -44,7 +44,7 @@ protected:
 	// std::vector<Sample*> m_samples;
 	// std::map<std::string, int> m_sample_map;
 	bool IsUniqueSample(const std::string &name);
-	virtual	void Prepare() = 0;
+	// virtual	void Prepare() = 0;
 
 	bool m_isready;
 	double m_value;
