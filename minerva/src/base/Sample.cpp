@@ -36,8 +36,8 @@ int Sample::Fill(const double var, const double wgt)
 	m_value = var;
 	m_wgt = wgt;
 	m_anabin = GetXaxis()->FindBin(m_value) + 1;
-	MnvH1D::Fill(m_value, m_wgt);
 	m_anaHist->Fill(m_anabin, m_wgt);
+	return MnvH1D::Fill(m_value, m_wgt);
 }
 
 bool Sample::FillLatErrorBand(const std::string& name, cosnt double value, const std::vector<double>& shifts,
