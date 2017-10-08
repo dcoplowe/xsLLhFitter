@@ -40,7 +40,7 @@ int Sample::Fill(const double var, const double wgt)
 	return MnvH1D::Fill(m_value, m_wgt);
 }
 
-bool Sample::FillLatErrorBand(const std::string& name, cosnt double value, const std::vector<double>& shifts,
+bool Sample::FillLatErrorBand(const std::string& name, const double value, const std::vector<double>& shifts,
 	const double cvweight, const bool fillcv, const double *weights)
 {
 	bool h1_fill = MnvH1D::FillLatErrorBand(name, value, shifts, cvweight, fillcv, weights);
