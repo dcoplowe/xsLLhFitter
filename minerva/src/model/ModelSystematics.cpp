@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <TGraph.h>
+#include <TH1D.h>
 #include <cassert>
 
 using std::cout;
