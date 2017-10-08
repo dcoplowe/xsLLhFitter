@@ -212,7 +212,7 @@ void DetectorSystematics::Prepare()
 	// }
 }
 
-void DetectorSystematics::BuildAnaHist(const bool includeStat){
+void DetectorSystematics::BuildAnaHist(const bool includeStat) const{
 	// Get total number of bins from samples:
 	int tot_bins = 0;
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
