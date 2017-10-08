@@ -341,7 +341,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 					exit(0);
 				}
 
-				if(nhist != er_nhists){// could also do nhists == 0
+				if(nhists != er_nhists){// could also do nhists == 0
 					// For the case where we have a sample with no error of type
 					same_universes = false;
 				}
@@ -403,7 +403,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 							}
 							if(cov_area_normalize) bin_content *= area_scale;
 						}
-						else if(er_type->>GetType() == ErrorType::kUnCorError || er_type->>GetType() == ErrorType::kUnCorErrorCV){
+						else if(er_type->GetType() == ErrorType::kUnCorError || er_type->GetType() == ErrorType::kUnCorErrorCV){
 							if(histo->HasUncorrError( er_type->GetName() ) ) 
 								bin_content = histo->GetUncorrError( er_type->GetName() )->GetBinContent(bin);
 							else
