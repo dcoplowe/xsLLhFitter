@@ -27,7 +27,7 @@ public:
 	bool AddUncorrError(const std::string& name, const std::string& reaction_type);
 	bool AddUncorrErrorAndFillWithCV(const std::string& name, const std::string& reaction_type);
 
-	void BuildResponses();
+	void BuildResponses(const std::string &outfname);
 
 private:
 	TGraph * MakeResFunc(const std::vector<TH1D*> & hists, const int bin);

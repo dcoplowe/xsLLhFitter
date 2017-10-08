@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <TGraph.h>
+#include <cassert>
 
 using std::cout;
 using std::endl;
@@ -109,6 +110,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 {
 
 	TFile ofile(outfname.c_str(), "RECREATE");
+	assert(ofile);
 	ofile.cd();
 
 	string name = "";
@@ -151,23 +153,3 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 }
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
