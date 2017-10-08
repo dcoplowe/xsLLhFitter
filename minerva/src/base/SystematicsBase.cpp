@@ -18,7 +18,7 @@ SystematicsBase::SystematicsBase(const int n_universes, const bool verbose) : m_
 	// m_sample_map.clear();
 }
 
-SystematicsBase::SystematicsBase(const bool verbose) :  m_Nuniverses(1), m_verbose(verbose), m_isready(false), m_CurrentSample("")
+SystematicsBase::SystematicsBase(const bool verbose) : m_Nuniverses(1), m_verbose(verbose), m_isready(false), m_CurrentSample("")
 {
 	cout << "SystematicsBase::SystematicsBase(bool verbose)" << endl;
 	m_samples.clear();
