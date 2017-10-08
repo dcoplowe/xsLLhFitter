@@ -8,13 +8,13 @@
 #include <TH1D.h>
 #include <TFile.h>
 #include <cassert>
-#include <PlotUtils/MnvH1D.h> 
+// #include <PlotUtils/MnvH1D.h> 
 
 using std::cout;
 using std::endl;
 using std::string;
 
-using namespace PlotUtils;
+// using namespace PlotUtils;
 
 ModelSystematics::ModelSystematics(const int n_genie_shifts, const bool verbose) :
 	SystematicsBase(n_genie_shifts, verbose)
@@ -126,7 +126,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
 	for(; it != m_samples.end(); it++){
-		MnvH1D * sam = it->second;
+		Sample * sam = it->second;
 		// Finish this tomorrow:
 		// For each sam retrieve all the systs and make a response function
 		for(int type = 0; type < 2; type++){
