@@ -22,7 +22,7 @@ Sample::Sample(const std::string& name, const int nbins, const double * x_bins) 
 {
 	m_error.clear();
 	int n_anabins = GetNbinsX() + 2;
-	m_anaHist = new MnvH1D(Form("%s_nbins%.3d_anaHist", GetName(), n_anabins), "", n_anabins, 0, (double)n_anabins);
+	m_anaHist = new MnvH1D(Form("%s_nbins%.3d_anaHist", GetName(), n_anabins), "", n_anabins, 0., (double)n_anabins);
 }
 
 Sample::~Sample()
