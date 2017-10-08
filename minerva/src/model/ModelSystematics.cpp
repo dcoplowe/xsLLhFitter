@@ -116,7 +116,10 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 {
 
 	TFile ofile(outfname.c_str(), "RECREATE");
-	assert(ofile == 0x0);
+	if(ofile.IsZombie()){
+		cout << __FILE__ << ":" << __LINE__ << " : Error : Could not create file named " << outfname << endl;
+		exit(0);
+	}
 	ofile.cd();
 
 	string name = "";
