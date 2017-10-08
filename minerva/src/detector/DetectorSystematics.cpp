@@ -179,7 +179,7 @@ ErrorType * DetectorSystematics::FindError(const std::string &name)
 {
 	for(size_t i = 0; i < m_errors.size(); i++){
 		ErrorType * tmp = m_errors[i];//->GetName();
-		if(tmp->GetName().compare(tmp_name) == 0) return tmp;
+		if(tmp->GetName().compare(name) == 0) return tmp;
 	}
 	return new ErrorType(); 
 }
@@ -249,7 +249,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 {
 	if(!m_anaHist){
 		cout << __FILE__ << ":" << __LINE__ << " : Warning : No histogram made. Building using " << m_samples.size() << " samples." << endl;
-		BuildAnaHist(includeStat);
+		this->BuildAnaHist(includeStat);
 
 		if(!m_anaHist){
 			cout << __FILE__ << ":" << __LINE__ << " : Error : Could not building n sample histogram." << endl;
@@ -258,8 +258,8 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 	}
 
 	// Check that all the samples have the same errors:	
-	for(size_t er = 0; er < m_error.size(); er++){
-		ErrorType * er_type = m_error[i];
+	for(size_t er = 0; er < m_errors.size(); er++){
+		ErrorType * er_type = m_errors[er];
 
 		// int er_nhists_tot = 0;
 		int er_nhists = 0;
@@ -455,7 +455,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			}
 			new_erhists.empty();
 		} //er_nhists > 0	
-	} //m_error loop
+	} //m_errors loop
 	return m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
 }
 
