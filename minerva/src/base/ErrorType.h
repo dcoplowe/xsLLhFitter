@@ -22,9 +22,9 @@ private:
 	std::vector<std::string> m_fill_samples;
 };
 
-bool operator==(const ErrorType& lhs, const ErrorType& rhs)
-{
-    return ( lhs.GetName().compare( rhs.GetName() ) == 0 );
-}
+// bool operator==(const ErrorType& lhs, const ErrorType& rhs)
+// {
+//     return ( lhs.GetName().compare( rhs.GetName() ) == 0 );
+// }
 
 #endif
