@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
 
 	for(int i = 0; i < nInts; i++){
 		syst.AddSample(Form("pi0LowMass_I%.1d", i), nlowMass_bins, 0.,      lowMass);
-		syst.AddSample(Form("signal_I%.1d", i), nsigMass_bins, lowMass, higMass);
+		syst.AddSample(Form("signal_I%.1d", i), 	nsigMass_bins, lowMass, higMass);
 		syst.AddSample(Form("pi0HigMass_I%.1d", i), nhigMass_bins, higMass, maxMass);		
 	}
 
@@ -43,9 +43,10 @@ int main(int argc, char const *argv[])
 	syst.AddVertErrorBand("Rvn1pi", "_I1");
 
 	Int_t entries = reader.GetEntries();
-	Int_t per10 = (Int_t)entries/10;
+	Int_t loop_size = 1000;
+	reader.SetMaxEntries(loop_size);
 
-	for(Int_t i = 0; i < 100; i++){
+	for(Int_t i = 0; i < loop_size; i++){
 		// syst.GetReady();
 		reader.GetEntry(i);
 
@@ -89,12 +90,8 @@ int main(int argc, char const *argv[])
 			cout << "Warning Bad Range: " << reader.truth_pi0_invMass << endl;
 		}
 	}
-
 	cout << "Finished Loop" << endl;
-
 	// Now we want to produce the response functions:
-
-
 	return 1;
 }
 

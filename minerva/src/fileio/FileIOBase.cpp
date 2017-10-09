@@ -41,7 +41,8 @@ FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_tre
 	// Init();
 	m_LLtuple = 0x0;
 
-	m_entries = inchain->GetEntries();
+	m_totentries = inchain->GetEntries();
+	m_entries = m_totentries;
 	m_per10 = (Int_t)m_entries/10;
 
 	outfile = 0x0;
@@ -169,6 +170,16 @@ void FileIOBase::Fill()
 void FileIOBase::Write()
 {
 	m_LLtuple->Write();
+}
+
+void FileIOBase::SetMaxEntries(Long64_t max_entries){ 
+	m_entries = (Int_t)max_entries;
+	m_per10 = (Int_t)m_entries/10; 
+}
+
+void FileIOBase::ResetMaxEntries(){ 
+	m_entries = (Int_t)m_totentries;
+	m_per10 = (Int_t)m_entries/10; 
 }
 
 #endif

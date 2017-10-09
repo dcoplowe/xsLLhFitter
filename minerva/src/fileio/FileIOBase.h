@@ -26,6 +26,8 @@ public:
 
 	Int_t    GetEntry(Long64_t entry);
 	Long64_t GetEntries();
+	void SetMaxEntries(Long64_t max_entries);
+	void ResetMaxEntries();
 
 	// Outfile stuff: (Can use alone of as part of class, idea of using with class is for
 	// the filling of the Likelihood Fit ntuple)
@@ -52,6 +54,7 @@ private:
 
 	Int_t m_sample;
 
+	Long64_t m_totentries;
 	Int_t m_entries;
 	Int_t m_per10;
 };
