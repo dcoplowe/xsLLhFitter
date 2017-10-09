@@ -69,6 +69,7 @@ void SystematicsBase::FillSample(const std::string &name, const double val, cons
     	m_wgt = weight;
     	it->second->Fill(m_value, m_wgt);
     	m_CurrentSample = it->first;
+    	cout << "Filling Sample: " << it->first;
     }
     else{
     	cout << __FILE__ << ":" << __LINE__ << " : ERROR Couldn't fill sample: \"" << name << ".\" Unable to find." << endl;
