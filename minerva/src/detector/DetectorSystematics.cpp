@@ -96,7 +96,7 @@ bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_
 			it->second->AddError(tmp_et);
 			if(it->second->AddVertErrorBand(tmp_name, n_universes )){ 
 				counter++;
-				cout << " Success " <<;
+				cout << " Success ";
 			}
 			cout << endl;
 		}
