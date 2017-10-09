@@ -47,9 +47,9 @@ int main()
 	// ofile->cd();
 	// // reader.SetupLLNTuple();
 
-	// syst.AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
-	// syst.AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
-	// // syst.AddLatErrorBand("MINOS Energy error");
+	syst.AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
+	syst.AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
+	// syst.AddLatErrorBand("MINOS Energy error");
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
@@ -66,29 +66,28 @@ int main()
 		// var in fill Vert/Lat error. May be problematic?
 
 		// Want to make sure only one sample is filled in each interation
-		// if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
-		// 	// cout << "Filling Sample pi0LowMass" << endl;
-		// 	// syst.FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
-		// 	// syst.FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-		// 	// syst.FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
-		// 	// reader.SetSample(0);
-		// }
-		// else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
-		// 	// syst.FillSample("signal", reader.pi0_invMass, reader.wgt);
-		// 	// syst.FillVertErrorBand("signal", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-		// 	// syst.FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
-		// 	// reader.SetSample(1);
-		// }
-		// else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
-		// 	// syst.FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
-		// 	// syst.FillVertErrorBand("pi0HigMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-		// 	// syst.FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
-		// 	// reader.SetSample(2);
-		// }
-		// else{
-		// 	cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
-		// 	// reader.SetSample(3);
-		// }
+		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
+			syst.FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
+			// syst.FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			// syst.FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			// reader.SetSample(0);
+		}
+		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
+			syst.FillSample("signal", reader.pi0_invMass, reader.wgt);
+			// syst.FillVertErrorBand("signal", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			// syst.FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			// reader.SetSample(1);
+		}
+		else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
+			syst.FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
+			// syst.FillVertErrorBand("pi0HigMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			// syst.FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			// reader.SetSample(2);
+		}
+		else{
+			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
+			// reader.SetSample(3);
+		}
 		// cout << "Now filling tree." << endl;
 		// reader.Fill();
 	}
