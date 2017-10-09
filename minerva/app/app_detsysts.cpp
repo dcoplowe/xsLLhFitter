@@ -97,8 +97,8 @@ int main()
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
-	TMatrixD cov = syst.GetCovMatrix();
-	cov.Print();
+	// TMatrixD cov = syst.GetCovMatrix();
+	// cov.Print();
 	// cov.Write("detsyst");
 
 	// ofile->Close();
