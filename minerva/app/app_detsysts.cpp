@@ -97,7 +97,7 @@ int main()
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
-	// TMatrixD cov = syst.GetCovMatrix();
+	TMatrixD cov = syst.GetCovMatrix();
 	// cov.Print();
 	// cov.Write("detsyst");
 
@@ -106,3 +106,7 @@ int main()
 
 	return 1;
 }
+
+
+// #9  0x000000000042b86d in FileIOBase::~FileIOBase (this=0x7fffa8f76e60, __in_chrg=<value optimized out>) at src/fileio/FileIOBase.cpp:66
+// #10 0x000000000041729e in FileIO::~FileIO (this=0x7fffa8f76e60, __in_chrg=<value optimized out>) at src/fileio/FileIO.h:12
