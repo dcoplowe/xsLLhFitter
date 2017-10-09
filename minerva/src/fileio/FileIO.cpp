@@ -832,5 +832,8 @@ void FileIO::Init()
     inchain->SetBranchAddress("prong_part_mass", prong_part_mass, &b_prong_part_mass);
     inchain->SetBranchAddress("prong_part_charge", prong_part_charge, &b_prong_part_charge);
     inchain->SetBranchAddress("prong_part_pid", prong_part_pid, &b_prong_part_pid);
+
+        // This is so that we always have the size elements initialised.
+    inchain->GetEntry(0);
 }
 #endif
