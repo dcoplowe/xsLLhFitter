@@ -63,8 +63,11 @@ FileIOBase::~FileIOBase()
 {
 	if(m_infile->IsOpen()){
 		// delete inchain; 
+		cout << "FileIOBase::~FileIOBase() : Closing file" << endl;
 		m_infile->Close();
+		cout << "FileIOBase::~FileIOBase() : Success" << endl;
 		delete m_infile;
+		cout << "FileIOBase::~FileIOBase() : deleted m_infile" << endl;
 	}
 
 	if(outfile){
