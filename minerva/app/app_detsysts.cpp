@@ -22,7 +22,7 @@ int main()
 	// WTf do I mean here??? IDIOT
 	// Ah the number of toys is the systname_sz
 
-	DetectorSystematics * syst = new DetectorSystematics(verbose);
+	DetectorSystematics * syst = new DetectorSystematics(100, verbose);
 
 	// Ozgur's signal:
 	// In ten's of MeV
