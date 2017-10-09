@@ -11,14 +11,14 @@ using std::cout;
 using std::endl;
 
 SystematicsBase::SystematicsBase(const int n_universes, const bool verbose) : m_Nuniverses(n_universes), m_verbose(verbose),
-	m_isready(false), m_CurrentSample("") // , m_counter(-1)
+	m_CurrentSample("") // , m_counter(-1)
 {
 	cout << "SystematicsBase::SystematicsBase(int n_universes, bool verbose)" << endl;
 	m_samples.clear();
 	// m_sample_map.clear();
 }
 
-SystematicsBase::SystematicsBase(const bool verbose) : m_Nuniverses(1), m_verbose(verbose), m_isready(false), m_CurrentSample("")
+SystematicsBase::SystematicsBase(const bool verbose) : m_Nuniverses(1), m_verbose(verbose), m_CurrentSample("")
 {
 	cout << "SystematicsBase::SystematicsBase(bool verbose)" << endl;
 	m_samples.clear();
@@ -61,13 +61,6 @@ bool SystematicsBase::IsUniqueSample(const std::string &name)
 
 void SystematicsBase::FillSample(const std::string &name, const double val, const double weight)
 {
-	// Prepare();
-
-	if(!m_isready){
-		cout << "SystematicsBase::GetReady() : Not Called at start of for loop! Needed to produce systematics" << endl;
-		exit(0);
-	}
-
 	m_value = -999.;
 	m_wgt = -999.;
 	std::map<std::string, Sample*>::iterator it = m_samples.find( name );

@@ -29,8 +29,6 @@ public:
 	bool AddUncorrError(const std::string& name, const std::string &fill_samples = "");
 	bool AddUncorrErrorAndFillWithCV(const std::string& name, const std::string &fill_samples = "");
 
-	void GetReady();
-
 	void BuildAnaHist(const bool includeStat = true);
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
 	TMatrixD GetCovMatrix(const bool includeStat = true, const bool asFrac = false, const bool cov_area_normalize = false);

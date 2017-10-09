@@ -46,7 +46,6 @@ protected:
 	bool IsUniqueSample(const std::string &name);
 	// virtual	void Prepare() = 0;
 
-	bool m_isready;
 	double m_value;
     double m_wgt;
 	std::string m_CurrentSample;

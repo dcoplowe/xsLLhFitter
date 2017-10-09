@@ -38,12 +38,6 @@ DetectorSystematics::~DetectorSystematics()
 	if(m_anaHist) delete m_anaHist;
 }
 
-void DetectorSystematics::GetReady()
-{
-	m_isready = true;
-	// Need to reset the fill counters
-}
-
 bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;

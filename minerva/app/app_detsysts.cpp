@@ -88,6 +88,8 @@ int main()
 			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
 			reader.SetSample(3);
 		}
+
+		cout << "Now filling tree." << endl;
 		reader.Fill();
 	}
 
