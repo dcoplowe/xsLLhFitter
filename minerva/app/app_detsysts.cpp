@@ -34,10 +34,10 @@ int main()
 	int nsigMass_bins = (int)(higMass - lowMass)/10.;
 	int nhigMass_bins = (int)(maxMass - higMass)/10.;
 
-	// syst.AddSample("pi0LowMass", nlowMass_bins, 0.,      lowMass);
-	// syst.AddSample("signal",  	 nsigMass_bins, lowMass, higMass);
-	// syst.AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass);
-	// // syst.AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass);
+	syst.AddSample("pi0LowMass", nlowMass_bins, 0.,      lowMass);
+	syst.AddSample("signal",  	 nsigMass_bins, lowMass, higMass);
+	syst.AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass);
+	
 	// Both his sidebands:
 	// syst.AddSample("sideband",  100, 10000., 20000.);
 
