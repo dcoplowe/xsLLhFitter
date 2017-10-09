@@ -22,6 +22,7 @@ DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose
 	cout << "DetectorSystematics::DetectorSystematics(bool verbose)" << endl;
 	m_errors.clear();
 	m_anaHist = 0x0;
+	m_HanaHist = 0x0;
 }
 
 DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : SystematicsBase(n_universes, verbose), m_counter(-1),
