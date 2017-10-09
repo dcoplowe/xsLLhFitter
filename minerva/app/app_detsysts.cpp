@@ -45,7 +45,7 @@ int main()
 
 	TFile * ofile = FileIO::MakeOutFile(out_file);
 	ofile->cd();
-	reader.SetupLLNTuple();
+	// reader.SetupLLNTuple();
 
 	syst.AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	syst.AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
@@ -71,39 +71,41 @@ int main()
 			syst.FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
 			// syst.FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
 			// syst.FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
-			reader.SetSample(0);
+			// reader.SetSample(0);
 		}
 		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
 			syst.FillSample("signal", reader.pi0_invMass, reader.wgt);
 			// syst.FillVertErrorBand("signal", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
 			// syst.FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
-			reader.SetSample(1);
+			// reader.SetSample(1);
 		}
 		else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
 			syst.FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
 			// syst.FillVertErrorBand("pi0HigMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
 			// syst.FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
-			reader.SetSample(2);
+			// reader.SetSample(2);
 		}
 		else{
 			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
-			reader.SetSample(3);
+			// reader.SetSample(3);
 		}
 
 		cout << "Now filling tree." << endl;
-		reader.Fill();
+		// reader.Fill();
 	}
 
-	reader.Write();
+	// reader.Write();
 
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	TMatrixD cov = syst.GetCovMatrix();
-	cov.Print();
+	// cov.Print();
 	cov.Write("detsyst");
 
 	ofile->Close();
 	delete ofile;
+
+	
 
 	return 1;
 }
