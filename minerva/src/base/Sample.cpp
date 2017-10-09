@@ -67,6 +67,7 @@ bool Sample::FillLatErrorBand(const std::string& name, const double value, const
 bool Sample::FillVertErrorBand(const std::string& name, const double value, const std::vector<double>& weights,
 	const double cvweight, double cvWeightFromMe)
 {
+	cout << "Filling name " << name << " value = " << value << endl;
 	bool h1_fill = MnvH1D::FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe);
 	bool h2_fill = true; //m_anaHist->FillVertErrorBand(name, GetXaxis()->FindBin(value) + 1, weights, cvweight, cvWeightFromMe);
 	return (h1_fill && h2_fill);
@@ -75,6 +76,7 @@ bool Sample::FillVertErrorBand(const std::string& name, const double value, cons
 bool Sample::FillVertErrorBand(const std::string& name, const double value, const double * weights,
 	const double cvweight, double cvWeightFromMe)
 {
+	cout << "Filling name " << name << " value = " << value << endl;
 	bool h1_fill = MnvH1D::FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe);
 	bool h2_fill = true; //m_anaHist->FillVertErrorBand(name, GetXaxis()->FindBin(value) + 1, weights, cvweight, cvWeightFromMe);
 	return (h1_fill && h2_fill);
@@ -83,6 +85,7 @@ bool Sample::FillVertErrorBand(const std::string& name, const double value, cons
 bool Sample::FillVertErrorBand(const std::string& name, const double value, const double weightDown, const double weightUp,
 	const double cvweight, double cvWeightFromMe)
 {
+	cout << "Filling name " << name << " value = " << value << endl;
 	bool h1_fill = MnvH1D::FillVertErrorBand(name, value, weightDown, weightUp, cvweight, cvWeightFromMe);
 	bool h2_fill = true; //m_anaHist->FillVertErrorBand(name, GetXaxis()->FindBin(value) + 1, weightDown, weightUp, cvweight, cvWeightFromMe);
 	return (h1_fill && h2_fill);
