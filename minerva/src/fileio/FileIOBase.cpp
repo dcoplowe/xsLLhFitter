@@ -62,7 +62,7 @@ FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_verbose(verbose), m_samp
 FileIOBase::~FileIOBase()
 {
 	if(m_infile->IsOpen()){
-		delete inchain; 
+		// delete inchain; 
 		m_infile->Close();
 		delete m_infile;
 	}
