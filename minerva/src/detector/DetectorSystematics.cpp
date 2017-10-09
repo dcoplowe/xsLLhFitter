@@ -52,7 +52,7 @@ bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_u
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
 			it->second->AddError(tmp_et);
-			if(it->second->AddLatErrorBand(tmp_name, (n_universes == -999 ? m_Nuniverses : n_universes) ) ) counter++;
+			if(it->second->AddLatErrorBand(tmp_name, n_universes ) ) counter++;
 		}
 		(void)fill_samples;
 	}
@@ -71,7 +71,7 @@ bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, 
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
 			it->second->AddError(tmp_et);
-			if(it->second->AddLatErrorBandAndFillWithCV(tmp_name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+			if(it->second->AddLatErrorBandAndFillWithCV(tmp_name, n_universes )) counter++;
 		}
 		(void)fill_samples;
 	}
@@ -84,15 +84,23 @@ bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_
 
 	string tmp_name = name + m_ver_name;
 	if(IsUniqueError(tmp_name)){ 
+		if(m_verbose) cout << "Add Var Error Band: " << tmp_name << endl;
+
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kVertical);
 		m_errors.push_back(tmp_et);
 	
+		cout << "Adding to sample(s): ";
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
+			cout << it->first;
 			it->second->AddError(tmp_et);
-			if(it->second->AddVertErrorBand(tmp_name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+			if(it->second->AddVertErrorBand(tmp_name, n_universes )){ 
+				counter++;
+				cout << " Success ";
+			}
 		}
 		(void)fill_samples;
+		cout << endl;
 	}
 	return (counter == m_samples.size());
 }
@@ -109,7 +117,7 @@ bool DetectorSystematics::AddVertErrorBandAndFillWithCV(const std::string& name,
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
 			it->second->AddError(tmp_et);
-			if(it->second->AddVertErrorBandAndFillWithCV(tmp_name, (n_universes == -999 ? m_Nuniverses : n_universes) )) counter++;
+			if(it->second->AddVertErrorBandAndFillWithCV(tmp_name, n_universes )) counter++;
 		}
 		(void)fill_samples;
 	}
