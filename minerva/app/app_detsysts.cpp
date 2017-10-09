@@ -13,7 +13,7 @@ using std::endl;
 // int main(int argc, char const *argv[])
 int main()
 {
-	std::string in_file = "ReducedNTuple_TransverseAnalysis.root"; 
+	std::string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root"; 
 	std::string in_tree = "CCProtonPi0";
 	std::string out_file = "DetSyst_Test.root";
 	bool verbose = true;
@@ -53,9 +53,12 @@ int main()
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
-	Int_t entries = reader.GetEntries();
+	// Int_t entries = reader.GetEntries();
+	// Int_t entries = reader.GetEntries();
+	Int_t loop_size = 1000;
+	reader.SetMaxEntries(loop_size);
 
-	for(Int_t i = 0; i < 100; i++){
+	for(Int_t i = 0; i < loop_size; i++){
 		// syst.GetReady();
 		reader.GetEntry(i);
 		cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
@@ -63,7 +66,7 @@ int main()
 		// var in fill Vert/Lat error. May be problematic?
 
 		// Want to make sure only one sample is filled in each interation
-		if(0. < reader.pi0_invMass && reader.pi0_invMass < lowMass){
+		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
 			syst.FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
 			syst.FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
 			syst.FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
@@ -75,7 +78,7 @@ int main()
 			syst.FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(1);
 		}
-		else if(higMass < reader.pi0_invMass && reader.pi0_invMass < maxMass){
+		else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
 			syst.FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
 			syst.FillVertErrorBand("pi0HigMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
 			syst.FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
