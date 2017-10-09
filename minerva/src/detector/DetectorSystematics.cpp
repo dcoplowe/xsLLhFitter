@@ -204,15 +204,24 @@ void DetectorSystematics::Prepare()
 void DetectorSystematics::BuildAnaHist(const bool includeStat)
 {
 	// Get total number of bins from samples:
+
+	if(m_verbose) cout << "Destroying analysis hist, if one exists" << endl;
+	if(m_HanaHist){
+		delete m_HanaHist;
+		m_HanaHist = 0x0;
+		if(m_verbose) cout << "Found and Destoyed m_HanaHist!" << endl;
+	}
+
+	if(m_verbose){ 
+		cout << "Build Analysis Hist" << endl;
+		cout << "Determining number of bins... " << endl;
+	}
 	int tot_bins = 0;
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
 	for (; it != m_samples.end(); ++it)
 		tot_bins += it->second->GetNbinsX();
 
-	if(m_HanaHist){
-		delete m_HanaHist;
-		m_HanaHist = 0x0;
-	}
+	if(m_verbose) cout << "Found to be " << tot_bins << endl;
 
 	m_HanaHist = new TH1D("Analysis_Hist_TH1D", "", tot_bins, 0, tot_bins); 
 
@@ -230,6 +239,7 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 	if(m_anaHist){ 
 		delete m_anaHist;
 		m_anaHist = 0x0;
+		if(m_anaHist) cout << "Found and Destoyed m_HanaHist!" << endl;
 	}
 
 	m_anaHist = new MnvH1D(*m_HanaHist);
