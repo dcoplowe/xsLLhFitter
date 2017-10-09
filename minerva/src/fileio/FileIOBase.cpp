@@ -46,7 +46,7 @@ FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_tre
 	m_per10 = (Int_t)m_entries/10;
 
 	// This is so that we always have the size elements initialised.
-	// inchain->GetEntry(0);
+	inchain->GetEntry(0);
 
 	outfile = 0x0;
 }
