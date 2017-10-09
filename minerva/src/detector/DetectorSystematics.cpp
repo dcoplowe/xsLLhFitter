@@ -30,6 +30,7 @@ DetectorSystematics::DetectorSystematics(int n_universes, bool verbose) : System
 {
 	cout << "DetectorSystematics::DetectorSystematics(int n_universes, bool verbose)" << endl;
 	m_anaHist = 0x0;
+	m_HanaHist = 0x0;
 	m_errors.clear();
 }
 
@@ -37,6 +38,7 @@ DetectorSystematics::~DetectorSystematics()
 {
 	m_errors.clear();
 	if(m_anaHist) delete m_anaHist;
+	if(m_HanaHist) delete m_HanaHist;
 }
 
 bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples)
