@@ -92,7 +92,7 @@ bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_
 		cout << "Adding to sample(s): ";
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
-			cout << it->first;
+			cout << "					  " << it->first;
 			it->second->AddError(tmp_et);
 			if(it->second->AddVertErrorBand(tmp_name, n_universes )){ 
 				counter++;
