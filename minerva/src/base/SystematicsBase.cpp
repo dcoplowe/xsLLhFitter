@@ -130,11 +130,16 @@ bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::
 bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * weights,
 	const double cvweight, double cvWeightFromMe)
 {
+	cout << "Filling vertical Error Band: " << name << " for sample" << sam_name;
 	bool pass = false;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
 		if( it->second->FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe) ) pass = true;
 	}
+
+	if(pass) cout << " Success" << endl;
+	else cout << endl;
+
 	return pass;
 }
 
@@ -142,10 +147,15 @@ bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::
 	const double cvweight, double cvWeightFromMe)
 {
 	bool pass = false;
+	cout << "Filling vertical Error Band: " << name << " for sample" << sam_name;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
 		if( it->second->FillVertErrorBand(name, value, weightDown, weightUp, cvweight, cvWeightFromMe) ) pass = true;
 	}
+
+	if(pass) cout << " Success" << endl;
+	else cout << endl;
+
 	return pass;
 }
 
