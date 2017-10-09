@@ -102,5 +102,8 @@ int main()
 	cov.Print();
 	cov.Write("detsyst");
 
+	ofile->Close();
+	delete ofile;
+
 	return 1;
 }
