@@ -49,7 +49,6 @@ int main()
 
 	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
-	syst->AddLatErrorBand("MINOS Energy error");
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
