@@ -84,23 +84,23 @@ bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_
 
 	string tmp_name = name + m_ver_name;
 	if(IsUniqueError(tmp_name)){ 
-		if(m_verbose) cout << "Add Var Error Band: " << tmp_name << endl;
+		if(m_verbose) cout << "Add Var Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
 
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kVertical);
 		m_errors.push_back(tmp_et);
 	
-		cout << "Adding to sample(s): ";
+		cout << "Adding to sample(s): " << endl;
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
 			cout << "					  " << it->first;
 			it->second->AddError(tmp_et);
 			if(it->second->AddVertErrorBand(tmp_name, n_universes )){ 
 				counter++;
-				cout << " Success ";
+				cout << " Success " <<;
 			}
+			cout << endl;
 		}
 		(void)fill_samples;
-		cout << endl;
 	}
 	return (counter == m_samples.size());
 }
