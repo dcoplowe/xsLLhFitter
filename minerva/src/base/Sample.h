@@ -24,7 +24,7 @@ public:
 	Sample(const std::string& name, const int nbins, const double * x_bins);
 	~Sample();
 
-	int GetSampPos() const { m_sampos; }
+	int GetSampPos() const { return m_sampos; }
 
 	void AddError(ErrorType * type){ m_error.push_back(type); }
 	bool FillError(ErrorType * type) const;
