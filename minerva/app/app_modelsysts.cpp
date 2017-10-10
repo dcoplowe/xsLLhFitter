@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
 
 	FileIO reader(in_file, in_tree);
 
-	ModelSystematics syst(reader.genie_wgt_n_shifts);
+	// ModelSystematics syst(reader.genie_wgt_n_shifts);
 	Int_t nInts = 5;
 
 	// Ozgur's signal:
@@ -33,18 +33,18 @@ int main(int argc, char const *argv[])
 	cout << "Adding samples" << endl;
 	for(int i = 0; i < nInts; i++){
 		string append = Form("_I%.1d", i);
-		syst.AddSample( ("pi0LowMass" + append), nlowMass_bins, 0.,      lowMass);
-		syst.AddSample( ("signal" + append), 	nsigMass_bins, lowMass, higMass);
-		syst.AddSample( ("pi0HigMass" + append), nhigMass_bins, higMass, maxMass);		
+		// syst.AddSample( ("pi0LowMass" + append), nlowMass_bins, 0.,      lowMass);
+		// syst.AddSample( ("signal" + append), 	nsigMass_bins, lowMass, higMass);
+		// syst.AddSample( ("pi0HigMass" + append), nhigMass_bins, higMass, maxMass);		
 	}
 
 	cout << "Adding errors" << endl;
 	// Set up all error bands for all samples
-	syst.AddVertErrorBand("AGKYxF1pi","_I0");
-	syst.AddVertErrorBand("AhtBY", "_I0");
+	// syst.AddVertErrorBand("AGKYxF1pi","_I0");
+	// syst.AddVertErrorBand("AhtBY", "_I0");
 
-	syst.AddVertErrorBand("NormCCRES","_I1");
-	syst.AddVertErrorBand("Rvn1pi", "_I1");
+	// syst.AddVertErrorBand("NormCCRES","_I1");
+	// syst.AddVertErrorBand("Rvn1pi", "_I1");
 
 	Int_t entries = reader.GetEntries();
 	Int_t loop_size = 10;
@@ -64,38 +64,38 @@ int main(int argc, char const *argv[])
 
 		if(0. < true_pi0_invMass && true_pi0_invMass <= lowMass){
 			if(reader.mc_intType == 1){
-				syst.FillSample("pi0LowMass_I0", true_pi0_invMass, reader.wgt);
-				syst.FillVertErrorBand("pi0LowMass_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
-				syst.FillVertErrorBand("pi0LowMass_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
+				// syst.FillSample("pi0LowMass_I0", true_pi0_invMass, reader.wgt);
+				// syst.FillVertErrorBand("pi0LowMass_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
+				// syst.FillVertErrorBand("pi0LowMass_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
 			else if(reader.mc_intType == 2){
-				syst.FillSample("pi0LowMass_I1", true_pi0_invMass, reader.wgt);
-				syst.FillVertErrorBand("pi0LowMass_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				syst.FillVertErrorBand("pi0LowMass_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				// syst.FillSample("pi0LowMass_I1", true_pi0_invMass, reader.wgt);
+				// syst.FillVertErrorBand("pi0LowMass_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
+				// syst.FillVertErrorBand("pi0LowMass_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(lowMass < true_pi0_invMass && true_pi0_invMass < higMass){
 			if(reader.mc_intType == 1){
-				syst.FillSample("signal_I0", true_pi0_invMass, reader.wgt);
-				syst.FillVertErrorBand("signal_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
-				syst.FillVertErrorBand("signal_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
+				// syst.FillSample("signal_I0", true_pi0_invMass, reader.wgt);
+				// syst.FillVertErrorBand("signal_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
+				// syst.FillVertErrorBand("signal_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
 			else if(reader.mc_intType == 2){
-				syst.FillSample("signal_I1", true_pi0_invMass, reader.wgt);
-				syst.FillVertErrorBand("signal_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				syst.FillVertErrorBand("signal_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				// syst.FillSample("signal_I1", true_pi0_invMass, reader.wgt);
+				// syst.FillVertErrorBand("signal_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
+				// syst.FillVertErrorBand("signal_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(higMass <= true_pi0_invMass && true_pi0_invMass < maxMass){
 			if(reader.mc_intType == 1){
-				syst.FillSample("pi0HigMas_I0", true_pi0_invMass, reader.wgt);
-				syst.FillVertErrorBand("pi0HigMas_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
-				syst.FillVertErrorBand("pi0HigMas_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
+				// syst.FillSample("pi0HigMas_I0", true_pi0_invMass, reader.wgt);
+				// syst.FillVertErrorBand("pi0HigMas_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
+				// syst.FillVertErrorBand("pi0HigMas_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
 			else if(reader.mc_intType == 2){
-				syst.FillSample("pi0HigMas_I1", true_pi0_invMass, reader.wgt);
-				syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				// syst.FillSample("pi0HigMas_I1", true_pi0_invMass, reader.wgt);
+				// syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
+				// syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else{
