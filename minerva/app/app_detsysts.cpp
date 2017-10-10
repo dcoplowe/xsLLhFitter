@@ -101,10 +101,10 @@ int main()
 	cov.Print();
 	cov.Write("detsyst");
 
+	delete syst;
+
 	ofile->Close();
 	delete ofile;
-
-	delete syst;
 
 	return 1;
 }
