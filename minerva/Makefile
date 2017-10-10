@@ -47,7 +47,7 @@ $(MOD): $(MODOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 .cpp.o:
-	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
+	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) $(TMPINC) -c $< -o $@
 
 .PHONY: clean
 clean:
