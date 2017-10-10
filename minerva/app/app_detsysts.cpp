@@ -97,12 +97,14 @@ int main()
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
 	TMatrixD cov = syst->GetCovMatrix();
-	delete syst;
-	// cov.Print();
+
+	cov.Print();
 	// cov.Write("detsyst");
 
 	// ofile->Close();
 	// delete ofile;
+
+	delete syst;
 
 	return 1;
 }
