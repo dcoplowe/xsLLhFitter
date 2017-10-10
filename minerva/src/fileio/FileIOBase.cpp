@@ -77,7 +77,7 @@ FileIOBase::~FileIOBase()
 		}
 	}
 
-	if(m_LLtuple) delete m_LLtuple;
+	// if(m_LLtuple) delete m_LLtuple;
 }
 
 void FileIOBase::SetupOutFile(const std::string &outfilename)
