@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
 
 	FileIO reader(in_file, in_tree);
 
-	// ModelSystematics syst(reader.genie_wgt_n_shifts);
+	ModelSystematics syst(reader.genie_wgt_n_shifts);
 	Int_t nInts = 5;
 
 	// Ozgur's signal:
@@ -33,9 +33,9 @@ int main(int argc, char const *argv[])
 	cout << "Adding samples" << endl;
 	for(int i = 0; i < nInts; i++){
 		string append = Form("_I%.1d", i);
-		// syst.AddSample( ("pi0LowMass" + append), nlowMass_bins, 0.,      lowMass);
-		// syst.AddSample( ("signal" + append), 	nsigMass_bins, lowMass, higMass);
-		// syst.AddSample( ("pi0HigMass" + append), nhigMass_bins, higMass, maxMass);		
+		syst.AddSample( ("pi0LowMass" + append), nlowMass_bins, 0.,      lowMass);
+		syst.AddSample( ("signal" + append), 	nsigMass_bins, lowMass, higMass);
+		syst.AddSample( ("pi0HigMass" + append), nhigMass_bins, higMass, maxMass);		
 	}
 
 	cout << "Adding errors" << endl;
