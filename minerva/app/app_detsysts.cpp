@@ -94,7 +94,7 @@ int main()
 	TMatrixD cov = syst->GetCovMatrix();
 	// // Need to find seg fault in this class...
 	// // Seems to be some memory problem... :(
-	cov.Print();
+	// cov.Print();
 	cov.Write("detsyst");
 
 	ofile->Close();

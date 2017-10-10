@@ -238,8 +238,10 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 
 	int current_bin = 1;
 	it = m_samples.begin();
+
 	for (; it != m_samples.end(); ++it){
-		MnvH1D * histo = it->second;
+		Sample * histo = it->second;
+		cout << "histo->GetSampPos() = " << histo->GetSampPos() << endl;
 		for(int i = 0; i < histo->GetNbinsX(); i++){
 			m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
 			if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));

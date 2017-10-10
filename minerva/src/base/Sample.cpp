@@ -15,7 +15,6 @@ Sample::Sample(const std::string& name, const int nbins, const double x_low, con
 	m_sampos(m_Nsamples++), m_value(-999.), m_wgt(-999.), m_start(-999), m_anabin(-999)
 {
 	m_error.clear();
-
 	int n_anabins = GetNbinsX() + 2;
 	m_anaHist = new MnvH1D(Form("%s_nbins%.3d_anaHist", GetName(), n_anabins), "", n_anabins, 0., (double)n_anabins);
 	// Do we want to inlcude under and overflow bins in this class?
