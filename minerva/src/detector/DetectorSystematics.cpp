@@ -392,7 +392,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 				for(int nn = 0; nn < m_Nsamples; nn++){
 					for(it = m_samples.begin(); it != m_samples.end(); ++it){
 						Sample * histo = it->second;
-						// if(histo->GetSampPos() != nn) continue;
+						if(histo->GetSampPos() != nn) continue;
 						cout << "histo->GetSampPos() = " << histo->GetSampPos() << " : " << histo->GetName() << endl;
 					
 						// Area scale is not yet correct, need to understand if the idea is to area noramise the errors to a single sample. 
