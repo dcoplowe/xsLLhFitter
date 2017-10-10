@@ -17,6 +17,7 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 # TMPINC = -I$(ntup)/Classes/KinematicCalculator
 TMPINC = -IClasses/KinematicCalculator
+TMP = -IClasses/KinematicCalculator/KinematicCalculator.cpp
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 
@@ -32,7 +33,7 @@ DETOBJS = $(DETALL:.cpp=.o)
 
 MOD = MakeModSysts.exe
 MODCPP = app/app_modelsysts.cpp
-MODALL = $(MODCPP) $(MSRCS)
+MODALL = $(MODCPP) $(MSRCS) $(TMP)
 MODOBJS = $(MODALL:.cpp=.o)
 
 all: $(DET) $(MOD)
@@ -50,4 +51,4 @@ $(MOD): $(MODOBJS)
 
 .PHONY: clean
 clean:
-	$(RM) *.o *~ $(DET) $(DETOBJS)
+	$(RM) *.o *~ $(DET) $(DETOBJS) $(MOD) $(MODOBJS)
