@@ -17,6 +17,8 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 TMPINC = -I$(ntup)/Classes/KinematicCalculator/
 
+@echo $(TMPINC)
+
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 
 DSRCS = $(wildcard src/detector/*.cpp) $(SRCS)
