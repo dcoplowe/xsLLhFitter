@@ -16,8 +16,8 @@ INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 # TMPINC = -I$(ntup)/Classes/KinematicCalculator
-TMPINC = -IClasses/KinematicCalculator
-TMP = -IClasses/KinematicCalculator/KinematicCalculator.cpp
+TMPINC = -I$(ntup)/Classes/KinematicCalculator
+TMP = -I$(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 
