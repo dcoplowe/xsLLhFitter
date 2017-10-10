@@ -76,6 +76,10 @@ public:
 	// void Fill(const double value, const double wgt);
 private:
 	// std::string m_name;
+	// These are for preserving the order with which they were made.
+	static int m_Nsamples;
+	int m_sampos;
+
 	std::vector<ErrorType*> m_error;
 	MnvH1D * m_anaHist;
 
