@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
 
 	FileIO reader(in_file, in_tree);
 
-	ModelSystematics syst(reader.genie_wgt_n_shifts);
+	ModelSystematics syst(7);
 	Int_t nInts = 5;
 
 	// Ozgur's signal:
