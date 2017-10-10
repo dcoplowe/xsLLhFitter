@@ -381,7 +381,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			for(int j = 0; j<er_nhists; j++) {
 				std::stringstream ss; ss<<j;
 				string temp_name = er_type->GetName() + "_Combined_" + ss.str();
-				cout << j+1 << "/" << er_nhists << ") Making " << temp_name << endl;
+				// cout << j+1 << "/" << er_nhists << ") Making " << temp_name << endl;
 
 				TH1D *temp = (TH1D*)m_HanaHist->Clone(temp_name.c_str());
 				temp->Clear();
@@ -393,7 +393,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 					for(it = m_samples.begin(); it != m_samples.end(); ++it){
 						Sample * histo = it->second;
 						if(histo->GetSampPos() != nn) continue;
-						cout << "histo->GetSampPos() = " << histo->GetSampPos() << " : " << histo->GetName() << endl;
+						// cout << "histo->GetSampPos() = " << histo->GetSampPos() << " : " << histo->GetName() << endl;
 					
 						// Area scale is not yet correct, need to understand if the idea is to area noramise the errors to a single sample. 
 						// Maybe only ever area normalise by the signal bin.
@@ -497,7 +497,6 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			}
 			new_erhists.empty();
 		} //er_nhists > 0
-
 	} //m_errors loop
 	cout << "Built analyst hist with full errors" << endl;
 	return m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
