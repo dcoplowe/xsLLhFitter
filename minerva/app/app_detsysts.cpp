@@ -43,8 +43,8 @@ int main()
 
 	FileIO reader(in_file, in_tree);
 
-	// TFile * ofile = FileIO::MakeOutFile(out_file);
-	// ofile->cd();
+	TFile * ofile = FileIO::MakeOutFile(out_file);
+	ofile->cd();
 	// // reader.SetupLLNTuple();
 
 	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
@@ -92,19 +92,19 @@ int main()
 	}
 
 	// reader.Write();
-
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
-	TMatrixD cov = syst->GetCovMatrix();
-
+	// TMatrixD cov = syst->GetCovMatrix();
+	// Need to find seg fault in this class...
+	// Seems to be some memory problem... :(
 	cov.Print();
-	// cov.Write("detsyst");
+	cov.Write("detsyst");
 
-	// ofile->Close();
-	// delete ofile;
+	ofile->Close();
+	delete ofile;
 
-	// delete syst;
+	delete syst;
 
 	return 1;
 }
