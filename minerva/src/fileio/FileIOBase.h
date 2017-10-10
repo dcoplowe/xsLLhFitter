@@ -35,7 +35,7 @@ public:
 	void SetupOutFile(const std::string &outfilename);
 	static std::string SetDate();
 	static TFile * MakeOutFile(const std::string &outfilename);
-	void SetupLLNTuple();
+	void SetupLLNTuple(TFile * infile = 0x0);
 	void SetSample(Int_t sample_no){ m_sample = sample_no; }
 	// Sample flag needs to be set for LL fitter to read in
 	void Fill();

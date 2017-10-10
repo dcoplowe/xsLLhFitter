@@ -157,8 +157,17 @@ void FileIOBase::SetupInFile(const std::string &in_filename, const std::string &
 	Init();
 }
 
-void FileIOBase::SetupLLNTuple()
+void FileIOBase::SetupLLNTuple(TFile * infile)
 {
+	if(m_LLtuple){ 
+		delete m_LLtuple;
+		m_LLtuple = 0x0;
+	}
+
+	if(infile) infile->cd();
+	else if(outfile) outfile->cd();
+	else cout << "May have problem with Directory Shizzle" << endl;
+
 	m_LLtuple = new TTree("selectedEvents", "selectedEvents");	
 	m_LLtuple->Branch("cutBranch", &m_sample, "cutBranch/I");
 	InitLLNTuple();
