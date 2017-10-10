@@ -58,6 +58,8 @@ int main(int argc, char const *argv[])
 		double true_op_angle = KinCalc::OpeningAngle(reader.truth_gamma1_4P, reader.truth_gamma2_4P);
 		double true_pi0_invMass = KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
 
+		cout << "true_op_angle = " << true_op_angle << " true_pi0_invMass = " <<  true_pi0_invMass << endl;
+
 		if(0. < true_pi0_invMass && true_pi0_invMass <= lowMass){
 			if(reader.mc_intType == 1){
 				syst.FillSample("pi0LowMass_I0", true_pi0_invMass, reader.wgt);
