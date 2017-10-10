@@ -389,7 +389,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 				// Sample loop:
 				int current_bin = 1;
 
-				// for(int nn = 0; nn < m_Nsamples; nn){
+				for(int nn = 0; nn < m_Nsamples; nn++){
 					for(it = m_samples.begin(); it != m_samples.end(); ++it){
 						Sample * histo = it->second;
 						// if(histo->GetSampPos() != nn) continue;
@@ -452,7 +452,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 							current_bin++;
 						}//bin loop
 					}// samples loop
-				// }//n_sample counter loop
+				}//n_sample counter loop
 					// cout << "Finish Filling Universe " << j+1 << " of " << er_nhists << endl;
 				new_erhists.push_back(temp);
 			} //j<er_nhists loop 
