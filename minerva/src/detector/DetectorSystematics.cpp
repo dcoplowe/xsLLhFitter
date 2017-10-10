@@ -242,14 +242,12 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 		it = m_samples.begin();		
 		for (; it != m_samples.end(); ++it){
 			Sample * histo = it->second;
-			if(histo->GetSampPos() == nn){
-				cout << "histo->GetSampPos() = " << histo->GetSampPos() << endl;
-				for(int i = 0; i < histo->GetNbinsX(); i++){
-					m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
-					if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));
-					current_bin++;
-				}
-				continue;
+			if(histo->GetSampPos() != nn) continue;
+			cout << "histo->GetSampPos() = " << histo->GetSampPos() << endl;
+			for(int i = 0; i < histo->GetNbinsX(); i++){
+				m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
+				if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));
+				current_bin++;
 			}
 		}
 	}
@@ -390,68 +388,72 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 
 				// Sample loop:
 				int current_bin = 1;
-				for(it = m_samples.begin(); it != m_samples.end(); ++it){
-					MnvH1D * histo = it->second;
+
+				for(int nn = 0; nn < m_Nsamples; nn){
+					for(it = m_samples.begin(); it != m_samples.end(); ++it){
+						Sample * histo = it->second;
+						if(histo->GetSampPos() != nn) continue;
+						cout << "histo->GetSampPos() = " << histo->GetSampPos() << " : " << histo->GetName() << endl;
 					
-					// Area scale is not yet correct, need to understand if the idea is to area noramise the errors to a single sample. 
-					// Maybe only ever area normalise by the signal bin.
-					int nhists = 0;
-					double area_scale = 1.;
-					switch(er_type->GetType()){
-						case ErrorType::kLateral:
-						case ErrorType::kLateralCV:
-							area_scale = histo->Integral()/histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->Integral();
-							nhists = (int)histo->GetLatErrorBand( er_type->GetName() )->GetHists().size();
+						// Area scale is not yet correct, need to understand if the idea is to area noramise the errors to a single sample. 
+						// Maybe only ever area normalise by the signal bin.
+						int nhists = 0;
+						double area_scale = 1.;
+						switch(er_type->GetType()){
+							case ErrorType::kLateral:
+							case ErrorType::kLateralCV:
+								area_scale = histo->Integral()/histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+								nhists = (int)histo->GetLatErrorBand( er_type->GetName() )->GetHists().size();
+								break;
+							case ErrorType::kVertical:
+							case ErrorType::kVerticalCV:
+								area_scale = histo->Integral()/histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+								nhists = (int)histo->GetVertErrorBand( er_type->GetName() )->GetHists().size();
+								break;
+							default:
+							cout << "This shouldn't ever be called..." << endl;
 							break;
-						case ErrorType::kVertical:
-						case ErrorType::kVerticalCV:
-							area_scale = histo->Integral()/histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->Integral();
-							nhists = (int)histo->GetVertErrorBand( er_type->GetName() )->GetHists().size();
-							break;
-						default:
-						cout << "This shouldn't ever be called..." << endl;
-						break;
-					}
+						}
 
-					// cout << "For sample " << it->first << " with " << nhists << " (er_nhists = " << er_nhists << ") hists containing ";
-					// cout << histo->GetNbinsX() << " bins.";
-					// if(cov_area_normalize) cout << " Area Norm: " << area_scale;
-					// cout << endl;
+						// cout << "For sample " << it->first << " with " << nhists << " (er_nhists = " << er_nhists << ") hists containing ";
+						// cout << histo->GetNbinsX() << " bins.";
+						// if(cov_area_normalize) cout << " Area Norm: " << area_scale;
+						// cout << endl;
 
-					for(int bin = 1; bin < histo->GetNbinsX() + 1; bin++){
-						double bin_content = 0.;
-						if(nhists != 0){
-							switch(er_type->GetType()){
-								case ErrorType::kLateral:
-								case ErrorType::kLateralCV:
-									bin_content = histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->GetBinContent(bin);
-									break;
-								case ErrorType::kVertical:
-								case ErrorType::kVerticalCV:
-									bin_content = histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->GetBinContent(bin);
-									break;
-								default:
-									cout << "This shouldn't evetr be called..." << endl;
-									break;
+						for(int bin = 1; bin < histo->GetNbinsX() + 1; bin++){
+							double bin_content = 0.;
+							if(nhists != 0){
+								switch(er_type->GetType()){
+									case ErrorType::kLateral:
+									case ErrorType::kLateralCV:
+										bin_content = histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->GetBinContent(bin);
+										break;
+									case ErrorType::kVertical:
+									case ErrorType::kVerticalCV:
+										bin_content = histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->GetBinContent(bin);
+										break;
+									default:
+										cout << "This shouldn't evetr be called..." << endl;
+										break;
+								}
+								if(cov_area_normalize) bin_content *= area_scale;
 							}
-							if(cov_area_normalize) bin_content *= area_scale;
-						}
-						else if(er_type->GetType() == ErrorType::kUnCorError || er_type->GetType() == ErrorType::kUnCorErrorCV){
-							if(histo->HasUncorrError( er_type->GetName() ) ) 
-								bin_content = histo->GetUncorrError( er_type->GetName() )->GetBinContent(bin);
-							else
-								bin_content = 0.;
-						}
-						else bin_content = histo->GetBinContent(bin);
-						// cout << "Filling global bin " << current_bin << " of " << m_HanaHist->GetNbinsX() << ":";
-						// cout << " Sample bin " << bin << " of " << histo->GetNbinsX() << ": " << bin_content << endl;
-						// Fill the analhysis bin:
-						temp->SetBinContent(current_bin, bin_content);
-						current_bin++;
-					}//bin loop
-				}// samples loop
-
-				// cout << "Finish Filling Universe " << j+1 << " of " << er_nhists << endl;
+							else if(er_type->GetType() == ErrorType::kUnCorError || er_type->GetType() == ErrorType::kUnCorErrorCV){
+								if(histo->HasUncorrError( er_type->GetName() ) ) 
+									bin_content = histo->GetUncorrError( er_type->GetName() )->GetBinContent(bin);
+								else
+									bin_content = 0.;
+							}
+							else bin_content = histo->GetBinContent(bin);
+							// cout << "Filling global bin " << current_bin << " of " << m_HanaHist->GetNbinsX() << ":";
+							// cout << " Sample bin " << bin << " of " << histo->GetNbinsX() << ": " << bin_content << endl;
+							// Fill the analhysis bin:
+							temp->SetBinContent(current_bin, bin_content);
+							current_bin++;
+						}//bin loop
+					}// samples loop
+				}//n_sample counter loop
+					// cout << "Finish Filling Universe " << j+1 << " of " << er_nhists << endl;
 				new_erhists.push_back(temp);
 			} //j<er_nhists loop 
 		
