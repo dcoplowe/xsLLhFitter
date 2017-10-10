@@ -40,7 +40,7 @@ int Sample::Fill(const double var, const double wgt)
 	m_wgt = wgt;
 	m_anabin = GetXaxis()->FindBin(m_value) + 1;
 	m_anaHist->Fill(m_anabin, m_wgt);
-	return MnvH1D::Fill(m_value, m_wgt);
+	return MnvH1D::Fill(var, wgt);
 }
 
 bool Sample::FillLatErrorBand(const std::string& name, const double value, const std::vector<double>& shifts,
@@ -118,63 +118,5 @@ MnvH1D * Sample::GetAnaHist() const
 {
 	return static_cast<MnvH1D*>( m_anaHist->Clone( Form("%s_cp", m_anaHist->GetName() ) ) );
 }
-
-// bool Sample::FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
-// 	const double cvweight, const bool fillcv, const double *weights)
-// {
-// 	bool h1_fill = MnvH1D::FillLatErrorBand(name, m_value, shifts, cvweight, fillcv, weights);
-// 	bool h2_fill = true; //m_anaHist->FillLatErrorBand(name, m_anabin, shifts, cvweight, fillcv, weights);
-// 	return (h1_fill && h2_fill);
-// }
-
-// bool Sample::FillLatErrorBand(const std::string& name, const double * shifts, const double cvweight,
-// 	const bool fillcv, const double *weights)
-// {
-// 	bool h1_fill = MnvH1D::FillLatErrorBand(name, m_value, shifts, cvweight, fillcv, weights);
-// 	bool h2_fill = true; //m_anaHist->FillLatErrorBand(name, m_anabin, shifts, cvweight, fillcv, weights);
-// 	return (h1_fill && h2_fill);
-// }
-
-// bool Sample::FillLatErrorBand(const std::string& name, const double shiftDown, const double shiftUp,
-// 	const double cvweight, const bool fillcv)
-// {
-// 	bool h1_fill = MnvH1D::FillLatErrorBand(name, m_value, shiftDown, shiftUp, cvweight, fillcv);
-// 	bool h2_fill = true; //m_anaHist->FillLatErrorBand(name, m_anabin, shiftDown, shiftUp, cvweight, fillcv);
-// 	return (h1_fill && h2_fill);
-// }
-
-// bool Sample::FillVertErrorBand(const std::string& name, const std::vector<double>& weights,
-// 	const double cvweight, double cvWeightFromMe)
-// {
-// 	bool h1_fill = MnvH1D::FillVertErrorBand(name, m_value, weights, cvweight, cvWeightFromMe);
-// 	bool h2_fill = true; //m_anaHist->FillVertErrorBand(name, m_anabin, weights, cvweight, cvWeightFromMe);
-// 	return (h1_fill && h2_fill);
-// }
-
-// bool Sample::FillVertErrorBand(const std::string& name, const double * weights,
-// 	const double cvweight, double cvWeightFromMe)
-// {
-// 	bool h1_fill = MnvH1D::FillVertErrorBand(name, m_value, weights, cvweight, cvWeightFromMe);
-// 	bool h2_fill = true; //m_anaHist->FillVertErrorBand(name, m_anabin, weights, cvweight, cvWeightFromMe);
-// 	return (h1_fill && h2_fill);
-// }
-
-// bool Sample::FillVertErrorBand(const std::string& name, const double weightDown, const double weightUp,
-// 	const double cvweight, double cvWeightFromMe)
-// {
-// 	bool h1_fill = MnvH1D::FillVertErrorBand(name, m_value, weightDown, weightUp, cvweight, cvWeightFromMe);
-// 	bool h2_fill = true; //m_anaHist->FillVertErrorBand(name, m_anabin, weightDown, weightUp, cvweight, cvWeightFromMe);
-// 	return (h1_fill && h2_fill);
-// }
-
-// bool Sample::FillUncorrError(const std::string& name, const double err, const double cvweight)
-// {
-// 	bool h1_fill = MnvH1D::FillUncorrError(name, m_value, err, cvweight);
-// 	bool h2_fill = true; //m_anaHist->FillUncorrError(name, m_anabin, err, cvweight);
-// 	return (h1_fill && h2_fill);
-// }
-
-
-
 
 #endif

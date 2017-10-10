@@ -13,9 +13,9 @@ using std::cout;
 using std::endl;
 using std::string;
 
-const std::string DetectorSystematics::m_ver_name = "_Vert";
-const std::string DetectorSystematics::m_lat_name = "_Lat";
-const std::string DetectorSystematics::m_uncer_name = "_UnCorEr";
+const std::string DetectorSystematics::m_ver_name = "";//"_Vert";
+const std::string DetectorSystematics::m_lat_name = "";//"_Lat";
+const std::string DetectorSystematics::m_uncer_name = "";//"_UnCorEr";
 
 DetectorSystematics::DetectorSystematics(bool verbose) : SystematicsBase(verbose), m_counter(-1), m_anaHist_set(false)
 { 
