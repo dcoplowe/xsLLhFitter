@@ -48,14 +48,14 @@ int main()
 	// // reader.SetupLLNTuple();
 
 	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
-	// syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
+	syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
 
 	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
 	// Int_t entries = reader.GetEntries();
 	// Int_t entries = reader.GetEntries();
 	Int_t loop_size = 10;
-	// reader.SetMaxEntries(loop_size);
+	reader.SetMaxEntries(loop_size);
 
 	for(Int_t i = 0; i < loop_size; i++){
 		// syst->GetReady();
