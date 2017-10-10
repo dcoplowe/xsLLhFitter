@@ -491,7 +491,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 
 	} //m_errors loop
 	cout << "Built analyst hist with full errors" << endl;
-	TMatrixD covMat = m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
-	return static_cast<TMatrixD>( covMat.Clone() );
+	return m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
 }
+
 #endif

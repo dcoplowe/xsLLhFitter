@@ -68,19 +68,19 @@ int main()
 		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
 			syst->FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
 			syst->FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-			// syst->FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			syst->FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			// reader.SetSample(0);
 		}
 		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
 			syst->FillSample("signal", reader.pi0_invMass, reader.wgt);
 			syst->FillVertErrorBand("signal", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-			// syst->FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			syst->FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			// reader.SetSample(1);
 		}
 		else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
 			syst->FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
 			syst->FillVertErrorBand("pi0HigMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
-			// syst->FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			syst->FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			// reader.SetSample(2);
 		}
 		else{
@@ -104,7 +104,7 @@ int main()
 	// ofile->Close();
 	// delete ofile;
 
-	delete syst;
+	// delete syst;
 
 	return 1;
 }
