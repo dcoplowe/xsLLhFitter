@@ -28,13 +28,15 @@ int main(int argc, char const *argv[])
 	int nsigMass_bins = (int)(higMass - lowMass)/10.;
 	int nhigMass_bins = (int)(maxMass - higMass)/10.;
 
-
+	cout << "Adding samples" << endl;
 	for(int i = 0; i < nInts; i++){
-		syst.AddSample(Form("pi0LowMass_I%.1d", i), nlowMass_bins, 0.,      lowMass);
-		syst.AddSample(Form("signal_I%.1d", i), 	nsigMass_bins, lowMass, higMass);
-		syst.AddSample(Form("pi0HigMass_I%.1d", i), nhigMass_bins, higMass, maxMass);		
+		string append = Form("_I%.1d", i);
+		syst.AddSample( ("pi0LowMass" + append), nlowMass_bins, 0.,      lowMass);
+		syst.AddSample( ("signal" + append), 	nsigMass_bins, lowMass, higMass);
+		syst.AddSample( ("pi0HigMass" + append), nhigMass_bins, higMass, maxMass);		
 	}
 
+	cout << "Adding errors" << endl;
 	// Set up all error bands for all samples
 	syst.AddVertErrorBand("AGKYxF1pi","_I0");
 	syst.AddVertErrorBand("AhtBY", "_I0");
@@ -43,7 +45,7 @@ int main(int argc, char const *argv[])
 	syst.AddVertErrorBand("Rvn1pi", "_I1");
 
 	Int_t entries = reader.GetEntries();
-	Int_t loop_size = 1000;
+	Int_t loop_size = 10;
 	reader.SetMaxEntries(loop_size);
 
 	for(Int_t i = 0; i < loop_size; i++){
