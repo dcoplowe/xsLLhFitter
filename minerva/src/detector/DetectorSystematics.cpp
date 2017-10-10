@@ -269,6 +269,9 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 	}
 
 	// Check that all the samples have the same errors:	
+
+	cout << "Linking errors from individual samples" << endl;
+
 	for(size_t er = 0; er < m_errors.size(); er++){
 		ErrorType * er_type = m_errors[er];
 
@@ -277,19 +280,19 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 		bool same_universes = true;
 		std::vector<double> univ_wgts;
 
+		cout << "Connecting error " << er_type->GetName() << endl;
+
 		// Check that we have a histo with a particular error type:
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		int counter = 0;
 		for (; it != m_samples.end(); ++it){
 			MnvH1D * histo = it->second;
 
-			// GetLatErrorBand( const std::string& name );
-			// MnvVertErrorBand* GetVertErrorBand( const std::string& name );
+			cout << "Getting error from sample " << it->first << endl;
 
-			// We know which type of error we have from error type so could sort this out into
-			// cases for the various error types. could be easy
 			int nhists = 0;// histo->GetHists().size();
 			bool has_error = false;
+
 			switch(er_type->GetType()){
 				case ErrorType::kLateral:
 				case ErrorType::kLateralCV:
@@ -319,22 +322,25 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			}
 
 			if( has_error ){
-				// int nhists = histo->GetHists().size();
+				cout << "Found " << nhists << " hists found for error " << er_type->GetName() << " in sample " << it->first << endl;
 				// er_nhists_tot += nhists;
 				if(nhists > 0 && counter == 0){ 
+
 					er_nhists = nhists;
 					counter++;
+
+					cout << "Setting Up Checks: Sample hist numbers are identical (or zero). Require " << er_nhists << " hists" << endl;
 
 					// Get the wgts from this sample (as it will be the same in all sample for this error)
 					univ_wgts.clear();
 					switch(er_type->GetType()){
 						case ErrorType::kLateral:
 						case ErrorType::kLateralCV:
-							for(int uni = 0; uni < er_nhists; uni++) univ_wgts.push_back( histo->GetLatErrorBand(er_type->GetName())->GetUnivWgt(uni) );
+							for(int uni = 0; uni < nhists; uni++) univ_wgts.push_back( histo->GetLatErrorBand(er_type->GetName())->GetUnivWgt(uni) );
 							break;
 						case ErrorType::kVertical:
 						case ErrorType::kVerticalCV:
-							for(int uni = 0; uni < er_nhists; uni++) univ_wgts.push_back( histo->GetVertErrorBand(er_type->GetName())->GetUnivWgt(uni) );
+							for(int uni = 0; uni < nhists; uni++) univ_wgts.push_back( histo->GetVertErrorBand(er_type->GetName())->GetUnivWgt(uni) );
 							break;
 						// case ErrorType::kUnCorError:
 						// case ErrorType::kUnCorErrorCV:
@@ -354,18 +360,23 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 				if(nhists != er_nhists){// could also do nhists == 0
 					// For the case where we have a sample with no error of type
 					same_universes = false;
+					cout << "Found sample (" << it->first << ") with no hists!" << endl;
 				}
 			}
 		}
 
 		// Check that we have errors:
 		if(er_nhists > 0){
+
+			cout << "Errors looking good! Now building universe histograms" << endl;
+
 			// Lets include this error!!:
 			std::vector<TH1D*> new_erhists;
 
 			for(int j = 0; j<er_nhists; j++) {
 				std::stringstream ss; ss<<j;
 				string temp_name = er_type->GetName() + "_Combined_" + ss.str();
+				cout << j+1 << "/" << er_nhists << ") Making " << temp_name << endl;
 
 				TH1D *temp = (TH1D*)m_HanaHist->Clone(temp_name.c_str());
 				temp->Clear();
@@ -391,9 +402,14 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 							nhists = (int)histo->GetVertErrorBand( er_type->GetName() )->GetHists().size();
 							break;
 						default:
-						cout << "This shouldn't evetr be called..." << endl;
+						cout << "This shouldn't ever be called..." << endl;
 						break;
 					}
+
+					cout << "For sample " << it->first << " with " << nhists << " (er_nhists = " << er_nhists << ") hists containing ";
+					cout << histo->GetNbinsX() << " bins.";
+					if(cov_area_normalize) cout << " Area Norm: " << area_scale;
+					cout << endl;
 
 					for(int bin = 1; bin < histo->GetNbinsX() + 1; bin++){
 						double bin_content = 0.;
@@ -420,18 +436,22 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 								bin_content = 0.;
 						}
 						else bin_content = histo->GetBinContent(bin);
-				
+						cout << "Filling global bin " << current_bin << " of " << m_HanaHist->GetNbinsX() << ":";
+						cout << " Sample bin " << bin << " of " << histo->GetNbinsX() << ": " << bin_content << endl;
 						// Fill the analhysis bin:
 						temp->SetBinContent(current_bin, bin_content);
 						current_bin++;
 					}//bin loop
 				}// samples loop
+
+				cout << "Finish Filling Universe " << j+1 << " of " << er_nhists << endl;
 				new_erhists.push_back(temp);
 			} //j<er_nhists loop 
 		
 			// Taken from the initialisation of Lat/Ver error bands in MnvH1D:
 			bool UseSpreadError = (er_nhists == 1) ? true : false;
 
+			cout << "Adding Error to analysis hist" << endl;
 			// Now fill the analysis histogram with the errors determined from the samples:
 			switch(er_type->GetType()){
 				case ErrorType::kLateral:
