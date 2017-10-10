@@ -237,15 +237,20 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 	m_HanaHist = new TH1D("Analysis_Hist_TH1D", "", tot_bins, 0, tot_bins); 
 
 	int current_bin = 1;
-	it = m_samples.begin();
 
-	for (; it != m_samples.end(); ++it){
-		Sample * histo = it->second;
-		cout << "histo->GetSampPos() = " << histo->GetSampPos() << endl;
-		for(int i = 0; i < histo->GetNbinsX(); i++){
-			m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
-			if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));
-			current_bin++;
+	for(int nn = 0; nn < m_Nsamples; nn++){
+		it = m_samples.begin();		
+		for (; it != m_samples.end(); ++it){
+			Sample * histo = it->second;
+			if(histo->GetSampPos() == nn){
+				cout << "histo->GetSampPos() = " << histo->GetSampPos() << endl;
+				for(int i = 0; i < histo->GetNbinsX(); i++){
+					m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
+					if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));
+					current_bin++;
+				}
+				continue;
+			}
 		}
 	}
    // Create an MnvH1D out of the combined histo

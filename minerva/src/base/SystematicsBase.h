@@ -40,9 +40,8 @@ public:
 protected:
 	int m_Nuniverses;
 	bool m_verbose;
+	int m_Nsamples;
 	std::map<std::string, Sample*> m_samples;
-	// std::vector<Sample*> m_samples;
-	// std::map<std::string, int> m_sample_map;
 	bool IsUniqueSample(const std::string &name);
 	// virtual	void Prepare() = 0;
 
