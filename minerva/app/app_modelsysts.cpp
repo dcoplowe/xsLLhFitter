@@ -54,6 +54,7 @@ int main(int argc, char const *argv[])
 		// syst.GetReady();
 		reader.GetEntry(i);
 
+		cout << " truth_ReconstructEvent = " << truth_ReconstructEvent << endl;
 		// make opening angle:
 		double true_op_angle = KinCalc::OpeningAngle(reader.truth_gamma1_4P, reader.truth_gamma2_4P);
 		double true_pi0_invMass = KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
