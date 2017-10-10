@@ -487,8 +487,11 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 					break;
 			}
 			new_erhists.empty();
-		} //er_nhists > 0	
+		} //er_nhists > 0
+
 	} //m_errors loop
+	cout << "Built analyst hist with full errors" << endl;
+
 	return m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
 }
 #endif
