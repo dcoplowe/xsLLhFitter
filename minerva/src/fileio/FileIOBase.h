@@ -21,7 +21,7 @@ public:
 
 	// In file stuff:
 	Int_t   inCurrent;
-	TTree * inchain;
+	TTree * fChain;
 	void SetupInFile(const std::string &in_filename, const std::string &in_treename);
 
 	Int_t    GetEntry(Long64_t entry);

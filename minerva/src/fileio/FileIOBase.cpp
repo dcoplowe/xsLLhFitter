@@ -36,12 +36,12 @@ FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_tre
 
 	m_infile = new TFile(tmp_infile.c_str());
 	assert(m_infile);
-	inchain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
-	assert(inchain);
+	fChain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
+	assert(fChain);
 	// Init();
 	m_LLtuple = 0x0;
 
-	m_totentries = inchain->GetEntries();
+	m_totentries = fChain->GetEntries();
 	m_entries = m_totentries;
 	m_per10 = (Int_t)m_entries/10;
 
@@ -52,7 +52,7 @@ FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_verbose(verbose), m_samp
 {
 	cout << "FileIOBase::FileIOBase(bool verbose)" << endl;
 	m_infile = 0x0;
-	inchain = 0x0;
+	fChain = 0x0;
 
 	TDatime time;
 	// m_date = Form("%.2d%.2d%.2d", (int)time.GetMonth(), (int)time.GetDay(), (int)(time.GetYear() - 2000) );
@@ -61,21 +61,21 @@ FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_verbose(verbose), m_samp
 
 FileIOBase::~FileIOBase()
 {
-	// if(m_infile->IsOpen()){
-	// 	delete inchain; 
-	// 	// cout << "FileIOBase::~FileIOBase() : Closing file" << endl;
-	// 	m_infile->Close();
-	// 	// cout << "FileIOBase::~FileIOBase() : Success" << endl;
-	// 	delete m_infile;
-	// 	// cout << "FileIOBase::~FileIOBase() : deleted m_infile" << endl;
-	// }
+	if(m_infile->IsOpen()){
+		delete fChain; 
+		// cout << "FileIOBase::~FileIOBase() : Closing file" << endl;
+		m_infile->Close();
+		// cout << "FileIOBase::~FileIOBase() : Success" << endl;
+		delete m_infile;
+		// cout << "FileIOBase::~FileIOBase() : deleted m_infile" << endl;
+	}
 
-	// if(outfile){
-	// 	if(outfile->IsOpen()){
-	// 		outfile->Close();
-	// 		delete	outfile;
-	// 	}
-	// }
+	if(outfile){
+		if(outfile->IsOpen()){
+			outfile->Close();
+			delete	outfile;
+		}
+	}
 
 	// if(m_LLtuple) delete m_LLtuple;
 }
@@ -124,14 +124,14 @@ Int_t FileIOBase::GetEntry(Long64_t entry)
 	// but then again we should only be passing variables from one tree to another):
 	m_sample = kIniValue;
 	if(entry % m_per10 == 0) cout << "Analysed " << Form("%.2f%%", (double)(entry*100./m_entries) ) << " : " << entry << "/" << m_entries << endl;
-	if (!inchain) return 0;
-	return inchain->GetEntry(entry);
+	if (!fChain) return 0;
+	return fChain->GetEntry(entry);
 }
 
 Long64_t FileIOBase::GetEntries()
 {
-	if (!inchain) return 0;
-	return inchain->GetEntries();	
+	if (!fChain) return 0;
+	return fChain->GetEntries();	
 }
 
 void FileIOBase::SetupInFile(const std::string &in_filename, const std::string &in_treename)
@@ -152,8 +152,8 @@ void FileIOBase::SetupInFile(const std::string &in_filename, const std::string &
 
 	m_infile = new TFile(tmp_infile.c_str());
 	assert(m_infile);
-	inchain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
-	assert(inchain);
+	fChain = static_cast<TTree*>( m_infile->Get(in_treename.c_str() ) ); 
+	assert(fChain);
 	Init();
 }
 

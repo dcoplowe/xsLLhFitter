@@ -26,7 +26,7 @@ public:
 	// Double_t varname;
 	// TBranch *b_varname;
 	// Then in FileIO::Init() (FileIO.cpp):
-	// inchain->SetBranchAddress("varname", &varname, &b_varname);
+	// fChain->SetBranchAddress("varname", &varname, &b_varname);
 
 	Double_t        eventID;
 	Int_t           CCProtonPi0_nuFlavor;
