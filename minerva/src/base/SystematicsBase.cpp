@@ -15,6 +15,7 @@ SystematicsBase::SystematicsBase(const int n_universes, const bool verbose) : m_
 {
 	cout << "SystematicsBase::SystematicsBase(int n_universes, bool verbose)" << endl;
 	m_samples.clear();
+	cout << "Cleared samples" << endl;
 	// m_sample_map.clear();
 }
 
