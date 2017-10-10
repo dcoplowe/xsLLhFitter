@@ -15,7 +15,8 @@ INCS += -Isrc/detector -Isrc/model
 INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
-TMPINC = -I$(ntup)/Classes/KinematicCalculator/
+# TMPINC = -I$(ntup)/Classes/KinematicCalculator
+TMPINC = -IClasses/KinematicCalculator
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 
