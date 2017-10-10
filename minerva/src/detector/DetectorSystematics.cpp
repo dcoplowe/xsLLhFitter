@@ -406,10 +406,10 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 						break;
 					}
 
-					cout << "For sample " << it->first << " with " << nhists << " (er_nhists = " << er_nhists << ") hists containing ";
-					cout << histo->GetNbinsX() << " bins.";
-					if(cov_area_normalize) cout << " Area Norm: " << area_scale;
-					cout << endl;
+					// cout << "For sample " << it->first << " with " << nhists << " (er_nhists = " << er_nhists << ") hists containing ";
+					// cout << histo->GetNbinsX() << " bins.";
+					// if(cov_area_normalize) cout << " Area Norm: " << area_scale;
+					// cout << endl;
 
 					for(int bin = 1; bin < histo->GetNbinsX() + 1; bin++){
 						double bin_content = 0.;
@@ -436,15 +436,15 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 								bin_content = 0.;
 						}
 						else bin_content = histo->GetBinContent(bin);
-						cout << "Filling global bin " << current_bin << " of " << m_HanaHist->GetNbinsX() << ":";
-						cout << " Sample bin " << bin << " of " << histo->GetNbinsX() << ": " << bin_content << endl;
+						// cout << "Filling global bin " << current_bin << " of " << m_HanaHist->GetNbinsX() << ":";
+						// cout << " Sample bin " << bin << " of " << histo->GetNbinsX() << ": " << bin_content << endl;
 						// Fill the analhysis bin:
 						temp->SetBinContent(current_bin, bin_content);
 						current_bin++;
 					}//bin loop
 				}// samples loop
 
-				cout << "Finish Filling Universe " << j+1 << " of " << er_nhists << endl;
+				// cout << "Finish Filling Universe " << j+1 << " of " << er_nhists << endl;
 				new_erhists.push_back(temp);
 			} //j<er_nhists loop 
 		
