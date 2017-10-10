@@ -48,7 +48,10 @@ void SystematicsBase::AddSample(const std::string &name, const int nbins, const 
 
 SystematicsBase::~SystematicsBase()
 {
+	cout << "SystematicsBase::~SystematicsBase() 1)" << endl;
 	m_samples.clear();
+	cout << "SystematicsBase::~SystematicsBase() 2)" << endl;
+
 }
 
 bool SystematicsBase::IsUniqueSample(const std::string &name)
