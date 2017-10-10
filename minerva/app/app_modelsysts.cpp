@@ -104,7 +104,7 @@ int main(int argc, char const *argv[])
 	}
 	cout << "Finished Loop" << endl;
 	// Now we want to produce the response functions:
-	return 1;
+	return 0;
 }
 
 	// The dream:
