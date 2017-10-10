@@ -44,8 +44,8 @@ int main()
 	FileIO reader(in_file, in_tree);
 
 	TFile * ofile = FileIO::MakeOutFile(out_file);
-	// ofile->cd();
-	reader.SetupLLNTuple(ofile);
+	ofile->cd();
+	reader.SetupLLNTuple();
 
 	// syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	// syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
