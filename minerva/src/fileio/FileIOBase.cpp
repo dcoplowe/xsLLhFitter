@@ -62,7 +62,7 @@ FileIOBase::FileIOBase(bool verbose) : inCurrent(-1), m_verbose(verbose), m_samp
 FileIOBase::~FileIOBase()
 {
 	if(m_infile->IsOpen()){
-		delete fChain; 
+		// delete fChain; 
 		// cout << "FileIOBase::~FileIOBase() : Closing file" << endl;
 		m_infile->Close();
 		// cout << "FileIOBase::~FileIOBase() : Success" << endl;
