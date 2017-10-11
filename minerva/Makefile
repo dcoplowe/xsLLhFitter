@@ -28,8 +28,9 @@ libMyLib.so: MyDict.cxx src/base/Sample.cpp
 
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
+SRCS += MyDict.cpp
 
-DSRCS = $(wildcard src/detector/*.cpp) $(SRCS) MyDict.cpp
+DSRCS = $(wildcard src/detector/*.cpp) $(SRCS) 
 MSRCS = $(wildcard src/model/*.cpp) $(SRCS)
 # SRCS =	$(wildcard src/*.cpp)
 # OBJS = $(SRCS:.c=.o)
