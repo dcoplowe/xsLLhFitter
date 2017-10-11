@@ -91,7 +91,7 @@ int main()
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
-	TMatrixD cov = syst->GetCovMatrix();
+	TMatrixD cov = syst->GetCovMatrix("S");
 	// // Need to find seg fault in this class...
 	// // Seems to be some memory problem... :(
 	// cov.Print();

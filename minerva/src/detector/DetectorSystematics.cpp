@@ -4,7 +4,8 @@
 #include <DetectorSystematics.h>
 #include <Sample.h>
 #include <iostream>
-#include <TH1D.h>
+#include <TH1.h>
+#include <TH2.h>
 #include <TMatrixD.h>
 #include <sstream>
 #include <ErrorType.h>
@@ -262,7 +263,7 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 	m_anaHist = new MnvH1D(*m_HanaHist);
 }
 
-TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool asFrac, const bool cov_area_normalize)
+TMatrixD DetectorSystematics::GetCovMatrix(const std::string &norm, const bool includeStat, const bool asFrac)
 {
 	if(!m_anaHist){
 		cout << __FILE__ << ":" << __LINE__ << " : Warning : No histogram made. Building using " << m_samples.size() << " samples." << endl;
@@ -273,6 +274,14 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			exit(0);
 		}
 	}
+
+	// Determine normalisation:
+	bool cov_area_normalize = false;
+	bool cov_slice_normalize = false;
+	if(norm.find("A") != std::npos) cov_area_normalize = true;
+	else if(norm.find("a") != std::npos) cov_area_normalize = true;
+	else if(norm.find("S") != std::npos) cov_slice_normalize = true;
+	else if(norm.find("S") != std::npos) cov_slice_normalize = true;
 
 	// Check that all the samples have the same errors:	
 
@@ -500,7 +509,113 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 		} //er_nhists > 0
 	} //m_errors loop
 	cout << "Built analyst hist with full errors" << endl;
-	return m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
+
+	TMatrixD cov =  m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
+	if(cov_slice_normalize) SliceNorm(cov);
+	return cov;
+}
+
+void DetectorSystematics::SliceNorm(TMatrixD &cov)
+{
+		TH2D * tmp = new TH2D(cov);
+		tmp = NormalHist(tmp);
+
+		int lowBin = cov.GetNrows();
+        int highBin = cov.GetNcols();
+
+		for(int i = lowBin; i <= highBin; ++i ){
+			for(int k = i; k <= highBin; ++k ){ 
+        //Gettting the the CV value for bin i
+				const double cv = tmp->GetBinContent( (i+1) , (k+1) );
+				cov[i][k]= cv;
+				cov[k][i]=cov[i][k];
+			}
+		}
+		delete tmp;
+}
+
+TH2D * DetectorSystematics::NormalHist(TH2D * hraw, double thres, bool kmax)
+{
+    TH2D * hh = static_cast<TH2D*>( hraw->Clone(Form("%sSN",hraw->GetName())) );
+    hh->Scale(0);
+    
+    const int x0 = hh->GetXaxis()->GetFirst();
+    const int x1 = hh->GetXaxis()->GetLast();
+    const int y0 = hh->GetYaxis()->GetFirst();
+    const int y1 = hh->GetYaxis()->GetLast();
+    
+    double hmax = -1e10;
+    double hmin = 1e10;
+    double nent = 0;
+    for(int ix=x0; ix<=x1; ix++){
+        
+        //if option "e" is specified, the errors are computed. if option "o" original axis range of the taget axes will be kept, but only bins inside the selected range will be filled.
+        
+        TH1D * sliceh = hraw->ProjectionY(Form("tmpnormalhist%sx%d", hh->GetName(), ix), ix, ix, "oe");
+        const double tot = sliceh->GetEntries();
+        
+        TH1D * pdfh=0x0;
+        
+        if(tot>1e-12){
+            nent += tot;
+            
+            double imax = -999;
+            
+            if(!kmax){
+                pdfh = ToPDF(sliceh,"tmp");
+            }
+            else{
+                imax = sliceh->GetBinContent(sliceh->GetMaximumBin());
+            }
+            
+            for(int iy=y0; iy<=y1; iy++){
+                const double cont = kmax ? sliceh->GetBinContent(iy)/imax : pdfh->GetBinContent(iy);
+                const double ierr = kmax ? sliceh->GetBinError(iy)/imax   : pdfh->GetBinError(iy);
+                if(tot>thres && cont>0){
+                    hh->SetBinContent(ix, iy, cont);
+                    hh->SetBinError(ix,iy, ierr);
+                    if(cont>hmax) hmax = cont;
+                    if(cont<hmin) hmin = cont;
+                }
+            }
+        }
+        
+        delete pdfh;
+        delete sliceh;
+    }
+    
+    hh->SetEntries(nent);
+    hh->SetMinimum(0.99*hmin);
+    hh->SetMaximum(1.1*hmax);
+    return hh;
+}
+
+TH1D * DetectorSystematics::ToPDF(TH1D *hraw, std::string hn){
+    const int x0 = 0;
+    const int x1 = hraw->GetNbinsX()+1;
+    const double tmpnt = hraw->Integral(x0, x1);
+    
+    TH1D * hist = (TH1D*) hraw->Clone( (hn + std::string(hraw->GetName()) + "pdf").c_str() );
+    hist->Scale(0);
+    
+    for(int ib=x0; ib<=x1; ib++){
+        const double bw = hraw->GetBinWidth(ib);
+        const double cont = hraw->GetBinContent(ib);
+        if(cont<1e-12)
+            continue;
+        
+        //in case of finit number of bins (i.e. eff not always small), Binomial error is more accurate than Poisson error
+        const double eff = cont/tmpnt;
+        const double pdf = eff/bw;
+        
+        const double dpdf = TMath::Sqrt(eff*(1-eff)/tmpnt) / bw;
+        hist->SetBinContent(ib, pdf);
+        hist->SetBinError(ib, dpdf);
+    }
+    
+    hist->SetEntries(tmpnt);
+    
+    return hist;
 }
 
 #endif

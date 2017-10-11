@@ -19,7 +19,6 @@ public:
 	DetectorSystematics(bool verbose = true);
 	~DetectorSystematics();
 
-	// void Run();
 	// -------------------------------------------------------- From MnvH1D --------------------------------------------------------
 	bool AddLatErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples = "");
 	bool AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes, const std::string &fill_samples = "");
@@ -30,8 +29,9 @@ public:
 
 	void BuildAnaHist(const bool includeStat = true);
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
-	TMatrixD GetCovMatrix(const bool includeStat = false, const bool asFrac = true, const bool cov_area_normalize = false);
+	TMatrixD GetCovMatrix(const std::string &norm = "", const bool includeStat = false, const bool asFrac = false);//const bool cov_area_normalize = false);
 
+	static void SliceNorm(TMatrixD &cov);
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 
@@ -40,6 +40,9 @@ private:
 	std::vector<ErrorType*> m_errors;
 	bool IsUniqueError(const std::string &name);
 	ErrorType * FindError(const std::string &name);
+
+    static TH2D * NormalHist(TH2D * hraw, double thres = 0, bool kmax=true);
+    static TH1D * ToPDF(TH1D * hraw, std::string hn = "");
 
 	void Prepare();
 	bool m_anaHist_set;
