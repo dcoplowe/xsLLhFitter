@@ -22,7 +22,7 @@ FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_tre
 	
 	string tmp_infile = "";
 	if(in_filename[0] == '/') tmp_infile = in_filename;
-	else tmp_infile = std::string(std::getenv("data")) + "/NTupleAnalysis/MC/Reduced/" + in_filename;
+	else tmp_infile = GetEnv("data") + "/NTupleAnalysis/MC/Reduced/" + in_filename;
 
 	if(tmp_infile.empty()){
 		cout << __FILE__ << ":" << __LINE__ << " : ERROR : File name is empty" << endl;
@@ -101,15 +101,7 @@ TFile * FileIOBase::MakeOutFile(const std::string &outfilename)
 
 	string tmp_file = "";
 	if(outfilename[0] == '/') tmp_file = outfilename;
-	else{ 
-		char* pPath = std::getenv ("DATA_DIR");
-		if (pPath=NULL){
-			cout << __FILE__ << ":" << __LINE__ << " : ERROR : $DATA_DIR is not defined." << endl;
-			exit(0);
-		}
-		std::string dir = std::string(pPath);
-		tmp_file = dir + "/" + outfilename;
-	}
+	else tmp_file = GetEnv("DATA_DIR") + "/" + outfilename;
 
 	// Add date:
 	string endname = ".root";
@@ -146,7 +138,7 @@ void FileIOBase::SetupInFile(const std::string &in_filename, const std::string &
 {
 	string tmp_infile = "";
 	if(in_filename[0] == '/') tmp_infile = in_filename;
-	else tmp_infile = std::string(std::getenv("data")) + "/NTupleAnalysis/MC/Reduced/" + in_filename;
+	else tmp_infile = GetEnv("data") + "/NTupleAnalysis/MC/Reduced/" + in_filename;
 
 	if(tmp_infile.empty()){
 		cout << __FILE__ << ":" << __LINE__ << " : ERROR : File name is empty" << endl;
@@ -200,6 +192,15 @@ void FileIOBase::SetMaxEntries(Long64_t max_entries){
 void FileIOBase::ResetMaxEntries(){ 
 	m_entries = (Int_t)m_totentries;
 	m_per10 = (Int_t)m_entries/10; 
+}
+
+std::string FileIOBase::GetEnv(const char * name){
+	char* pPath = std::getenv (name);
+	if (pPath == NULL){
+		cout << __FILE__ << ":" << __LINE__ << " : ERROR : " << name << " is not defined." << endl;
+		exit(0);
+	}
+	return std::string(pPath);
 }
 
 #endif
