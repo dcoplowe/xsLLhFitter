@@ -36,6 +36,9 @@ MODCPP = app/app_modelsysts.cpp
 MODALL = $(MODCPP) $(MSRCS) $(TMP)
 MODOBJS = $(MODALL:.cpp=.o)
 
+SampleDict.cpp: src/base.sample.h Linkdef.h
+	rootcint -f $@ -c $(CXXFLAGS) -p $^
+
 all: $(DET) $(MOD)
 	@echo  $(DET) and $(MOD) have compiled successfully.
 # all: $(DET)
