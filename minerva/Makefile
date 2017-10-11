@@ -11,7 +11,6 @@ DIR_LIST = src src/base src/fileio
 # files := $(foreach dir,$(dirs),$(wildcard $(dir)/*))
 INCS = $(foreach dir, $(DIR_LIST),-I$(dir))
 INCS += -Isrc/detector -Isrc/model
-# INCS =	-Isrc/ -Isrc/base/ -Isrc/detector/ -Isrc/model/ -Isrc/
 INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
@@ -19,20 +18,17 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 TMPINC = -I$(ntup)/Classes/KinematicCalculator
 TMP = $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
 
-
-Sample.cpp:
-	rootcint -f Sampledict.cxx -c src/base/Sample.h src/base/ErrorType.h $(PLOTUTILSROOT)/PlotUtils/  LinkDef.h
+# Sample.cpp:
+# 	rootcint -f Sampledict.cpp -c src/base/Sample.h src/base/ErrorType.h $(PLOTUTILSROOT) LinkDef.h
  
-libSample.so: SampleDict.cxx src/base/Sample.cpp
-	$(CXX) -shared $(CXXFLAGS) $(INCS) -o$@ $^ $(ROOTFLAGS) $(LDLIBS) 
+# libSample.so: SampleDict.cpp src/base/Sample.cpp
+# 	$(CXX) -shared $(CXXFLAGS) $(INCS) -o$@ $^ $(ROOTFLAGS) $(LDLIBS) 
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
-SRCS += MyDict.cpp
+# SRCS += MyDict.cpp
 
 DSRCS = $(wildcard src/detector/*.cpp) $(SRCS) 
 MSRCS = $(wildcard src/model/*.cpp) $(SRCS)
-# SRCS =	$(wildcard src/*.cpp)
-# OBJS = $(SRCS:.c=.o)
 
 DET = MakeDetSysts.exe
 DETCPP = app/app_detsysts.cpp
@@ -60,11 +56,3 @@ $(MOD): $(MODOBJS)
 .PHONY: clean
 clean:
 	$(RM) *.o *~ $(DET) $(DETOBJS) $(MOD) $(MODOBJS)
-
-# MyDict.cxx: $(HEADERS) Linkdef.h
-
-# Special sample:
-# Sample.o: Sample.h
-# Sampledict.C: src/base/Sample.h
-# 	@echo "Generating dictionary ..."
-# 	@rootcint Sampledict.C -c src/base/Sample.h
