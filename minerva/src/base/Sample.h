@@ -8,9 +8,11 @@
 
 // class MnvH1D;
 // class MnvH2D;
-class ErrorType;
+#include <ErrorType.h>
+// class ErrorType;
 
 #include <PlotUtils/MnvH1D.h> 
+
 // #include <PlotUtils/MnvH2D.h>
 using namespace PlotUtils;
 
@@ -92,7 +94,7 @@ private:
 	int	m_start;
 	int m_anabin;
 
-	ClassDefNV(Sample, 1); // Sample class to hold different topologies
+	ClassDef(Sample, 1); // Sample class to hold different topologies
 };
 
 #endif
