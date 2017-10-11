@@ -84,7 +84,8 @@ bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_
 
 	string tmp_name = name + m_ver_name;
 	if(IsUniqueError(tmp_name)){ 
-		if(m_verbose) cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
+		// if(m_verbose)
+		cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
 
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kVertical);
 		m_errors.push_back(tmp_et);

@@ -30,7 +30,7 @@ public:
 
 	void BuildAnaHist(const bool includeStat = true);
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
-	TMatrixD GetCovMatrix(const bool includeStat = false, const bool asFrac = false, const bool cov_area_normalize = false);
+	TMatrixD GetCovMatrix(const bool includeStat = false, const bool asFrac = true, const bool cov_area_normalize = false);
 
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
