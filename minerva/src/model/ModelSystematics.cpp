@@ -9,7 +9,7 @@
 #include <TH1D.h>
 #include <TFile.h>
 #include <cassert>
-#include <FileIOBase.h> 
+#include <FileIO.h> 
 
 using std::cout;
 using std::endl;
