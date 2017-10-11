@@ -9,7 +9,7 @@
 #include <TH1D.h>
 #include <TFile.h>
 #include <cassert>
-// #include <FileIO.h> 
+#include <FileIOBase.h> 
 
 using std::cout;
 using std::endl;
@@ -117,7 +117,8 @@ TGraph * ModelSystematics::MakeResFunc(const std::vector<TH1D*> & hists, const i
 void ModelSystematics::BuildResponses(const std::string &outfname)
 {
 	// Setup and save in the correct location:
-	TFile * ofile = new TFile(outfname.c_str(), "RECREATE");//FileIO::MakeOutFile(outfname);
+	TFile * ofile = FileIOBase::MakeOutFile(outfname);
+	// TFile * ofile = new TFile(outfname.c_str(), "RECREATE");//FileIO::MakeOutFile(outfname);
 	if(ofile->IsZombie()){
 		cout << __FILE__ << ":" << __LINE__ << " : Error : Could not create file named " << outfname << endl;
 		exit(0);

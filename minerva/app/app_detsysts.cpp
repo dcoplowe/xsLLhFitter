@@ -24,6 +24,8 @@ int main()
 
 	DetectorSystematics * syst = new DetectorSystematics(100, verbose);
 
+	cout << "DetectorSystematics * syst = new DetectorSystematics(100, verbose);" << endl;
+
 	// Ozgur's signal:
 	// In ten's of MeV
 	double lowMass = 60.;
