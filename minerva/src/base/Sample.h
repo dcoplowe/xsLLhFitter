@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-// #include <TObject.h>
+#include <TObject.h>
 // #include <TROOT.h>
 
 // class MnvH1D;
@@ -78,7 +78,7 @@ public:
 	
 	// void Fill(const double value, const double wgt);
 
-	// ClassDef(Sample, 1) // Sample to hold different topologies
+	ClassDef(Sample, 1) // Sample to hold different topologies
 
 private:
 	// std::string m_name;
