@@ -101,7 +101,14 @@ TFile * FileIOBase::MakeOutFile(const std::string &outfilename)
 
 	string tmp_file = "";
 	if(outfilename[0] == '/') tmp_file = outfilename;
-	else tmp_file = std::string(std::getenv("DATA_DIR")) + "/" + outfilename;
+	else{ 
+		std::string dir = std::string(std::getenv("DATA_DIR"));
+		if(dir.empty()){
+			cout << __FILE__ << ":" << __LINE__ << " : ERROR : $DATA_DIR is not defined." << endl;
+			exit(0);
+		}
+		tmp_file = dir + "/" + outfilename;
+	}
 
 	// Add date:
 	string endname = ".root";
