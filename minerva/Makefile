@@ -21,7 +21,7 @@ TMP = $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
 
 
 Sample.cpp:
-	rootcint -f Sampledict.cxx -c $(INCS) LinkDef.h
+	rootcint -f Sampledict.cxx -c src/base/Sample.h src/base/ErrorType.h $(PLOTUTILSROOT)/PlotUtils/  LinkDef.h
  
 libSample.so: SampleDict.cxx src/base/Sample.cpp
 	$(CXX) -shared $(CXXFLAGS) $(INCS) -o$@ $^ $(ROOTFLAGS) $(LDLIBS) 
