@@ -17,11 +17,11 @@ int main(int argc, char const *argv[])
 
 	FileIO reader(in_file, in_tree);
 
-	ModelSystematics syst(7);
+	// ModelSystematics syst(7);
 	Int_t nInts = 5;
 
 	// Ozgur's signal:
-	// In ten's of MeV
+	// //In ten's of MeV
 	double lowMass = 60.;
 	double higMass = 200.;
 	double maxMass = 500.;
@@ -47,54 +47,55 @@ int main(int argc, char const *argv[])
 	syst.AddVertErrorBand("NormCCRES","_I1");
 	syst.AddVertErrorBand("Rvn1pi", "_I1");
 
-	Int_t entries = reader.GetEntries();
+	// Int_t entries = reader.GetEntries();
 	Int_t loop_size = 10;
-	reader.SetMaxEntries(loop_size);
+	// reader.SetMaxEntries(loop_size);
 
 	for(Int_t i = 0; i < loop_size; i++){
 		// syst.GetReady();
-		reader.GetEntry(i);
+		//reader.GetEntry(i);
 
-		cout << " truth_ReconstructEvent = " << reader.truth_ReconstructEvent << endl;
-		cout << " truth_isSignal = " << reader.truth_isSignal << endl;
+		// cout << " truth_ReconstructEvent = " << reader.truth_ReconstructEvent << endl;
+		// cout << " truth_isSignal = " << reader.truth_isSignal << endl;
 		// make opening angle:
-		double true_op_angle = KinCalc::OpeningAngle(reader.truth_gamma1_4P, reader.truth_gamma2_4P);
-		double true_pi0_invMass = KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
+		// double true_op_angle = KinCalc::OpeningAngle(reader.truth_gamma1_4P, reader.truth_gamma2_4P);
+		double true_pi0_invMass = 134.9;//KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
+		double weight = 1.;//reader.wgt;
+		int interaction = 2;//reader.mc_intType;
 
 		cout << "true_op_angle = " << true_op_angle << " true_pi0_invMass = " <<  true_pi0_invMass << endl;
-
 		if(0. < true_pi0_invMass && true_pi0_invMass <= lowMass){
-			if(reader.mc_intType == 1){
-				// syst.FillSample("pi0LowMass_I0", true_pi0_invMass, reader.wgt);
+			if(interaction == 1){
+				// syst.FillSample("pi0LowMass_I0", true_pi0_invMass, weight);
 				// syst.FillVertErrorBand("pi0LowMass_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
 				// syst.FillVertErrorBand("pi0LowMass_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
-			else if(reader.mc_intType == 2){
-				syst.FillSample("pi0LowMass_I1", true_pi0_invMass, reader.wgt);
+			else if(interaction == 2){
+				syst.FillSample("pi0LowMass_I1", true_pi0_invMass, weight);
 				syst.FillVertErrorBand("pi0LowMass_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
 				syst.FillVertErrorBand("pi0LowMass_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(lowMass < true_pi0_invMass && true_pi0_invMass < higMass){
-			if(reader.mc_intType == 1){
-				// syst.FillSample("signal_I0", true_pi0_invMass, reader.wgt);
+			if(interaction == 1){
+				// syst.FillSample("signal_I0", true_pi0_invMass, weight);
 				// syst.FillVertErrorBand("signal_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
 				// syst.FillVertErrorBand("signal_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
-			else if(reader.mc_intType == 2){
-				syst.FillSample("signal_I1", true_pi0_invMass, reader.wgt);
+			else if(interaction == 2){
+				syst.FillSample("signal_I1", true_pi0_invMass, weight);
 				syst.FillVertErrorBand("signal_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
 				syst.FillVertErrorBand("signal_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(higMass <= true_pi0_invMass && true_pi0_invMass < maxMass){
-			if(reader.mc_intType == 1){
-				// syst.FillSample("pi0HigMas_I0", true_pi0_invMass, reader.wgt);
+			if(interaction == 1){
+				// syst.FillSample("pi0HigMas_I0", true_pi0_invMass, weight);
 				// syst.FillVertErrorBand("pi0HigMas_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
 				// syst.FillVertErrorBand("pi0HigMas_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
-			else if(reader.mc_intType == 2){
-				syst.FillSample("pi0HigMas_I1", true_pi0_invMass, reader.wgt);
+			else if(interaction == 2){
+				syst.FillSample("pi0HigMas_I1", true_pi0_invMass, weight);
 				syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
 				syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
