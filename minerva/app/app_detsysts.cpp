@@ -16,7 +16,7 @@ int main()
 	std::string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root"; 
 	std::string in_tree = "CCProtonPi0";
 	std::string out_file = "DetSyst_Test.root";
-	bool verbose = true;
+	bool verbose = false;
 
 	// Do we want something to overtake the nominal number of toys?
 	// WTf do I mean here??? IDIOT

@@ -13,26 +13,21 @@ using std::endl;
 SystematicsBase::SystematicsBase(const int n_universes, const bool verbose) : m_Nuniverses(n_universes), m_verbose(verbose),
 	m_Nsamples(0), m_CurrentSample("") // , m_counter(-1)
 {
-	cout << "SystematicsBase::SystematicsBase(int n_universes, bool verbose)" << endl;
 	m_samples.clear();
-	cout << "Cleared samples" << endl;
-	// m_sample_map.clear();
+	Sample::Verbose(m_verbose);
 }
 
 SystematicsBase::SystematicsBase(const bool verbose) : m_Nuniverses(1), m_verbose(verbose), m_Nsamples(0), m_CurrentSample("")
 {
-	cout << "SystematicsBase::SystematicsBase(bool verbose)" << endl;
+	Sample::Verbose(m_verbose);
 	m_samples.clear();
-	// m_sample_map.clear();
 }
 
 void SystematicsBase::AddSample(const std::string &name, const int nbins, const double x_low, const double x_high)
 {
 	if(IsUniqueSample(name)){
-		// m_samples.push_back( new Sample(name, nbins, x_low, x_high) );
 		m_samples [ name ] = new Sample(name, nbins, x_low, x_high);
 		m_Nsamples++;
-		// m_samples_map[ name ] = m_counter++;
 	}
 }
 

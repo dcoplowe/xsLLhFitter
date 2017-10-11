@@ -56,6 +56,7 @@ public:
 	
 	bool FillUncorrError(const std::string& name, const double value, const double err, const double cvweight = 1.0 );
 	
+	static void Verbose(bool var){ m_verbose = var; }
 	// // For internally stored value:
 	// bool FillLatErrorBand(const std::string& name, const std::vector<double>& shifts,
 	// 	const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0 );
@@ -83,6 +84,7 @@ public:
 private:
 	// std::string m_name;
 	// These are for preserving the order with which they were made.
+	static bool m_verbose;
 	static int m_Nsamples;
 	int m_sampos;
 
