@@ -518,24 +518,24 @@ TMatrixD DetectorSystematics::GetCovMatrix(const std::string &norm, const bool i
 
 void DetectorSystematics::SliceNorm(TMatrixD &cov)
 {
+	if(cov.GetNrows() == cov.GetNcols()){
 		TH2D * tmp = new TH2D(cov);
-		TH2D * tmpSN = NormalHist(tmp);
+		tmp = NormalHist(tmp);		
+		int lowBin = 0; //cov.GetNrows();
+		int highBin = cov.GetNcols();
+		cout << "Slice norm: Binning low = " << lowBin << " : high = " << highBin << endl; 
 
-		int lowBin = cov.GetNrows();
-        int highBin = cov.GetNcols();
-        cout << "Slice norm: Binning low = " << lowBin << " : high = " << highBin << endl; 
-
-		for(int i = lowBin; i <= highBin; ++i ){
-			for(int k = i; k <= highBin; ++k ){ 
-        //Gettting the the CV value for bin i
-				const double cv = tmpSN->GetBinContent( (i+1) , (k+1) );
+		for(int i = lowBin; i < highBin; ++i ){
+			for(int k = i; k < highBin; ++k ){ 
+		        //Gettting the the CV value for bin i
+				const double cv = tmp->GetBinContent( (i+1) , (k+1) );
 				cout << "cov[" << i << "][" << k << "] = " << cv << endl;
 				cov[i][k]= cv;
 				cov[k][i]=cov[i][k];
 			}
 		}
 		delete tmp;
-		delete tmpSN;
+	}
 }
 
 TH2D * DetectorSystematics::NormalHist(TH2D * hraw, double thres, bool kmax)
