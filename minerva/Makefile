@@ -23,7 +23,7 @@ TMP = $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
 Sample.cpp:
 	rootcint -f Sampledict.cxx -c src/base/Sample.cpp LinkDef.h
  
-libSample.so: SampleMyDict.cxx src/base/Sample.cpp
+libSample.so: SampleDict.cxx src/base/Sample.cpp
 	$(CXX) -shared $(CXXFLAGS) $(INCS) -o$@ $^ $(ROOTFLAGS) $(LDLIBS) 
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
