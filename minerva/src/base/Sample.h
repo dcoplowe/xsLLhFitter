@@ -77,6 +77,9 @@ public:
 	// bool FillUncorrError(const std::string& name, const double err, const double cvweight = 1.0 );
 	
 	// void Fill(const double value, const double wgt);
+
+	ClassDef(Sample, 1) // Sample class to hold different topologies
+	
 private:
 	// std::string m_name;
 	// These are for preserving the order with which they were made.
@@ -91,8 +94,6 @@ private:
 
 	int	m_start;
 	int m_anabin;
-
-	ClassDef(Sample, 1) // Sample class to hold different topologies
 };
 
 #endif

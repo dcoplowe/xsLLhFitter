@@ -10,8 +10,6 @@ using namespace std;
 int Sample::m_Nsamples = 0;
 	// int m_sampos;
 
-ClassImp(Sample)
-
 Sample::Sample(const std::string& name, const int nbins, const double x_low, const double x_high) : 
 	MnvH1D(Form("%s_nbins%.3d_lowE%.3d_higE%.3d", name.c_str(), nbins, (int)x_low, (int)x_high), "", nbins, x_low, x_high), 
 	m_sampos(m_Nsamples++), m_value(-999.), m_wgt(-999.), m_start(-999), m_anabin(-999)
