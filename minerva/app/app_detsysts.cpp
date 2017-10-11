@@ -32,7 +32,7 @@ int main()
 	double higMass = 200.;
 	double maxMass = 500.;
 
-	double den = 3;
+	double den = 15;
 	int nlowMass_bins = (int)lowMass/den;
 	int nsigMass_bins = (int)(higMass - lowMass)/den;
 	int nhigMass_bins = (int)(maxMass - higMass)/den;
