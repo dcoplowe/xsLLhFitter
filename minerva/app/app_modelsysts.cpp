@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
 {
 	std::string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root"; 
 	std::string in_tree = "CCProtonPi0";
-	std::string out_file = "DetSyst_Test.root";
+	std::string out_file = "ModSyst_Test.root";
 
 	FileIO reader(in_file, in_tree);
 
@@ -43,8 +43,8 @@ int main(int argc, char const *argv[])
 	// syst.AddVertErrorBand("AGKYxF1pi","_I0");
 	// syst.AddVertErrorBand("AhtBY", "_I0");
 
-	// syst.AddVertErrorBand("NormCCRES","_I1");
-	// syst.AddVertErrorBand("Rvn1pi", "_I1");
+	syst.AddVertErrorBand("NormCCRES","_I1");
+	syst.AddVertErrorBand("Rvn1pi", "_I1");
 
 	Int_t entries = reader.GetEntries();
 	Int_t loop_size = 10;
@@ -69,9 +69,9 @@ int main(int argc, char const *argv[])
 				// syst.FillVertErrorBand("pi0LowMass_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
 			else if(reader.mc_intType == 2){
-				// syst.FillSample("pi0LowMass_I1", true_pi0_invMass, reader.wgt);
-				// syst.FillVertErrorBand("pi0LowMass_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				// syst.FillVertErrorBand("pi0LowMass_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				syst.FillSample("pi0LowMass_I1", true_pi0_invMass, reader.wgt);
+				syst.FillVertErrorBand("pi0LowMass_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
+				syst.FillVertErrorBand("pi0LowMass_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(lowMass < true_pi0_invMass && true_pi0_invMass < higMass){
@@ -81,9 +81,9 @@ int main(int argc, char const *argv[])
 				// syst.FillVertErrorBand("signal_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
 			else if(reader.mc_intType == 2){
-				// syst.FillSample("signal_I1", true_pi0_invMass, reader.wgt);
-				// syst.FillVertErrorBand("signal_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				// syst.FillVertErrorBand("signal_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				syst.FillSample("signal_I1", true_pi0_invMass, reader.wgt);
+				syst.FillVertErrorBand("signal_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
+				syst.FillVertErrorBand("signal_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(higMass <= true_pi0_invMass && true_pi0_invMass < maxMass){
@@ -93,9 +93,9 @@ int main(int argc, char const *argv[])
 				// syst.FillVertErrorBand("pi0HigMas_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
 			else if(reader.mc_intType == 2){
-				// syst.FillSample("pi0HigMas_I1", true_pi0_invMass, reader.wgt);
-				// syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				// syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				syst.FillSample("pi0HigMas_I1", true_pi0_invMass, reader.wgt);
+				syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
+				syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else{
@@ -103,9 +103,16 @@ int main(int argc, char const *argv[])
 		}
 	}
 	cout << "Finished Loop" << endl;
+	
 	// Now we want to produce the response functions:
-	return 0;
+	syst.BuildResponses(out_file);
+
+
+
+
+	return 1;
 }
+
 
 	// The dream:
 	// syst.AddSample(Form("pi0LowMass, i), nlowMass_bins, 0.,      lowMass);

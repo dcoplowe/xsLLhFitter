@@ -114,7 +114,6 @@ TGraph * ModelSystematics::MakeResFunc(const std::vector<TH1D*> & hists, const i
 
 void ModelSystematics::BuildResponses(const std::string &outfname)
 {
-
 	TFile ofile(outfname.c_str(), "RECREATE");
 	if(ofile.IsZombie()){
 		cout << __FILE__ << ":" << __LINE__ << " : Error : Could not create file named " << outfname << endl;
