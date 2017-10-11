@@ -53,8 +53,8 @@ $(MOD): $(MODOBJS)
 src/base/Sample.o: src/base/Sample.h
 
 Sampledict.C: src/base/Sample.h
-        @echo "Generating dictionary ..."
-        @rootcint Sampledict.C -c src/base/Sample.h
+	@echo "Generating dictionary ..."
+	@rootcint Sampledict.C -c src/base/Sample.h
 
 
 .PHONY: clean
