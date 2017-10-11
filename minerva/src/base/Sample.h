@@ -14,7 +14,7 @@ class ErrorType;
 // #include <PlotUtils/MnvH2D.h>
 using namespace PlotUtils;
 
-class Sample : public MnvH1D
+class Sample : public MnvH1D, public TObject
 {
 public:
 	// Should simplify this and remove the model bit. 
@@ -78,8 +78,8 @@ public:
 	
 	// void Fill(const double value, const double wgt);
 
-	ClassDef(Sample, 1) // Sample class to hold different topologies
-	
+	ClassDef(Sample, 1) // Sample to hold different topologies
+
 private:
 	// std::string m_name;
 	// These are for preserving the order with which they were made.
