@@ -130,6 +130,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
 	for(; it != m_samples.end(); it++){
 		Sample * sam = it->second;
+		cout << "For " << it->first << " sample:";// << endl;
 		// Finish this tomorrow:
 		// For each sam retrieve all the systs and make a response function
 		for(int type = 0; type < 2; type++){
@@ -138,20 +139,24 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 
 			for(size_t ners = 0; ners < error_list.size(); ners++){
 				error = error_list[ners];
-				
+				cout << " Building spline for " << error << " model uncertainty." << endl;
+
 				if(type == 0) hist_list = sam->GetLatErrorBand(error)->GetHists();
 				else hist_list = sam->GetVertErrorBand(error)->GetHists();
-
 				// Now build this response functions:
 				// Need the bins from each sample
 				// We include under and overflow bins here (may be 1);
+					cout << "Made spline for bin(s) ";
+
 				for(int tbins = 0; tbins < ntbins + 2; tbins++){
+					cout << tbins << " "; 
 					name = Form("%s_%s_b%.3d_nb%.3d", it->first.c_str(), error.c_str(), tbins, ntbins);
 					TGraph * res = MakeResFunc(hist_list, tbins);
 					res->SetName( name.c_str() );
 					res->Write();
 					delete res;
 				}
+				cout << "of " << ntbins + 1 << endl;
 				hist_list.clear();
 			}
 			error_list.clear();
