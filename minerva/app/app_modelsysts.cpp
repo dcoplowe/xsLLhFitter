@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
 	std::string in_tree = "CCProtonPi0";
 	std::string out_file = "ModSyst_Test.root";
 
-	// FileIO reader(in_file, in_tree);
+	FileIO reader(in_file, in_tree);
 
 	ModelSystematics syst(7);
 	Int_t nInts = 5;
