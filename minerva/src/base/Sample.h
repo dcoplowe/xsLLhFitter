@@ -23,7 +23,7 @@ public:
 
 	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high);
 	Sample(const std::string& name, const int nbins, const double * x_bins);
-	virtual ~Sample();
+	~Sample();
 
 	int GetSampPos() const { return m_sampos; }
 
