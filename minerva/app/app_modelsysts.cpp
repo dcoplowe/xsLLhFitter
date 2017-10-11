@@ -51,6 +51,10 @@ int main(int argc, char const *argv[])
 	Int_t loop_size = 10;
 	// reader.SetMaxEntries(loop_size);
 
+	Double_t temp_set[7];// = {1.};
+
+	for(int i = 0; i < 7; i++)	temp_set[i] = 0.4 + i*0.2;
+
 	for(Int_t i = 0; i < loop_size; i++){
 		// syst.GetReady();
 		//reader.GetEntry(i);
@@ -66,33 +70,33 @@ int main(int argc, char const *argv[])
 		// cout << "true_op_angle = " << true_op_angle << " true_pi0_invMass = " <<  true_pi0_invMass << endl;
 		if(0. < true_pi0_invMass && true_pi0_invMass <= lowMass){
 			if(interaction == 1){
-				// syst.FillSample("pi0LowMass_I0", true_pi0_invMass, weight);
-				// syst.FillVertErrorBand("pi0LowMass_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
-				// syst.FillVertErrorBand("pi0LowMass_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
+				syst.FillSample("pi0LowMass_I0", true_pi0_invMass, weight);
+				syst.FillVertErrorBand("pi0LowMass_I0", "AGKYxF1pi", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_AGKYxF1pi);
+				syst.FillVertErrorBand("pi0LowMass_I0", "AhtBY", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_AhtBY);
 			}
 			else if(interaction == 2){
 				syst.FillSample("pi0LowMass_I1", true_pi0_invMass, weight);
-				syst.FillVertErrorBand("pi0LowMass_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				syst.FillVertErrorBand("pi0LowMass_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				syst.FillVertErrorBand("pi0LowMass_I1", "NormCCRES", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_NormCCRES);
+				syst.FillVertErrorBand("pi0LowMass_I1", "Rvn1pi", true_pi0_invMass, temp_set);//reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(lowMass < true_pi0_invMass && true_pi0_invMass < higMass){
 			if(interaction == 1){
-				// syst.FillSample("signal_I0", true_pi0_invMass, weight);
-				// syst.FillVertErrorBand("signal_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
-				// syst.FillVertErrorBand("signal_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
+				syst.FillSample("signal_I0", true_pi0_invMass, weight);
+				syst.FillVertErrorBand("signal_I0", "AGKYxF1pi", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_AGKYxF1pi);
+				syst.FillVertErrorBand("signal_I0", "AhtBY", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_AhtBY);
 			}
 			else if(interaction == 2){
 				syst.FillSample("signal_I1", true_pi0_invMass, weight);
-				syst.FillVertErrorBand("signal_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				syst.FillVertErrorBand("signal_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				syst.FillVertErrorBand("signal_I1", "NormCCRES", true_pi0_invMass, temp_set);//reader.truth_genie_wgt_NormCCRES);
+				syst.FillVertErrorBand("signal_I1", "Rvn1pi", true_pi0_invMass, temp_set);//reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else if(higMass <= true_pi0_invMass && true_pi0_invMass < maxMass){
 			if(interaction == 1){
-				// syst.FillSample("pi0HigMas_I0", true_pi0_invMass, weight);
-				// syst.FillVertErrorBand("pi0HigMas_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
-				// syst.FillVertErrorBand("pi0HigMas_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
+				syst.FillSample("pi0HigMas_I0", true_pi0_invMass, weight);
+				syst.FillVertErrorBand("pi0HigMas_I0", "AGKYxF1pi", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_AGKYxF1pi);
+				syst.FillVertErrorBand("pi0HigMas_I0", "AhtBY", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_AhtBY);
 			}
 			else if(interaction == 2){
 				syst.FillSample("pi0HigMas_I1", true_pi0_invMass, weight);
@@ -108,9 +112,6 @@ int main(int argc, char const *argv[])
 	
 	// Now we want to produce the response functions:
 	syst.BuildResponses(out_file);
-
-
-
 
 	return 1;
 }
