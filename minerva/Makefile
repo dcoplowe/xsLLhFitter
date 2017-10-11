@@ -53,6 +53,12 @@ $(MOD): $(MODOBJS)
 clean:
 	$(RM) *.o *~ $(DET) $(DETOBJS) $(MOD) $(MODOBJS)
 
+# MyDict.cxx: $(HEADERS) Linkdef.h
+MyDict.cxx: src/base/Sample.h
+	rootcint -f $@ -c $(CXXFLAGS) -p $^
+ 
+libMyLib.so: MyDict.cxx src/base/Sample.cpp
+	g++ -shared -o$@ $(ROOTFLAGS) $(CXXFLAGS) -I$(ROOTSYS)/include $^
 # Special sample:
 # Sample.o: Sample.h
 # Sampledict.C: src/base/Sample.h
