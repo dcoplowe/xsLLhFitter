@@ -162,6 +162,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 			}
 			error_list.clear();
 		}
+		cout << endl;
 	}
 	ofile.Close();
 }
