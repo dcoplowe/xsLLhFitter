@@ -34,8 +34,8 @@ int main(int argc, char const *argv[])
 	for(int i = 0; i < nInts; i++){
 		string append = Form("_I%.1d", i);
 		syst.AddSample( ("pi0LowMass" + append), nlowMass_bins, 0.,      lowMass);
-		// syst.AddSample( ("signal" + append), 	nsigMass_bins, lowMass, higMass);
-		syst.AddSample( ("signal" + append), 	1, lowMass, higMass);
+		syst.AddSample( ("signal" + append), 	nsigMass_bins, lowMass, higMass);
+		// syst.AddSample( ("signal" + append), 	1, lowMass, higMass);
 		syst.AddSample( ("pi0HigMass" + append), nhigMass_bins, higMass, maxMass);		
 	}
 

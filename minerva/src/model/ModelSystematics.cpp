@@ -104,10 +104,12 @@ TGraph * ModelSystematics::MakeResFunc(const std::vector<TH1D*> & hists, const i
 	// For now assume the middle bin is nom. and we only have 7 bins
 	// if(nhists % 2 == 0){
 	// }
-	double cv = hists[3]->GetBinContent(bin);
+	double cv = hists[3]->GetBinContent(bin);	
 	for(int i = 0; i < nhists; i++){
 		x[i] = i;
-		y[i] = hists[i]->GetBinContent(bin)/cv;
+		// Avoid dodgy numbers:
+		if(cv == 0. || hists[i]->GetBinContent(bin) == 0.) y[i] = 0.;
+		else y[i] = hists[i]->GetBinContent(bin)/cv;
 	}
 	return new TGraph(nhists, x, y);
 }
