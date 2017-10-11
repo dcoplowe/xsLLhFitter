@@ -278,10 +278,10 @@ TMatrixD DetectorSystematics::GetCovMatrix(const std::string &norm, const bool i
 	// Determine normalisation:
 	bool cov_area_normalize = false;
 	bool cov_slice_normalize = false;
-	if(norm.find("A") != std::npos) cov_area_normalize = true;
-	else if(norm.find("a") != std::npos) cov_area_normalize = true;
-	else if(norm.find("S") != std::npos) cov_slice_normalize = true;
-	else if(norm.find("S") != std::npos) cov_slice_normalize = true;
+	if(norm.find("A") != std::string::npos) cov_area_normalize = true;
+	else if(norm.find("a") != std::string::npos) cov_area_normalize = true;
+	else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
+	else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
 
 	// Check that all the samples have the same errors:	
 

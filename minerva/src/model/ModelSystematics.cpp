@@ -9,7 +9,7 @@
 #include <TH1D.h>
 #include <TFile.h>
 #include <cassert>
-// #include <PlotUtils/MnvH1D.h> 
+#include <FileIOBase.h> 
 
 using std::cout;
 using std::endl;
@@ -116,12 +116,13 @@ TGraph * ModelSystematics::MakeResFunc(const std::vector<TH1D*> & hists, const i
 
 void ModelSystematics::BuildResponses(const std::string &outfname)
 {
-	TFile ofile(outfname.c_str(), "RECREATE");
-	if(ofile.IsZombie()){
+	// Setup and save in the correct location:
+	TFile * ofile = FileIOBase::MakeOutFile(outfname);
+	if(ofile->IsZombie()){
 		cout << __FILE__ << ":" << __LINE__ << " : Error : Could not create file named " << outfname << endl;
 		exit(0);
 	}
-	ofile.cd();
+	ofile->cd();
 
 	string name = "";
 	string error = "";
@@ -166,7 +167,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 		}
 		cout << endl;
 	}
-	ofile.Close();
+	ofile->Close();
 }
 
 #endif
