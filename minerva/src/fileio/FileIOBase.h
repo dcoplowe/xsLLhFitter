@@ -41,6 +41,9 @@ public:
 	void Fill();
 	void Write();
 
+	static std::string GetEnv(const char * name);
+
+
 protected:
 	bool m_verbose;
 	virtual	void Init() = 0;
