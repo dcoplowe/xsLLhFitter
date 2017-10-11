@@ -92,7 +92,7 @@ private:
 	int	m_start;
 	int m_anabin;
 
-	ClassDef(Sample, 1);// Sample class to hold different topologies
+	ClassDefNV(Sample, 1);// Sample class to hold different topologies
 };
 
 #endif
