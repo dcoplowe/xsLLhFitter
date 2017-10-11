@@ -52,7 +52,7 @@ int main()
 	reader.SetupLLNTuple();
 
 	// cout << "reader.SetupLLNTuple();" << endl;
-	
+
 	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
 
@@ -100,7 +100,7 @@ int main()
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
-	TMatrixD cov = syst->GetCovMatrix("S");
+	TMatrixD cov = syst->GetCovMatrix("");
 	// // Need to find seg fault in this class...
 	// // Seems to be some memory problem... :(
 	// cov.Print();
