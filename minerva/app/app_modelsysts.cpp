@@ -15,9 +15,9 @@ int main(int argc, char const *argv[])
 	std::string in_tree = "CCProtonPi0";
 	std::string out_file = "ModSyst_Test.root";
 
-	FileIO reader(in_file, in_tree);
+	// FileIO reader(in_file, in_tree);
 
-	// ModelSystematics syst(7);
+	ModelSystematics syst(7);
 	Int_t nInts = 5;
 
 	// Ozgur's signal:
@@ -63,7 +63,7 @@ int main(int argc, char const *argv[])
 		double weight = 1.;//reader.wgt;
 		int interaction = 2;//reader.mc_intType;
 
-		cout << "true_op_angle = " << true_op_angle << " true_pi0_invMass = " <<  true_pi0_invMass << endl;
+		// cout << "true_op_angle = " << true_op_angle << " true_pi0_invMass = " <<  true_pi0_invMass << endl;
 		if(0. < true_pi0_invMass && true_pi0_invMass <= lowMass){
 			if(interaction == 1){
 				// syst.FillSample("pi0LowMass_I0", true_pi0_invMass, weight);
