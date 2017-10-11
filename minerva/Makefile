@@ -50,7 +50,7 @@ $(MOD): $(MODOBJS)
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) $(TMPINC) -c $< -o $@
 
 # Special sample:
-src/base/Sample.o: src/base/Sample.h
+Sample.o: Sample.h
 
 Sampledict.C: src/base/Sample.h
 	@echo "Generating dictionary ..."
