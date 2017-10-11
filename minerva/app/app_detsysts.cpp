@@ -24,7 +24,7 @@ int main()
 
 	DetectorSystematics * syst = new DetectorSystematics(100, verbose);
 
-	cout << "DetectorSystematics * syst = new DetectorSystematics(100, verbose);" << endl;
+	// cout << "DetectorSystematics * syst = new DetectorSystematics(100, verbose);" << endl;
 
 	// Ozgur's signal:
 	// In ten's of MeV
@@ -42,21 +42,21 @@ int main()
 	
 	FileIO reader(in_file, in_tree);
 
-	cout << "FileIO reader(in_file, in_tree);" << endl;
+	// cout << "FileIO reader(in_file, in_tree);" << endl;
 
 	TFile * ofile = FileIO::MakeOutFile(out_file);
 
-	cout << "TFile * ofile = FileIO::MakeOutFile(out_file);" << endl;
+	// cout << "TFile * ofile = FileIO::MakeOutFile(out_file);" << endl;
 
 	ofile->cd();
 	reader.SetupLLNTuple();
 
-	cout << "reader.SetupLLNTuple();" << endl;
+	// cout << "reader.SetupLLNTuple();" << endl;
 	
 	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
 
-	cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
+	// cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
 	// Int_t entries = reader.GetEntries();
 	// Int_t entries = reader.GetEntries();
@@ -65,7 +65,7 @@ int main()
 
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
-		cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
+		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
 
@@ -92,7 +92,7 @@ int main()
 			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
 			reader.SetSample(3);
 		}
-		cout << "Now filling tree." << endl;
+		// cout << "Now filling tree." << endl;
 		reader.Fill();
 	}
 
