@@ -524,7 +524,7 @@ void DetectorSystematics::SliceNorm(TMatrixD &cov)
 		int lowBin = 0; //cov.GetNrows();
 		int highBin = cov.GetNcols();
 		cout << "Slice norm: Binning low = " << lowBin << " : high = " << highBin << endl; 
-
+		tmp->Write();
 		for(int i = lowBin; i < highBin; ++i ){
 			for(int k = lowBin; k < highBin; ++k ){ 
 		        //Gettting the the CV value for bin i

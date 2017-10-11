@@ -89,7 +89,7 @@ int main()
 			reader.SetSample(2);
 		}
 		else{
-			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
+			// cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
 			reader.SetSample(3);
 		}
 		// cout << "Now filling tree." << endl;
