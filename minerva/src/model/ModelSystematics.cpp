@@ -131,6 +131,7 @@ void ModelSystematics::BuildResponses(const std::string &outfname)
 	for(; it != m_samples.end(); it++){
 		Sample * sam = it->second;
 		cout << "For " << it->first << " sample:";// << endl;
+		ntbins = sam->GetNbinsX();
 		// Finish this tomorrow:
 		// For each sam retrieve all the systs and make a response function
 		for(int type = 0; type < 2; type++){
