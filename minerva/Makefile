@@ -19,9 +19,17 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 TMPINC = -I$(ntup)/Classes/KinematicCalculator
 TMP = $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
 
+
+MyDict.cpp: src/base/Sample.h Linkdef.h
+	rootcint -f $@ -c $(CXXFLAGS) -p $^
+ 
+libMyLib.so: MyDict.cxx src/base/Sample.cpp
+	g++ -shared -o$@ $(ROOTFLAGS) $(CXXFLAGS) -I$(ROOTSYS)/include $^
+
+
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 
-DSRCS = $(wildcard src/detector/*.cpp) $(SRCS)
+DSRCS = $(wildcard src/detector/*.cpp) $(SRCS) MyDict.cpp
 MSRCS = $(wildcard src/model/*.cpp) $(SRCS)
 # SRCS =	$(wildcard src/*.cpp)
 # OBJS = $(SRCS:.c=.o)
@@ -54,11 +62,7 @@ clean:
 	$(RM) *.o *~ $(DET) $(DETOBJS) $(MOD) $(MODOBJS)
 
 # MyDict.cxx: $(HEADERS) Linkdef.h
-MyDict.cxx: src/base/Sample.h
-	rootcint -f $@ -c $(CXXFLAGS) -p $^
- 
-libMyLib.so: MyDict.cxx src/base/Sample.cpp
-	g++ -shared -o$@ $(ROOTFLAGS) $(CXXFLAGS) -I$(ROOTSYS)/include $^
+
 # Special sample:
 # Sample.o: Sample.h
 # Sampledict.C: src/base/Sample.h
