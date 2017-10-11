@@ -22,7 +22,7 @@ public:
 
 	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high);
 	Sample(const std::string& name, const int nbins, const double * x_bins);
-	~Sample();
+	virtual ~Sample();
 
 	int GetSampPos() const { return m_sampos; }
 
@@ -90,6 +90,8 @@ private:
 
 	int	m_start;
 	int m_anabin;
+
+	 ClassDef(Sample, 1);
 };
 
 #endif
