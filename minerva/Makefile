@@ -36,9 +36,6 @@ MODCPP = app/app_modelsysts.cpp
 MODALL = $(MODCPP) $(MSRCS) $(TMP)
 MODOBJS = $(MODALL:.cpp=.o)
 
-SampleDict.cpp: src/base.sample.h Linkdef.h
-	rootcint -f $@ -c $(CXXFLAGS) -p $^
-
 all: $(DET) $(MOD)
 	@echo  $(DET) and $(MOD) have compiled successfully.
 # all: $(DET)
@@ -58,7 +55,6 @@ clean:
 
 # Special sample:
 # Sample.o: Sample.h
-
 # Sampledict.C: src/base/Sample.h
 # 	@echo "Generating dictionary ..."
-# @rootcint Sampledict.C -c src/base/Sample.h
+# 	@rootcint Sampledict.C -c src/base/Sample.h
