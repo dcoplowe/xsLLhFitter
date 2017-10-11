@@ -20,12 +20,11 @@ TMPINC = -I$(ntup)/Classes/KinematicCalculator
 TMP = $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
 
 
-MyDict.cpp: src/base/Sample.h Linkdef.h
-	rootcint -f $@ -c $(CXXFLAGS) -p $^
+Sample.cpp:
+	rootcint -f Sampledict.cxx -c src/base/Sample.cpp LinkDef.h
  
-libMyLib.so: MyDict.cxx src/base/Sample.cpp
+libMyLib.so: SampleMyDict.cxx src/base/Sample.cpp
 	g++ -shared -o$@ $(ROOTFLAGS) $(CXXFLAGS) -I$(ROOTSYS)/include $^
-
 
 SRCS = $(foreach dir, $(DIR_LIST), $(wildcard $(dir)/*.cpp) )
 SRCS += MyDict.cpp
