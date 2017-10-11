@@ -8,11 +8,9 @@
 
 // class MnvH1D;
 // class MnvH2D;
-#include <ErrorType.h>
-// class ErrorType;
+class ErrorType;
 
 #include <PlotUtils/MnvH1D.h> 
-
 // #include <PlotUtils/MnvH2D.h>
 using namespace PlotUtils;
 
@@ -25,7 +23,7 @@ public:
 
 	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high);
 	Sample(const std::string& name, const int nbins, const double * x_bins);
-	~Sample();
+	virtual ~Sample();
 
 	int GetSampPos() const { return m_sampos; }
 
@@ -94,7 +92,7 @@ private:
 	int	m_start;
 	int m_anabin;
 
-	ClassDef(Sample, 1); // Sample class to hold different topologies
+	ClassDef(Sample, 1);// Sample class to hold different topologies
 };
 
 #endif
