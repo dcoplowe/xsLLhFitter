@@ -100,8 +100,8 @@ int main(int argc, char const *argv[])
 			}
 			else if(interaction == 2){
 				syst.FillSample("pi0HigMas_I1", true_pi0_invMass, weight);
-				syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_NormCCRES);
+				syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, temp_set);// reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else{
