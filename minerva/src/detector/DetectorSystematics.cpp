@@ -281,8 +281,9 @@ TMatrixD DetectorSystematics::GetCovMatrix(const std::string &norm, const bool i
 	bool cov_slice_normalize = false;
 	if(norm.find("A") != std::string::npos) cov_area_normalize = true;
 	else if(norm.find("a") != std::string::npos) cov_area_normalize = true;
-	else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
-	else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
+	// This doesn't work how I expected. I think this is wrong: you need to think about the construction of a covariance matrix... idiot.
+	// else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
+	// else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
 
 	// Check that all the samples have the same errors:	
 
