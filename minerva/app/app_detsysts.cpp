@@ -51,8 +51,8 @@ int main()
 
 	// Int_t entries = reader.GetEntries();
 	// Int_t entries = reader.GetEntries();
-	Int_t loop_size = 10;
-	reader.SetMaxEntries(loop_size);
+	Int_t loop_size = reader.GetEntries();
+	// reader.SetMaxEntries(loop_size);
 
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
