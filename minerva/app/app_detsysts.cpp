@@ -42,10 +42,17 @@ int main()
 	
 	FileIO reader(in_file, in_tree);
 
+	cout << "FileIO reader(in_file, in_tree);" << endl;
+
 	TFile * ofile = FileIO::MakeOutFile(out_file);
+
+	cout << "TFile * ofile = FileIO::MakeOutFile(out_file);" << endl;
+
 	ofile->cd();
 	reader.SetupLLNTuple();
 
+	cout << "reader.SetupLLNTuple();" << endl;
+	
 	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
 
