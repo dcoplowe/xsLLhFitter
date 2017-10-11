@@ -526,12 +526,12 @@ void DetectorSystematics::SliceNorm(TMatrixD &cov)
 		cout << "Slice norm: Binning low = " << lowBin << " : high = " << highBin << endl; 
 
 		for(int i = lowBin; i < highBin; ++i ){
-			for(int k = i; k < highBin; ++k ){ 
+			for(int k = lowBin; k < highBin; ++k ){ 
 		        //Gettting the the CV value for bin i
 				const double cv = tmp->GetBinContent( (i+1) , (k+1) );
 				cout << "cov[" << i << "][" << k << "] = " << cv << endl;
 				cov[i][k]= cv;
-				cov[k][i]=cov[i][k];
+			//	cov[k][i]=cov[i][k];
 			}
 		}
 		delete tmp;
