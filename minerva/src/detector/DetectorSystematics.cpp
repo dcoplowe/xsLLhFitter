@@ -9,6 +9,7 @@
 #include <TMatrixD.h>
 #include <sstream>
 #include <ErrorType.h>
+#include <TMath.h>
 
 using std::cout;
 using std::endl;
