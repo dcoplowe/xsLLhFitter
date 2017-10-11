@@ -32,9 +32,10 @@ int main()
 	double higMass = 200.;
 	double maxMass = 500.;
 
-	int nlowMass_bins = (int)lowMass/10.;
-	int nsigMass_bins = (int)(higMass - lowMass)/10.;
-	int nhigMass_bins = (int)(maxMass - higMass)/10.;
+	double den = 3;
+	int nlowMass_bins = (int)lowMass/den;
+	int nsigMass_bins = (int)(higMass - lowMass)/den;
+	int nhigMass_bins = (int)(maxMass - higMass)/den;
 
 	syst->AddSample("pi0LowMass", nlowMass_bins, 0.,      lowMass);
 	syst->AddSample("signal",  	 nsigMass_bins, lowMass, higMass);
