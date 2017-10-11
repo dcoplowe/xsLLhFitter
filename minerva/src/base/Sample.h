@@ -14,13 +14,13 @@ class ErrorType;
 // #include <PlotUtils/MnvH2D.h>
 using namespace PlotUtils;
 
-class Sample : public MnvH1D, public TObject
+class Sample : public MnvH1D
 {
 public:
 	// Should simplify this and remove the model bit. 
 	// Just make this more of a wrapper for the Minverva histo class.
 	// static std::string CurrentSample;
-
+	Sample() : MnvH1D() {;}
 	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high);
 	Sample(const std::string& name, const int nbins, const double * x_bins);
 	virtual ~Sample();
