@@ -102,12 +102,12 @@ TFile * FileIOBase::MakeOutFile(const std::string &outfilename)
 	string tmp_file = "";
 	if(outfilename[0] == '/') tmp_file = outfilename;
 	else{ 
-		cout << "DDD = " << std::getenv("DATA_DIR") << endl;
-		std::string dir = std::string(std::getenv("DATA_DIR"));
-		if(dir.empty()){
+		char* pPath = std::getenv ("DATA_DIR");
+		if (pPath=NULL){
 			cout << __FILE__ << ":" << __LINE__ << " : ERROR : $DATA_DIR is not defined." << endl;
 			exit(0);
 		}
+		std::string dir = std::string(pPath);
 		tmp_file = dir + "/" + outfilename;
 	}
 
