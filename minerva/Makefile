@@ -49,6 +49,14 @@ $(MOD): $(MODOBJS)
 .cpp.o:
 	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) $(TMPINC) -c $< -o $@
 
+# Special sample:
+src/base/Sample.o: src/base/Sample.h
+
+Sampledict.C: src/base/Sample.h
+        @echo "Generating dictionary ..."
+        @rootcint Sampledict.C -c src/base/Sample.h
+
+
 .PHONY: clean
 clean:
 	$(RM) *.o *~ $(DET) $(DETOBJS) $(MOD) $(MODOBJS)
