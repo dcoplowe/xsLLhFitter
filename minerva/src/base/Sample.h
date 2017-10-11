@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <TObject.h>
 // #include <TROOT.h>
 
 // class MnvH1D;
@@ -91,7 +92,7 @@ private:
 	int	m_start;
 	int m_anabin;
 
-	 ClassDef(Sample, 1);
+	ClassDef(Sample, 1);
 };
 
 #endif
