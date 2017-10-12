@@ -193,20 +193,17 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
     double in_precision = precision;
     if(precision == -999.) in_precision = TMath::Sqrt((double)dentry)/(double)dentry;
 
-    cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " << (int)(dentry*in_precision) << endl;
-    cout << "Starting ave bin size " << ave_bin << endl;
-
     double * tot_bin = new double [ x_nbins ];
 
     for(int i = 1; i < x_nbins; i++){
         // first using starting point:
         double start = x_min + i*ave_bin;
-        cout << "Finding element " << i << ": Using " << start << " as initial value." << endl;
+        // cout << "Finding element " << i << ": Using " << start << " as initial value." << endl;
         double low = binning[ (i - 1) ];
 
         int entries = GetEntriesInRange(intree, var_name, low, start, cuts);
         double delta = (double)(1. - (double)entries/(double)dentry);
-        cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << endl;
+        // cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << endl;
    		double value = start;
    		double sign = (delta < 0.) ? -1. : 1.;
         if(TMath::Abs(delta) > in_precision){
@@ -219,14 +216,16 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         		if(TMath::Abs(delta) < in_precision) break;
         	}
         }
-        cout << "Best bin value found: " << value << endl;
+        // cout << "Best bin value found: " << value << endl;
         binning[i] = value;
         tot_bin[(i -1)] = entries;
     }
 
     tot_bin[ (x_nbins - 1 ) ] = GetEntriesInRange(intree, var_name, binning[ x_nbins - 1 ], x_max, cuts); 
 
-    cout << "*** Finished Binning ***" << endl;
+    cout << "********* Finished Binning *********" << endl;
+    cout << "   For " << nbins << "bins : Ave. Binning = " << dentry << " p/m " << (int)(dentry*in_precision) << endl;
+
     for(int i = 0; i < x_nbins + 1; i++){
     	cout << var_name << "[" << i << "] = " << binning[i] << " ";
     	if(i < x_nbins) cout << tot_bin[i];
