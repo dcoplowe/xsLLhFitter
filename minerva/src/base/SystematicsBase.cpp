@@ -187,7 +187,10 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
     int dentry = (int)integral/x_nbins;
     double ave_bin = (double)(x_max - x_min)/x_nbins;
 
-    cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " << (int)(dentry*precision) << endl;
+    double in_precision = precision;
+    if(precision == -999.) in_precision = TMath::Sqrt(dentry)/(double)dentry;
+
+    cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " << (int)(dentry*in_precision) << endl;
     cout << "Starting ave bin size " << ave_bin << endl;
 
     double * tot_bin = new double [ x_nbins ];
@@ -203,14 +206,14 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << endl;
    		double value = start;
    		double sign = (delta < 0.) ? -1. : 1.;
-        if(TMath::Abs(delta) > precision){
+        if(TMath::Abs(delta) > in_precision){
         	for(int m = 0; m < 999; m++){
         				// This is good up to in stats of 1e6.
         		value = start*(1. + sign*m*0.001);
         		entries = GetEntriesInRange(intree, var_name, low, value, cuts);
         		double delta = (double)(1. - (double)entries/(double)dentry);
         		// cout << "For " << low << " <= " << var_name << " <= " << value << " : " << entries << " (" << dentry << ") Delta = " << delta << endl;
-        		if(TMath::Abs(delta) < precision) break;
+        		if(TMath::Abs(delta) < in_precision) break;
         	}
         }
         cout << "Best bin value found: " << value << endl;
