@@ -6,6 +6,7 @@
 #include <map>
 
 class Sample;
+class TTree;
 
 class SystematicsBase
 {

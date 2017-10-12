@@ -5,6 +5,7 @@
 
 #include <Sample.h>
 #include <iostream>
+#include <TTree.h>
 
 using std::string;
 using std::cout;
