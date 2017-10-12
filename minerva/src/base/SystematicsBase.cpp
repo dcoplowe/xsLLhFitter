@@ -213,7 +213,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         		if(TMath::Abs(delta) < precision) break;
         	}
         }
-        cout << "Best bin value found: " << start << endl;
+        cout << "Best bin value found: " << value << endl;
         binning[i] = value;
     }
 
