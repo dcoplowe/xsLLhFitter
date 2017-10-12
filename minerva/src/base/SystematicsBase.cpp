@@ -234,7 +234,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
     return binning;
 }
 
-int SystematicsBase::GetEntriesInRange(TTree * tree, const std::string &var_name, const int x_min, const int x_max, const std::string &cuts)
+Int_t SystematicsBase::GetEntriesInRange(TTree * tree, const std::string &var_name, const int x_min, const int x_max, const std::string &cuts)
 {
 	string basecuts = cuts; 
 	if(!cuts.empty()) basecuts += " && ";
