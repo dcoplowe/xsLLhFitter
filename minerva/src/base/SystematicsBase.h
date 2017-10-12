@@ -54,7 +54,7 @@ protected:
     double m_wgt;
 	std::string m_CurrentSample;
 
-	Int_t GetEntriesInRange(TTree * tree, const std::string &var_name, const int x_min, const int x_max,  const std::string &cuts);
+	int GetEntriesInRange(TTree * tree, const std::string &var_name, const int x_min, const int x_max,  const std::string &cuts);
 
 
 	// static FillSample;
