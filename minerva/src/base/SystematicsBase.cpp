@@ -6,6 +6,7 @@
 #include <Sample.h>
 #include <iostream>
 #include <TTree.h>
+#include <math>
 
 using std::string;
 using std::cout;
@@ -188,7 +189,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
     double ave_bin = (double)(x_max - x_min)/x_nbins;
 
     double in_precision = precision;
-    if(precision == -999.) in_precision = TMath::Sqrt((Double_t)dentry)/(double)dentry;
+    if(precision == -999.) in_precision = sqrt((double)dentry)/(double)dentry;
 
     cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " << (int)(dentry*in_precision) << endl;
     cout << "Starting ave bin size " << ave_bin << endl;
