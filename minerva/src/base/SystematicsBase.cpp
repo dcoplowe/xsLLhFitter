@@ -211,7 +211,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         		double delta = (double)(1. - (double)entries/(double)dentry);
         		cout << "For " << low << " <= " << var_name << " <= " << value << " : " << entries << " (" << dentry << ") Delta = " << delta << endl;
         		if(TMath::Abs(delta) < precision) break;
-
+        	}
         }
         cout << "Best bin value found: " << start << endl;
         binning[i] = value;
