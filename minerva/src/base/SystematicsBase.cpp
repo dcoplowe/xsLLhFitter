@@ -198,6 +198,8 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
     cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " << (int)(dentry*precision) << endl;
     cout << "Starting ave bin size " << ave_bin << endl;
 
+    double * tot_bin = new double [ x_nbins ];
+
     for(int i = 1; i < x_nbins; i++){
         // first using starting point:
         double start = x_min + i*ave_bin;
@@ -217,6 +219,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         	entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
         	delta = 1. - (double)(entries/dentry);
         	cout << " Entries = " << entries << " delta = " << delta << endl;
+        	tot_bin[i-1] = entries;
         }
         cout << "Best bin value found: " << start << endl;
         binning[i] = start;
@@ -224,7 +227,9 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
 
     cout << "*** Finished Binning ***" << endl;
     for(int i = 0; i < x_nbins + 1; i++){
-    	cout << var_name << "[" << i << "]" << binning[i] << endl;
+    	cout << var_name << "[" << i << "]" << binning[i];
+    	if(i < x_nbins) cout << tot_bin[i];
+    	cout << endl;
     }
     return binning;
 }
