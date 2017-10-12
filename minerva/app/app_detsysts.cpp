@@ -9,13 +9,14 @@
 
 using std::cout;
 using std::endl;
+using std::string;
 
 // int main(int argc, char const *argv[])
 int main()
 {
-	std::string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root"; 
-	std::string in_tree = "CCProtonPi0";
-	std::string out_file = "DetSyst_Test.root";
+	string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root"; 
+	string in_tree = "CCProtonPi0";
+	string out_file = "DetSyst_Test.root";
 	bool verbose = false;
 
 	// Do we want something to overtake the nominal number of toys?
