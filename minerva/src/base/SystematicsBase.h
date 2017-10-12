@@ -40,7 +40,7 @@ public:
 
 	// If -999 is the presision use error as stat error.
 	static double * GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
-    const std::string &cuts = "", const double precision = -999);
+    const std::string &cuts = "", const double precision = 0.05);
 
 protected:
 	int m_Nuniverses;
