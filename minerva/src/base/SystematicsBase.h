@@ -38,7 +38,7 @@ public:
 		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
 	bool FillUncorrError(const std::string& sam_name, const std::string& name, const double value, const double err, const double cvweight = 1.0 );
 
-	double * GetOptBinning(const TTree *& intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+	double * GetOptBinning(const TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
     const std::string &cuts = "", const double precision = 0.05);
 
 protected:
