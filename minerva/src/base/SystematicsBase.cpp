@@ -177,21 +177,13 @@ bool SystematicsBase::FillUncorrError(const std::string& sam_name, const std::st
 double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
     const string &cuts, const double precision)
 {
-    string basecuts = cuts; 
-    if(!cuts.empty()){
-        basecuts += " && ";
-    }
-
-    cout << "basecuts = " << basecuts << endl;
+	// Default presision should be within sqrt( N(x_high - x_low)/nbins )
 
     double * binning = new double [ x_nbins + 1 ];
     binning[ 0 ] = x_min;
     binning[ x_nbins ] = x_max;
 
-    cout << "Made bins" << basecuts << endl;
-
-    int integral = intree->Draw(var_name.c_str(), 
-        Form("%s %f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max), "goff");
+    int integral = GetEntriesInRange(intree, var_name, x_min, x_max, cuts);
     int dentry = (int)integral/x_nbins;
     double ave_bin = (double)(x_max - x_min)/x_nbins;
 
@@ -206,38 +198,26 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         cout << "Finding element " << i << ": Using " << start << " as initial value." << endl;
         double low = binning[ (i - 1) ];
 
-        string sel = Form("%s %f <= %s && %s <= %f", basecuts.c_str(), low, var_name.c_str(), var_name.c_str(), start);
-        int entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
-        // double best = start;
-
-        double off = (double)entries/(double)dentry;
-        double delta = (double)(1. - off);
+        int entries = GetEntriesInRange(intree, var_name, low, start, cuts);
+        double delta = (double)(1. - (double)entries/(double)dentry);
         cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << " off = " << off << endl;
+   		
+   		double sign = (delta < 0.) ? -1. : 1.;
+        if(TMath::Abs(delta) > precision){
+        	for(int m = 0; m < 10; m++){
+        		for(int n = 0; n < 10; n++){
+        			for(int o = 0; o < 10; o++){
+        				// This is good up to in stats of 1e6.
+        				value = start*(1. + sign*( m*0.001 + n*0.01 + o*0.1 ) );
 
-        double last_value = 0.;
-        int last_entries = 0;
-        double value = start;
-        while( TMath::Abs(delta) > precision ){
-        	// if(delta > 0.) off *= -1.;
-        	value *= (1. + delta);//*start;
-        	if(value < low || value > x_max) value = 1.1*low;
-
-        	sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), low, var_name.c_str(), var_name.c_str(), value);
-        	cout << "Entries in range = " << low << " <= " <<  var_name << " <= " << value;
-        	entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
-        	
-
-
-        	off = (double)entries/(double)dentry;
-        	delta = (double)(1. - off);
-        	cout << " Entries = " << entries << "(" << dentry << ") delta = 1. - " << off << " = " << delta << endl;
-
-        	last_value = value;
-        	last_entries = entries;
-
-
-
-        	tot_bin[ (i-1) ] = (double)entries;
+        				entries = GetEntriesInRange(intree, var_name, low, value, cuts);
+        				double delta = (double)(1. - (double)entries/(double)dentry);
+        				if(TMath::Abs(delta) < precision) break;
+        			}
+        			if(TMath::Abs(delta) < precision) break;        			
+        		}
+        		if(TMath::Abs(delta) < precision) break;        		
+        	}
         }
         cout << "Best bin value found: " << start << endl;
         binning[i] = start;
@@ -252,6 +232,14 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
     cout << "************************" << endl;
 
     return binning;
+}
+
+int SystematicsBase::GetEntriesInRange(TTree * tree, const std::string &var_name, const int x_min, const int x_max, const std::string &cuts)
+{
+	string basecuts = cuts; 
+	if(!cuts.empty()) basecuts += " && ";
+	sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max);
+	return tree->Draw(var_name.c_str(), sel.c_str() , "goff");
 }
 
 #endif

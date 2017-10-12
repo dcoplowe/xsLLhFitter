@@ -38,8 +38,9 @@ public:
 		const double cvweight  = 1.0, double cvWeightFromMe = 1. );
 	bool FillUncorrError(const std::string& sam_name, const std::string& name, const double value, const double err, const double cvweight = 1.0 );
 
-	double * GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
-    const std::string &cuts = "", const double precision = 0.05);
+	// If -999 is the presision use error as stat error.
+	static double * GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+    const std::string &cuts = "", const double precision = -999);
 
 protected:
 	int m_Nuniverses;
@@ -52,6 +53,9 @@ protected:
 	double m_value;
     double m_wgt;
 	std::string m_CurrentSample;
+
+	static int GetEntriesInRange(TTree * tree, const std::string &var_name, const int x_min, const int x_max,  const std::string &cuts);
+
 
 	// static FillSample;
 };
