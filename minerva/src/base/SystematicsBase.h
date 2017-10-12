@@ -39,7 +39,7 @@ public:
 	bool FillUncorrError(const std::string& sam_name, const std::string& name, const double value, const double err, const double cvweight = 1.0 );
 
 	// If -999 is the presision use error as stat error.
-	double * GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+	static double * GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
     const std::string &cuts = "", const double precision = -999.);
 
 protected:
@@ -54,10 +54,7 @@ protected:
     double m_wgt;
 	std::string m_CurrentSample;
 
-	int GetEntriesInRange(TTree * tree, const std::string &var_name, const double x_min, const double x_max,  const std::string &cuts);
-
-
-	// static FillSample;
+	static int GetEntriesInRange(TTree * tree, const std::string &var_name, const double x_min, const double x_max,  const std::string &cuts);
 };
 
 #endif

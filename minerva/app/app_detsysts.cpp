@@ -57,19 +57,16 @@ int main()
 	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
 	// syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
 
-	// cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
+	// string var_name[3] = {"muon_P", "proton_P", "pi0_P"};
+	// double var_low[3] = { 1200., 450., 250. };
+	// double var_high[3] = { 7000., 1600., 4000. };
+
+	// for(int i = 0; i < 3; i++){
+	// 	double * bins = syst->GetOptBinning(reader.fChain, var_name[i], 3, var_low[i], var_high[i], "truth_isSignal == 1");
+	// }
 
 	Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
-
-	string var_name[3] = {"muon_P", "proton_P", "pi0_P"};
-	double var_low[3] = { 1200., 450., 250. };
-	double var_high[3] = { 7000., 1600., 4000. };
-
-	for(int i = 0; i < 3; i++){
-		double * bins = syst->GetOptBinning(reader.fChain, var_name[i], 3, var_low[i], var_high[i], "truth_isSignal == 1");
-	}
-
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
 		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
