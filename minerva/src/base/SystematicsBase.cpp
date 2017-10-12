@@ -212,7 +212,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
 
         double delta = (double)(1. - ((double)entries/(double)dentry));
         cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << endl;
-        while( TMath::Abs(delta) < precision ){
+        while( TMath::Abs(delta) > precision ){
         	start *= (1. + delta);
         	sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), low, var_name.c_str(), var_name.c_str(), start);
         	cout << "sel = " << sel;// << endl;
@@ -227,7 +227,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
 
     cout << "*** Finished Binning ***" << endl;
     for(int i = 0; i < x_nbins + 1; i++){
-    	cout << var_name << "[" << i << "]" << binning[i] << " ";
+    	cout << var_name << "[" << i << "] = " << binning[i] << " ";
     	if(i < x_nbins) cout << tot_bin[i];
     	cout << endl;
     }
