@@ -215,6 +215,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         }
         cout << "Best bin value found: " << value << endl;
         binning[i] = value;
+        tot_bin[(i -1)] = entries;
     }
 
     cout << "*** Finished Binning ***" << endl;
