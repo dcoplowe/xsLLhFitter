@@ -182,9 +182,13 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         basecuts += " && ";
     }
 
+    cout << "basecuts = " << basecuts << endl;
+
     double * binning = new double [ x_nbins + 1 ];
     binning[ 0 ] = x_min;
     binning[ x_nbins ] = x_max;
+
+    cout << "Made bins" << basecuts << endl;
 
     int integral = intree->Draw(var_name.c_str(), 
         Form("%s %f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max), "goff");
