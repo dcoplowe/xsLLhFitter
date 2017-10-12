@@ -221,7 +221,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         	entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
         	off = (double)entries/(double)dentry;
         	delta = (double)(1. - off);
-        	cout << " Entries = " << entries << "(" << dentry << ") delta = " << delta << endl;
+        	cout << " Entries = " << entries << "(" << dentry << ") delta = 1. - " << off << " = " << delta << endl;
         	tot_bin[ (i-1) ] = (double)entries;
         }
         cout << "Best bin value found: " << start << endl;
