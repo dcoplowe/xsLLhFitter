@@ -218,6 +218,8 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         tot_bin[(i -1)] = entries;
     }
 
+    tot_bin[ (x_nbins - 1 ) ] = GetEntriesInRange(intree, var_name, binning[ x_nbins ], x_max, cuts); 
+
     cout << "*** Finished Binning ***" << endl;
     for(int i = 0; i < x_nbins + 1; i++){
     	cout << var_name << "[" << i << "] = " << binning[i] << " ";
