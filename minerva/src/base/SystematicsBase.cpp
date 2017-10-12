@@ -182,7 +182,7 @@ double * SystematicsBase::GetOptBinning(const TTree * intree, const std::string 
         basecuts += " && ";
     }
 
-    double binning = new double [ x_nbins + 1 ];
+    double * binning = new double [ x_nbins + 1 ];
     binning[ 0 ] = x_min;
     binning[ x_nbins ] = x_max;
 
