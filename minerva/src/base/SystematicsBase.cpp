@@ -238,7 +238,9 @@ int SystematicsBase::GetEntriesInRange(TTree * tree, const std::string &var_name
 {
 	string basecuts = cuts; 
 	if(!cuts.empty()) basecuts += " && ";
+	else basecuts = "";
 	string sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max);
+	cout << "sel = " << sel << endl;
 	return tree->Draw(var_name.c_str(), sel.c_str() , "goff");
 }
 
