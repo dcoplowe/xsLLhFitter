@@ -212,7 +212,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
 
         double off = (double)entries/(double)dentry;
         double delta = (double)(1. - off);
-        cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << endl;
+        cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << " off = " << off << endl;
         while( TMath::Abs(delta) > precision ){
         	if(delta > 0.) off *= -1.;
         	double value = (1. + off)*start;
