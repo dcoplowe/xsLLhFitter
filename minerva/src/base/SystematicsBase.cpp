@@ -227,10 +227,12 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
 
     cout << "*** Finished Binning ***" << endl;
     for(int i = 0; i < x_nbins + 1; i++){
-    	cout << var_name << "[" << i << "]" << binning[i];
+    	cout << var_name << "[" << i << "]" << binning[i] << " ";
     	if(i < x_nbins) cout << tot_bin[i];
     	cout << endl;
     }
+    cout << "************************" << endl;
+
     return binning;
 }
 
