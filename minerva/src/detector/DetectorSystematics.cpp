@@ -264,7 +264,7 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 	m_anaHist = new MnvH1D(*m_HanaHist);
 }
 
-TMatrixD DetectorSystematics::GetCovMatrix(const std::string &norm, const bool includeStat, const bool asFrac)
+TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool asFrac, const bool cov_area_normalize)
 {
 	if(!m_anaHist){
 		cout << __FILE__ << ":" << __LINE__ << " : Warning : No histogram made. Building using " << m_samples.size() << " samples." << endl;
@@ -277,14 +277,13 @@ TMatrixD DetectorSystematics::GetCovMatrix(const std::string &norm, const bool i
 	}
 
 	// Determine normalisation:
-	bool cov_area_normalize = false;
-	bool cov_slice_normalize = false;
-	if(norm.find("A") != std::string::npos) cov_area_normalize = true;
-	else if(norm.find("a") != std::string::npos) cov_area_normalize = true;
-	// This doesn't work how I expected. I think this is wrong: you need to think about the construction of a covariance matrix... idiot.
+	// bool cov_area_normalize = false;
+	// bool cov_slice_normalize = false;
+	// if(norm.find("A") != std::string::npos) cov_area_normalize = true;
+	// else if(norm.find("a") != std::string::npos) cov_area_normalize = true;
+	// // This doesn't work how I expected. I think this is wrong: you need to think about the construction of a covariance matrix... idiot.
 	// else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
 	// else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
-
 	// Check that all the samples have the same errors:	
 
 	cout << "Linking errors from individual samples" << endl;
@@ -513,7 +512,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const std::string &norm, const bool i
 	cout << "Built analyst hist with full errors" << endl;
 
 	TMatrixD cov =  m_anaHist->GetTotalErrorMatrix(includeStat, asFrac, cov_area_normalize);
-	if(cov_slice_normalize) SliceNorm(cov);
+	// if(cov_slice_normalize) SliceNorm(cov);
 	return cov;
 }
 
@@ -621,6 +620,27 @@ TH1D * DetectorSystematics::ToPDF(TH1D *hraw, std::string hn){
     hist->SetEntries(tmpnt);
     
     return hist;
+}
+
+// For build the systematic variation:
+std::string DetectorSystematics::GetPlaylist(const int run, const int type)
+{
+    std::string playlist = "";
+    (void)type;
+    // if ( IsEvent2p2h(type) ) playlist = "minerva_2p2h";
+    if (run >= 10200 && run <= 10249) playlist = "minerva1";
+    else if (run >= 10250 && run <= 10254) playlist = "minerva7";
+    else if (run >= 10255 && run <= 10259) playlist = "minerva9";
+    else if (run >= 12200 && run <= 12209) playlist = "minerva13A";
+    else if (run >= 12210 && run <= 12219) playlist = "minerva13B";
+    else if (run >= 13200 && run <= 13299) playlist = "minerva13C";
+    else if (run >= 14201 && run <= 14209) playlist = "minerva13D";
+    else if (run >= 14210 && run <= 14229) playlist = "minerva13E";
+    else{
+    	cout << "ERROR: No Playlist Found for run " << run << " and type " << type << "." << endl; 
+    	exit(0);
+    }
+    return playlist;
 }
 
 #endif

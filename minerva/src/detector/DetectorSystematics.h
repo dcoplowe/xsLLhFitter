@@ -12,6 +12,10 @@ class ErrorType;
 #include <PlotUtils/MnvH2D.h>
 using namespace PlotUtils;
 
+#ifndef kIniValue
+#define kIniValue -999
+#endif
+
 class DetectorSystematics : public SystematicsBase
 {
 public:
@@ -29,11 +33,14 @@ public:
 
 	void BuildAnaHist(const bool includeStat = true);
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
-	TMatrixD GetCovMatrix(const std::string &norm = "", const bool includeStat = false, const bool asFrac = false);//const bool cov_area_normalize = false);
+	TMatrixD GetCovMatrix(const bool includeStat = false, const bool asFrac = true, const bool cov_area_normalize = false);
 
 	static void SliceNorm(TMatrixD &cov);
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
+
+	// Things required for calculating the error shifts:
+	static std::string GetPlaylist(const int run, const int type = kIniValue);
 
 private:
 	int m_counter;

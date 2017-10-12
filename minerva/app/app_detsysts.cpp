@@ -58,10 +58,16 @@ int main()
 
 	// cout << "reader.GetEntries() = " << reader.GetEntries() << endl;
 
-	// Int_t entries = reader.GetEntries();
-	// Int_t entries = reader.GetEntries();
 	Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
+
+	string var_name[3] = {"muon_P", "proton_P", "pi0_P"};
+	string var_low[3] = { 1200., 450., 250. };
+	string var_name[3] = { 7000., 1600., 4000. };
+
+	for(int i = 0; i < 3; i++){
+		double * bins = syst->GetOptBinning(reader.fChain, var_name[i], 3, var_low[i], var_high[i], "truth_isSignal == 1");
+	}
 
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
@@ -100,7 +106,7 @@ int main()
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
-	TMatrixD cov = syst->GetCovMatrix("A", false, true);
+	TMatrixD cov = syst->GetCovMatrix();
 	// // Need to find seg fault in this class...
 	// // Seems to be some memory problem... :(
 	// cov.Print();

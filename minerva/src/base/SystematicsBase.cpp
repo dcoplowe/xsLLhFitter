@@ -173,4 +173,52 @@ bool SystematicsBase::FillUncorrError(const std::string& sam_name, const std::st
 	return pass;
 }
 
+double * SystematicsBase::GetOptBinning(const TTree *& intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+    const string &cuts, const double precision)
+{
+    string basecuts = cuts; 
+    if(!cuts.empty()){
+        basecuts += " && ";
+    }
+
+    double binning = new double [ x_nbins + 1 ];
+    binning[ 0 ] = x_min;
+    binning[ x_nbins ] = x_max;
+
+    int integral = intree->Draw(var_name.c_str(), 
+        Form("%s %f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max), "goff");
+    int dentry = (int)integral/x_nbins;
+    double ave_bin = (double)(x_max - x_min)/n_xbins;
+
+    cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " (int)(dentry*precision);
+    cout << "Starting ave bin size " << ave_bin << endl;
+
+    for(int i = 1; i < x_nbins; i++){
+        // first using starting point:
+        double start = x_min + i*ave_bin;
+        cout << "Finding element " << i << ": Using " << start << " as initial value." << endl;
+        double low = binning[ (i - 1) ];
+
+        string sel = Form("%s %f <= %s && %s <= %f", basecuts.c_str(), low, var_name.c_str(), var_name.c_str(), start);
+        int entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
+        double best = start;
+
+        double delta = 1. - (double)(entries/dentry);
+        while( TMath::Abs(delta) < precision ){
+        	start *= (1. + delta);
+        	sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), low, var_name.c_str(), var_name.c_str(), start);
+        	entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
+        	delta = 1. - (double)(entries/dentry);
+        }
+        cout << "Best bin value found: " << start << endl;
+        binning[i] = start;
+    }
+
+    cout << "*** Finished Binning ***" << endl;
+    for(int i = 0; i < x_nbins + 1; i++){
+    	cout << var_name << "[" << i << "]" << binning[i] << endl;
+    }
+    return binning;
+}
+
 #endif
