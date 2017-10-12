@@ -220,6 +220,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         while( TMath::Abs(delta) > precision ){
         	// if(delta > 0.) off *= -1.;
         	value *= (1. + delta);//*start;
+        	if(value < low || value > x_high) value = 1.1*low;
 
         	sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), low, var_name.c_str(), var_name.c_str(), value);
         	cout << "Entries in range = " << low << " <= " <<  var_name << " <= " << value;
