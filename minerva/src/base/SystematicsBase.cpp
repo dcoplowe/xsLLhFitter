@@ -210,14 +210,17 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         int entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
         // double best = start;
 
-        double delta = (double)(1. - ((double)entries/(double)dentry));
+        double off = (double)entries/(double)dentry;
+        double delta = (double)(1. - off);
         cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << endl;
         while( TMath::Abs(delta) > precision ){
-        	double value = (1. + delta)*start;
+        	if(delta < 0.) off *= -1.;
+        	double value = (1. + off)*start;
         	sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), low, var_name.c_str(), var_name.c_str(), value);
         	cout << "Entries in range = " << low << " <= " <<  var_name << " <= " << value;
         	entries = intree->Draw(var_name.c_str(), sel.c_str() , "goff");
-        	delta = 1. - (double)((double)entries/(double)dentry);
+        	off = (double)entries/(double)dentry;
+        	delta = (double)(1. - off);
         	cout << " Entries = " << entries << "(" << dentry << ") delta = " << delta << endl;
         	tot_bin[ (i-1) ] = (double)entries;
         }
