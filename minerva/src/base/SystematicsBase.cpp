@@ -234,14 +234,14 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
     return binning;
 }
 
-int SystematicsBase::GetEntriesInRange(TTree * tree, const std::string &var_name, const int x_min, const int x_max, const std::string &cuts)
+int SystematicsBase::GetEntriesInRange(TTree * tree, const std::string &var_name, const double x_min, const double x_max, const std::string &cuts)
 {
 	string basecuts = cuts; 
 	if(!cuts.empty()) basecuts += " && ";
 	else basecuts = "";
 	cout << "basecuts = " << basecuts << endl;
 	cout << "cuts = " << cuts << endl;
-	
+
 	string sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max);
 	cout << "sel = " << sel << endl;
 	return (int)tree->Draw(var_name.c_str(), sel.c_str() , "goff");
