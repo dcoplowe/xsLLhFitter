@@ -174,7 +174,7 @@ bool SystematicsBase::FillUncorrError(const std::string& sam_name, const std::st
 	return pass;
 }
 
-double * SystematicsBase::GetOptBinning(const TTree *& intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+double * SystematicsBase::GetOptBinning(const TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
     const string &cuts, const double precision)
 {
     string basecuts = cuts; 
