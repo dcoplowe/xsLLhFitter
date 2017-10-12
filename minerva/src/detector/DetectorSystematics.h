@@ -10,6 +10,7 @@ class ErrorType;
 
 #include <PlotUtils/MnvH1D.h> 
 #include <PlotUtils/MnvH2D.h>
+#include <TTree.h>
 using namespace PlotUtils;
 
 #ifndef kIniValue
