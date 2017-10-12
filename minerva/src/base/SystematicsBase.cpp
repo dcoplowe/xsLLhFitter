@@ -204,20 +204,14 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
    		double value = start;
    		double sign = (delta < 0.) ? -1. : 1.;
         if(TMath::Abs(delta) > precision){
-        	for(int m = 0; m < 10; m++){
-        		for(int n = 0; n < 10; n++){
-        			for(int o = 0; o < 10; o++){
+        	for(int m = 0; m < 0.999; m++){
         				// This is good up to in stats of 1e6.
-        				value = start*(1. + sign*( m*0.001 + n*0.01 + o*0.1 ) );
-        				entries = GetEntriesInRange(intree, var_name, low, value, cuts);
-        				double delta = (double)(1. - (double)entries/(double)dentry);
-        				cout << "For " << low << " <= " << var_name << " <= " << value << " : " << entries << " (" << dentry << ") Delta = " << delta << endl;
-        				if(TMath::Abs(delta) < precision) break;
-        			}
-        			if(TMath::Abs(delta) < precision) break;        			
-        		}
-        		if(TMath::Abs(delta) < precision) break;        		
-        	}
+        		value = start*(1. + sign*m*0.001);
+        		entries = GetEntriesInRange(intree, var_name, low, value, cuts);
+        		double delta = (double)(1. - (double)entries/(double)dentry);
+        		cout << "For " << low << " <= " << var_name << " <= " << value << " : " << entries << " (" << dentry << ") Delta = " << delta << endl;
+        		if(TMath::Abs(delta) < precision) break;
+
         }
         cout << "Best bin value found: " << start << endl;
         binning[i] = value;
