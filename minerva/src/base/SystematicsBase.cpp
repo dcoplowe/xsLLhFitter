@@ -209,7 +209,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
         		value = start*(1. + sign*m*0.001);
         		entries = GetEntriesInRange(intree, var_name, low, value, cuts);
         		double delta = (double)(1. - (double)entries/(double)dentry);
-        		cout << "For " << low << " <= " << var_name << " <= " << value << " : " << entries << " (" << dentry << ") Delta = " << delta << endl;
+        		// cout << "For " << low << " <= " << var_name << " <= " << value << " : " << entries << " (" << dentry << ") Delta = " << delta << endl;
         		if(TMath::Abs(delta) < precision) break;
         	}
         }
