@@ -189,9 +189,9 @@ double * SystematicsBase::GetOptBinning(const TTree * intree, const std::string 
     int integral = intree->Draw(var_name.c_str(), 
         Form("%s %f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max), "goff");
     int dentry = (int)integral/x_nbins;
-    double ave_bin = (double)(x_max - x_min)/n_xbins;
+    double ave_bin = (double)(x_max - x_min)/x_nbins;
 
-    cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " (int)(dentry*precision);
+    cout << "Entries =  " << integral << " : Entries per bin = " << dentry << " p/m " << (int)(dentry*precision) << endl;
     cout << "Starting ave bin size " << ave_bin << endl;
 
     for(int i = 1; i < x_nbins; i++){
