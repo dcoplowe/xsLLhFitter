@@ -63,8 +63,8 @@ int main(int argc, char const *argv[])
 		cout << " truth_ReconstructEvent = " << reader.truth_ReconstructEvent << endl;
 		cout << " truth_isSignal = " << reader.truth_isSignal << endl;
 		// make opening angle:
-		// double true_op_angle = KinCalc::OpeningAngle(reader.truth_gamma1_4P, reader.truth_gamma2_4P);
-		double true_pi0_invMass = reader.true_pi0_invMass;//134.9;//KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
+		double true_op_angle = KinCalc::OpeningAngle(reader.truth_gamma1_4P, reader.truth_gamma2_4P);
+		double true_pi0_invMass = KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
 		double weight = reader.wgt;
 		int interaction = reader.mc_intType;
 
