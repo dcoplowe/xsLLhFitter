@@ -50,7 +50,7 @@ int main(int argc, char const *argv[])
 	syst.AddVertErrorBand("Rvn1pi", "_I1");
 
 	// Int_t entries = reader.GetEntries();
-	Int_t loop_size = 100;
+	Int_t loop_size = reader.GetEntries();//100;
 	// reader.SetMaxEntries(loop_size);
 	// Double_t temp_set[7];// = {1.};
 
