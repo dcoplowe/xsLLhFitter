@@ -68,7 +68,7 @@ int main(int argc, char const *argv[])
 		double weight = reader.wgt;
 		int interaction = reader.mc_intType;
 
-		cout << "Rec Ev: " << eader.truth_ReconstructEvent << " : signal = " << reader.truth_isSignal << " mgg = " << true_pi0_invMass;
+		cout << "Rec Ev: " << reader.truth_ReconstructEvent << " : signal = " << reader.truth_isSignal << " mgg = " << true_pi0_invMass;
 		cout << " : w = " << weight << " : int = " << interaction << endl;
 
 		// cout << "true_op_angle = " << true_op_angle << " true_pi0_invMass = " <<  true_pi0_invMass << endl;
