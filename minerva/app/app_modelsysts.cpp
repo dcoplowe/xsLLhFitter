@@ -11,7 +11,8 @@ using std::string;
 
 int main(int argc, char const *argv[])
 {
-	std::string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root"; 
+	// string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root";
+	string in_file = "ReducedNTuple_TransverseAnalysis_121017.root"; 
 	std::string in_tree = "CCProtonPi0";
 	std::string out_file = "ModSyst_Test.root";
 
@@ -49,24 +50,26 @@ int main(int argc, char const *argv[])
 	syst.AddVertErrorBand("Rvn1pi", "_I1");
 
 	// Int_t entries = reader.GetEntries();
-	Int_t loop_size = 10;
+	Int_t loop_size = 100;
 	// reader.SetMaxEntries(loop_size);
+	// Double_t temp_set[7];// = {1.};
 
-	Double_t temp_set[7];// = {1.};
-
-	for(int i = 0; i < 7; i++)	temp_set[i] = 0.4 + i*0.2;
+	// for(int i = 0; i < 7; i++)	temp_set[i] = 0.4 + i*0.2;
 
 	for(Int_t i = 0; i < loop_size; i++){
 		// syst.GetReady();
-		//reader.GetEntry(i);
+		reader.GetEntry(i);
 
-		// cout << " truth_ReconstructEvent = " << reader.truth_ReconstructEvent << endl;
-		// cout << " truth_isSignal = " << reader.truth_isSignal << endl;
+		cout << " truth_ReconstructEvent = " << reader.truth_ReconstructEvent << endl;
+		cout << " truth_isSignal = " << reader.truth_isSignal << endl;
 		// make opening angle:
 		// double true_op_angle = KinCalc::OpeningAngle(reader.truth_gamma1_4P, reader.truth_gamma2_4P);
-		double true_pi0_invMass = 134.9;//KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
-		double weight = 1.;//reader.wgt;
-		int interaction = 2;//reader.mc_intType;
+		double true_pi0_invMass = reader.true_pi0_invMass;//134.9;//KinCalc::GetInvMass(reader.truth_gamma1_4P[3], reader.truth_gamma2_4P[3], true_op_angle);
+		double weight = reader.wgt;
+		int interaction = reader.mc_intType;
+
+		cout << "Rec Ev: " << eader.truth_ReconstructEvent << " : signal = " << reader.truth_isSignal << " mgg = " << true_pi0_invMass;
+		cout << " : w = " << weight << " : int = " << interaction << endl;
 
 		// cout << "true_op_angle = " << true_op_angle << " true_pi0_invMass = " <<  true_pi0_invMass << endl;
 		if(0. < true_pi0_invMass && true_pi0_invMass <= lowMass){

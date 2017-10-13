@@ -208,6 +208,7 @@ double * SystematicsBase::GetOptBinning(TTree * intree, const std::string &var_n
    		double sign = (delta < 0.) ? -1. : 1.;
         if(TMath::Abs(delta) > in_precision){
         	// This could/should be made more efficient.
+        	// look at while statement that goes like: ( 1. + (lastvalue+decimal*sign*n) )
         	for(int m = 0; m < 999; m++){
         				// This is good up to in stats of 1e6.
         		value = start*(1. + sign*m*0.001);
