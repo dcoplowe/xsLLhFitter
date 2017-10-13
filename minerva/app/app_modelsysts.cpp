@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 
 	FileIO reader(in_file, in_tree);
 
-	Int_t nInts = 5;
+	Int_t nInts = 2;
 
 	// Ozgur's signal:
 	// //In ten's of MeV
