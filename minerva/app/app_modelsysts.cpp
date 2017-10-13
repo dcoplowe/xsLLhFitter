@@ -98,14 +98,14 @@ int main(int argc, char const *argv[])
 		}
 		else if(higMass <= true_pi0_invMass && true_pi0_invMass < maxMass){
 			if(interaction == 1){
-				syst.FillSample("pi0HigMas_I0", true_pi0_invMass, weight);
-				syst.FillVertErrorBand("pi0HigMas_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
-				syst.FillVertErrorBand("pi0HigMas_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
+				syst.FillSample("pi0HigMass_I0", true_pi0_invMass, weight);
+				syst.FillVertErrorBand("pi0HigMass_I0", "AGKYxF1pi", true_pi0_invMass, reader.truth_genie_wgt_AGKYxF1pi);
+				syst.FillVertErrorBand("pi0HigMass_I0", "AhtBY", true_pi0_invMass, reader.truth_genie_wgt_AhtBY);
 			}
 			else if(interaction == 2){
-				syst.FillSample("pi0HigMas_I1", true_pi0_invMass, weight);
-				syst.FillVertErrorBand("pi0HigMas_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
-				syst.FillVertErrorBand("pi0HigMas_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
+				syst.FillSample("pi0HigMass_I1", true_pi0_invMass, weight);
+				syst.FillVertErrorBand("pi0HigMass_I1", "NormCCRES", true_pi0_invMass, reader.truth_genie_wgt_NormCCRES);
+				syst.FillVertErrorBand("pi0HigMass_I1", "Rvn1pi", true_pi0_invMass, reader.truth_genie_wgt_Rvn1pi);					
 			}
 		}
 		else{
