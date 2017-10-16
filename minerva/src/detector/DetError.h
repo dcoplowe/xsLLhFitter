@@ -63,7 +63,7 @@ private:
 class ParticleInfo{
 public:
 	ParticleInfo(const double px, const double py, const double pz);
-	~ParticleInfo(){;}
+	~ParticleInfo();
 
 	void AddX0(const double x0, const double y0, const double z0);
 	void AddX1(const double x1, const double y1, const double z1);
