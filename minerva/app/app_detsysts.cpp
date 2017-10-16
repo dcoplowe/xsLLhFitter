@@ -74,7 +74,7 @@ int main()
 		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
-		std::vector<double> pi_response = GetPionResponseErr(true);
+		std::vector<double> pi_response = DetError::GetPionResponseErr(true);
 
 		// Want to make sure only one sample is filled in each interation
 		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
