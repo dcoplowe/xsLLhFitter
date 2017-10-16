@@ -9,8 +9,6 @@ ParticleInfo::ParticleInfo(const double px, const double py, const double pz) : 
 {
 }
 
-bool isContained = isPointContained(detmc_traj_xf[i], detmc_traj_yf[i], detmc_traj_zf[i]);
-
 ParticleInfo::~ParticleInfo()
 {
 }

@@ -2,6 +2,7 @@
 #define __DETERROR__H__
 
 #include <vector>
+#include <string>
 
 class DetError
 {
