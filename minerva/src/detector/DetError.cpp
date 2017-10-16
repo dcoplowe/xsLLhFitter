@@ -118,9 +118,12 @@ int ParticleInfo::CountFSParticles(const int pdg, const double P_min, const int 
     for (int i = 0; i < nFSPart; i++){
         if (FSPartPDG[i] == pdg){ 
         	TVector3 mom(FSPartPx[i], FSPartPy[i], FSPartPz[i]);
-            if (mom.P() > P_min){ 
+            if (mom.Mag() > P_min){ 
             	count++;
-            	if(mom.P() > mom_max) index = i;
+            	if(mom.Mag() > mom_max){
+            		mom_max = mom.Mag();
+            		index = i;
+            	}
             }
         }
     }
@@ -217,7 +220,7 @@ std::vector<double> DetError::GetMINOSCorrectionErr(const double CCProtonPi0_min
 	return GetErrorVec(correctionErr);
 }
 
-std::vector<double> DetError::GetPionResponseErr(const bool has_charge_exchanged)
+std::vector<double> DetError::GetPionResponseErr(const bool charge_exchange)
 {
 	double correctionErr = 0.0;
     // truth_isBckg_SingleChargedPion_ChargeExchanged
