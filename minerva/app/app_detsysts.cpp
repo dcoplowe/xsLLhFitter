@@ -67,6 +67,12 @@ int main()
 	// 	double * bins = syst->GetOptBinning(reader.fChain, var_name[i], 3, var_low[i], var_high[i], "truth_isSignal == 1");
 	// }
 
+	std::vector<double> v = DetError::GetEnergyShifts();
+
+	for(size_t i =0; i < v.size(); i++){
+		cout << "v[" << i << "] = " << v[i] << endl;
+	}
+
 	Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
 	for(Int_t i = 0; i < loop_size; i++){

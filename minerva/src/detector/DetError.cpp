@@ -249,12 +249,10 @@ std::string DetError::GetPlaylist(const int run, const int type)
     return playlist;
 }
 
-
 //  const int nFSPart, const int * FSPartPDG[], const double * FSPartPx[],
 // 	const double * FSPartPy[], const double * FSPartPz[], const double * x0[], const double * y0[], const double * z0[],
 // 	const double * xf[],const double * yf[],const double * zf[], const double * traj_px0[], const double * traj_py0[],
 // 	const double * traj_pz0[], const int ntraj, const int * traj_mother[], const int * traj_id[], const int * traj_proc[], const double * traj_E0[]
-
 std::vector<double> DetError::GetNeutronResponseErr(const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
 	const double FSPartPy[], const double FSPartPz[], const double x0[], const double y0[], const double z0[],
 	const double xf[],const double yf[],const double zf[], const double traj_px0[], const double traj_py0[],
