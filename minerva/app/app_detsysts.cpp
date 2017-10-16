@@ -16,7 +16,7 @@ using std::string;
 int main()
 {
 	// string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root";
-	string in_file = "ReducedNTuple_TransverseAnalysis_121017.root"; 
+	string in_file = "ReducedNTuple_TransverseAnalysis_121017.root";
 	string in_tree = "CCProtonPi0";
 	string out_file = "DetSyst_Test.root";
 	bool verbose = false;
