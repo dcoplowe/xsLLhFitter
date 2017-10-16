@@ -310,7 +310,7 @@ std::vector<double> DetError::GetErrorVec(const double variation)
 	return fix;
 }
 
-std::vector<double> DetError::MakeNormalShiftedUniverses();
+std::vector<double> DetError::MakeNormalShiftedUniverses()
 {
 	std::vector<double> vec;
 	TRandom3 Random;
