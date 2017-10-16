@@ -255,13 +255,13 @@ std::string DetError::GetPlaylist(const int run, const int type)
 // 	const double * xf[],const double * yf[],const double * zf[], const double * traj_px0[], const double * traj_py0[],
 // 	const double * traj_pz0[], const int ntraj, const int * traj_mother[], const int * traj_id[], const int * traj_proc[], const double * traj_E0[]
 
-std::vector<double> DetError::GetNeutronResponseErr(const int nFSPart, const int * FSPartPDG, const double * FSPartPx,
-	const double * FSPartPy, const double * FSPartPz, const double * x0, const double * y0, const double * z0,
-	const double * xf,const double * yf,const double * zf, const double * traj_px0, const double * traj_py0,
-	const double * traj_pz0, const int ntraj, const int * traj_mother, const int * traj_id, const int * traj_proc, const double * traj_E0)
+std::vector<double> DetError::GetNeutronResponseErr(const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
+	const double FSPartPy[], const double FSPartPz[], const double x0[], const double y0[], const double z0[],
+	const double xf[],const double yf[],const double zf[], const double traj_px0[], const double traj_py0[],
+	const double traj_pz0[], const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[], const double traj_E0[])
 {
 	int index;
-	if(ParticleInfo::CountFSParticles(2112, 150., nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz, index) < 1) return 0.;
+	if(ParticleInfo::CountFSParticles(2112, 150., nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz, index) < 1) return GetErrorVec(0.);
 
 	ParticleInfo neutron(FSPartPx[index], FSPartPy[index], FSPartPz[index]);
 	neutron.AddX0(x0[index], y0[index], z0[index]);
