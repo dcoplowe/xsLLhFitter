@@ -1,3 +1,5 @@
+#include <DetError.h>
+
 #ifndef __PARTICLEINFO__CPP__
 #define __PARTICLEINFO__CPP__
 
@@ -123,7 +125,6 @@ int ParticleInfo::CountFSParticles(const int pdg, const double P_min, const int 
 #ifndef __DETERROR__CPP__
 #define __DETERROR__CPP__
 
-#include <DetError.h>
 #include <PlotUtils/MnvNormalization.h>
 #include <TVector3.h>
 #include <TRandom3.h>
