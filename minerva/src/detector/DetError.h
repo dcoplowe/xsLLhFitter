@@ -76,6 +76,9 @@ public:
 	static int CountFSParticles(const int pdg, const double P_min, const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
 	const double FSPartPy[], const double FSPartPz[], int &index);
 
+	bool isNeutronInelastic(const int ind, const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[],
+	const double traj_x0[], const double traj_y0[], const double traj_z0[], const double traj_xf[], const double traj_yf[], const double traj_zf[]);
+
 	static const double NeutronMass = 939.565;
 
 private:
