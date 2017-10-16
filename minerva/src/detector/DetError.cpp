@@ -141,6 +141,7 @@ const std::vector<double> DetError::m_MuTshifts = DetError::GenerateMuonThetashi
 // std::vector<double> muon_theta_random_shifts;
 // std::vector< std::vector<double> > Birks_random_shifts2D;
 
+using namespace PlotUtils;
 
 DetError::DetError()
 {
