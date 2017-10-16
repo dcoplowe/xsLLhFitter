@@ -76,6 +76,8 @@ public:
 	static int CountFSParticles(const int pdg, const double P_min, const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
 	const double FSPartPy[], const double FSPartPz[], int &index);
 
+	static const double NeutronMass = 939.565;
+
 private:
 	TVector3 m_mom3;
 	TVector3 m_start;

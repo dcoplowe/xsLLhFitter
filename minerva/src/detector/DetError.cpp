@@ -7,6 +7,7 @@
 #define kIniValue -999
 #endif
 
+#include <TMath.h>
 #include <iostream>
 using std::cout;
 using std::endl;
