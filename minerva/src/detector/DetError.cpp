@@ -29,7 +29,7 @@ void ParticleInfo::AddX0(const double x0, const double y0, const double z0)
 
 	if(m_have_start && m_have_finish){
 		if(m_contained)  m_path_length = (m_finish - m_start).Mag();
-		else m_path_length = GetUncontainedPathLength();
+		else GetUncontainedPathLength();
 	}
 }
 
@@ -56,7 +56,7 @@ void ParticleInfo::AddPTraj(const double traj_x0, const double traj_y0, const do
 	}
 }
 
-bool ParticleInfo::isPointContained(double x, double y, double z);
+bool ParticleInfo::isPointContained(double x, double y, double z)
 {
 	if ((5430.0 < z && z < 10000.0) && inside_hexagon(x,y,1100.0)) return true;
 	return false;
