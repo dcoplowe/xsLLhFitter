@@ -3,6 +3,14 @@
 #ifndef __PARTICLEINFO__CPP__
 #define __PARTICLEINFO__CPP__
 
+#ifndef kIniValue 
+#define kIniValue -999
+#endif
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
 ParticleInfo::ParticleInfo(const double px, const double py, const double pz) : m_mom3(px, py, pz), m_start(0., 0., 0.),
 	m_finish(0., 0., 0.), m_traj(0., 0., 0.), m_path_length(0.),
 	m_have_start(false), m_have_finish(false),  m_have_traj(false), m_contained(false)
@@ -127,6 +135,12 @@ int ParticleInfo::CountFSParticles(const int pdg, const double P_min, const int 
 #include <TVector3.h>
 #include <TRandom3.h>
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
+using namespace PlotUtils;
+
 #ifndef kIniValue 
 #define kIniValue -999
 #endif
@@ -140,8 +154,6 @@ const std::vector<double> DetError::m_MuTshifts = DetError::GenerateMuonThetashi
 // std::vector<double> muonP_random_shifts;
 // std::vector<double> muon_theta_random_shifts;
 // std::vector< std::vector<double> > Birks_random_shifts2D;
-
-using namespace PlotUtils;
 
 DetError::DetError()
 {
