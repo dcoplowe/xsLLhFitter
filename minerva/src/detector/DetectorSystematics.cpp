@@ -622,25 +622,4 @@ TH1D * DetectorSystematics::ToPDF(TH1D *hraw, std::string hn){
     return hist;
 }
 
-// For build the systematic variation:
-std::string DetectorSystematics::GetPlaylist(const int run, const int type)
-{
-    std::string playlist = "";
-    (void)type;
-    // if ( IsEvent2p2h(type) ) playlist = "minerva_2p2h";
-    if (run >= 10200 && run <= 10249) playlist = "minerva1";
-    else if (run >= 10250 && run <= 10254) playlist = "minerva7";
-    else if (run >= 10255 && run <= 10259) playlist = "minerva9";
-    else if (run >= 12200 && run <= 12209) playlist = "minerva13A";
-    else if (run >= 12210 && run <= 12219) playlist = "minerva13B";
-    else if (run >= 13200 && run <= 13299) playlist = "minerva13C";
-    else if (run >= 14201 && run <= 14209) playlist = "minerva13D";
-    else if (run >= 14210 && run <= 14229) playlist = "minerva13E";
-    else{
-    	cout << "ERROR: No Playlist Found for run " << run << " and type " << type << "." << endl; 
-    	exit(0);
-    }
-    return playlist;
-}
-
 #endif
