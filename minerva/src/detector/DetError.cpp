@@ -5,7 +5,7 @@
 
 ParticleInfo::ParticleInfo(const double px, const double py, const double pz) : m_mom3(px, py, pz), m_start(0., 0., 0.),
 	m_finish(0., 0., 0.), m_traj(0., 0., 0.), m_path_length(0.),
-	m_have_start(false), m_have_finish(false),  m_have_traj(false), m_isContained(false)
+	m_have_start(false), m_have_finish(false),  m_have_traj(false), m_contained(false)
 {
 }
 

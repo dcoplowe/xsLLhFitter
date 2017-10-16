@@ -68,7 +68,7 @@ public:
 	void AddX0(const double x0, const double y0, const double z0);
 	void AddX1(const double x1, const double y1, const double z1);
 	void AddPTraj(const double traj_x0, const double traj_y0, const double traj_z0);
-	bool IsContained() const{ return m_isContained; }
+	bool IsContained() const{ return m_contained; }
 
 	double Mom() const { return m_mom3.Mag(); }
 	double PathLength() const { return m_path_length; }//.Mag(); }
@@ -81,12 +81,14 @@ private:
 	TVector3 m_start;
 	TVector3 m_finish;
 	TVector3 m_traj;
+
+	void GetUncontainedPathLength();
 	double m_path_length;
 
 	bool m_have_start;
 	bool m_have_finish;
 	bool m_have_traj;
-	bool m_isContained;
+	bool m_contained;
 
 	bool isPointContained(double x, double y, double z);
 	bool inside_hexagon(double x, double y, double apothem);
