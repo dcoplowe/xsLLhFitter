@@ -376,7 +376,7 @@ std::vector<double> DetError::MakeNormalShiftedUniverses()
 
 std::vector<double> DetError::MakeEmptyShifts()
 {
-	std::std::vector<double> empty;
+	std::vector<double> empty;
 	for(int i = 0; i < m_nToys; i++)
 		empty.push_back( 0. );
 	return empty;
