@@ -220,8 +220,8 @@ std::vector<double> DetError::GetLinearEnergyShifts(const double var)
 	for(size_t i = 0; m_Eshifts.size(); i++) {
 		double temp = var*m_Eshifts[i];
 		cout << "m_Eshifts[" << i << "] = " << var << " * " << m_Eshifts[i] << " = " << temp << endl;
-		if(temp < kEpsilon) temp = 0.
-		spread.push_back( var*m_Eshifts[i] );
+		if(temp < kEpsilon) temp = 0.;
+		spread.push_back( temp );
 	}
 	return spread;
 }
