@@ -1,7 +1,7 @@
 # source $(readlink -f ~/.profile)
 
 mydir=$(pwd)
-cd $(mydir)
+cd ${mydir}
 
 version="v10r8p12"
 minbase="/grid/fermiapp/minerva/software_releases/${version}/setup.sh"
@@ -19,13 +19,13 @@ input_error()
 rootfile=$1
 treename=$2
 
-if [ -z ${rootfile+x} ]; then
+if [ ! -z ${rootfile+x} ]; then
 	echo "No root file defined"
 	input_error
 	return
 fi
 
-if [ -z ${treename+x} ]; then
+if [ ! -z ${treename+x} ]; then
 	echo "No tree defined"
 	input_error
 	return
