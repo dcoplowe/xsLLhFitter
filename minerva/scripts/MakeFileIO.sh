@@ -58,7 +58,7 @@ EOF
 # Make Header file:
 find_first="Declaration of leaf types"
 find_last="${treename}(TTree *tree=0)"
-
+echo "find_last = ${find_last}"
 # Get block of variables and their respective branches:
 first_line=$(grep -n "${find_first}" ${treename}.h | awk '{print $1}')
 first_line=${first_line//:}
@@ -66,7 +66,7 @@ first_line=${first_line//:}
 echo "first_line = ${first_line}"
 
 last_last=$(grep -C 2 ${find_last} ${treename}.h | awk '{print $1}')
-last_line=$(expr ${first_line//:} - 1 )
+last_line=$(expr ${last_line//:} - 1 )
 
 echo "last_line = ${last_line}"
 
