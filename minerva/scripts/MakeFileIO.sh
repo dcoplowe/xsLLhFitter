@@ -88,7 +88,7 @@ fi
 for ii in cpp h; do
 	if cmp --silent FileIO.${ii} ${mydir}/../src/fileio/FileIO.${ii}
 	then
-		echo "FileIO.{ii} is unchanged, will not copy to fileio directory."
+		echo "FileIO.${ii} is unchanged, will not copy to fileio directory."
 		cp ${mydir}/../src/fileio/FileIO.${ii} ${mydir}/old/FileIO.${ii}_old$(date "+%d%m%g")
 		cp FileIO.${ii} ${mydir}/../src/fileio/FileIO.${ii}
 	fi
