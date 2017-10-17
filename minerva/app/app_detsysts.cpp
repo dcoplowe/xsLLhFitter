@@ -77,11 +77,13 @@ int main()
 	// reader.SetMaxEntries(loop_size);
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
-		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
 		// std::vector<double> pi_response = DetError::GetPionResponseErr(true);
 		std::vector<double> em_scale = DetError::GenerateShifts(reader.pi0_invMass);
+
+		cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
+		for(int ddd = 0; ddd < 500; ddd++) << " " << em_scale[ddd] << endl;
 
 		// Want to make sure only one sample is filled in each interation
 		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
@@ -109,6 +111,8 @@ int main()
 		}
 		// cout << "Now filling tree." << endl;
 		reader.Fill();
+
+		em_scale.clear();
 	}
 
 	reader.Write();
