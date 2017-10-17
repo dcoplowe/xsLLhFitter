@@ -39,7 +39,7 @@ intree->MakeClass();
 EOF
 
 for ii in h cpp; do 
-	cp FileIOMaker.${ii} FileIO.{ii}
+	cp FileIO_Maker.${ii} FileIO.{ii}
 done
 
 
