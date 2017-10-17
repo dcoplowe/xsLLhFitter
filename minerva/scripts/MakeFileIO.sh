@@ -65,9 +65,7 @@ first_line=${first_line//:}
 
 echo "first_line = ${first_line}"
 
-$(grep -C 2 "${find_last}" ${treename}.h | awk '{print $1}')
-
-last_line=$(grep -C 2 "${find_last}" ${treename}.h | awk '{print $1}')
+last_line=$(grep -n "${find_last}" ${treename}.h | awk '{print $1}')
 last_line=${last_line//:}
 echo "last_line = ${last_line}"
 
