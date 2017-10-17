@@ -38,3 +38,17 @@ TTree * intree = (TTree*)file.Get("${treename}")
 intree->MakeClass();
 EOF
 
+for ii in h cpp; do 
+	cp FileIOMaker.${ii} FileIO.{ii}
+done
+
+
+# For init: Find every instance of fChain->SetBranchAddress(...) and put this in Init()
+# replace_h="__ADD_PUBLIC_VARS_AND_BRANCHES__"
+replace_cpp="__ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__"
+
+# replacewith_h=$(grep "fChain->SetBranchAddress" ${treename}.h)
+replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
+
+sed "s/${replace_cpp}/${replacewith_cpp}/" FileIO.cpp
+# first=// Declaration of leaf types
