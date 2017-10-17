@@ -48,7 +48,7 @@ done
 
 
 cat < FileIO.cpp <<EOF
-$(cat FileIO_Maker.cpp})
+$(cat FileIO_Maker.cpp)
 $(echo "DADADD")
 EOF
 
