@@ -56,12 +56,15 @@ $(grep "fChain->SetBranchAddress" ${treename}.h)
 EOF
 
 # Make Header file:
-find_first="// Declaration of leaf types"
-find_last="${treename}(TTree *tree=0);"
+find_first="Declaration of leaf types"
+find_last="${treename}(TTree *tree=0)"
 
 # Get block of variables and their respective branches:
-first_line=$(grep -C 2 ${find_first} ${treename}.h)
-last_last=$(grep -C 2 ${find_last} ${treename}.h)
+first_line=$(grep -n "${find_first}" ${treename}.h | awk '{print $1}')
+first_line=${first_line//:})
+
+last_last=$(grep -C 2 ${find_last} ${treename}.h | awk '{print $1}')
+last_line=$(expr ${first_line//:} - 1 )
 
 sed -n ${first_line},${last_line}p ${treename}.h
 # goodlines=$(sed -n ${first_line},${last_line}p ${treename}.h)
@@ -74,4 +77,5 @@ $(cat FileIO_Maker.h)
 #endif
 EOF
 
+# cat file | head -n 16482 | tail -n 258
 # rm ${treename}.{C,h}
