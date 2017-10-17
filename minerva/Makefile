@@ -34,7 +34,7 @@ MSRCS = $(wildcard src/model/*.cpp) $(SRCS)
 
 DET = MakeDetSysts.exe
 DETCPP = app/app_detsysts.cpp
-DETALL = $(DETCPP) $(DSRCS)
+DETALL = $(DETCPP) $(DSRCS) $(TMP)
 DETOBJS = $(DETALL:.cpp=.o)
 
 MOD = MakeModSysts.exe
