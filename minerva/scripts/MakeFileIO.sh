@@ -81,5 +81,4 @@ $(cat FileIO_Maker.h)
 #endif
 EOF
 
-# cat file | head -n 16482 | tail -n 258
-# rm ${treename}.{C,h}
+rm ${treename}.{C,h}
