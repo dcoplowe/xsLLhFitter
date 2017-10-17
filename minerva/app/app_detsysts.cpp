@@ -83,6 +83,8 @@ int main()
 		reader.GetEntry(i);
  		if(reader.truth_isSignal != 1) continue;
 
+ 		if(reader.pi0_invMass < 60. && reader.pi0_invMass > 200.) continue;
+
 		const TVector3 * muon = new TVector3(reader.muon_px, reader.muon_py, reader.muon_pz);
 		muon_pT = trans_tools.GetPTRec(reader.CCProtonPi0_vtx, muon)->Mag();
 		delete muon;
