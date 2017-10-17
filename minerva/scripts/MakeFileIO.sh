@@ -68,9 +68,8 @@ echo "first_line = ${first_line}"
 grep -n "${find_last}" ${treename}.h
 last_line=$(grep -n "${find_last}" ${treename}.h  | head -n 1 | awk '{print $1}')
 last_line=${last_line//:}
+last_line=$(expr ${last_line} - 1 )
 echo "last_line = ${last_line}"
-
-# last_line=$(expr ${last_line} - 1 )
 sed -n ${first_line},${last_line}p ${treename}.h
 # goodlines=$(sed -n ${first_line},${last_line}p ${treename}.h)
 
