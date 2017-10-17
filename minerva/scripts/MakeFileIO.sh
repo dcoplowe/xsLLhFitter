@@ -19,13 +19,13 @@ input_error()
 rootfile=$1
 treename=$2
 
-if [ ! -z ${rootfile+x} ]; then
+if [ -z "${rootfile}" ]; then
 	echo "No root file defined"
 	input_error
 	return
 fi
 
-if [ ! -z ${treename+x} ]; then
+if [ -z "${treename}" ]; then
 	echo "No tree defined"
 	input_error
 	return
@@ -34,7 +34,7 @@ fi
 # This could be improved (using PyRoot):
 root -l -b <<EOF
 TFile file("${rootfile}")
-TTree * intree = (TTree*)file->Get("${treename}")
+TTree * intree = (TTree*)file.Get("${treename}")
 intree->MakeClass();
 EOF
 
