@@ -213,8 +213,10 @@ std::vector<double> DetError::GetRelEShifts(const double var)
 std::vector<double> DetError::GetLinearEnergyShifts(const double var)
 {	
 	std::vector<double> spread;
-	for(size_t i = 0; m_Eshifts.size(); i++) 
+	for(size_t i = 0; m_Eshifts.size(); i++) {
+		cout << "m_Eshifts[" << i << "] = " << var << "*" << m_Eshifts[i] << " = " << var*m_Eshifts[i] << endl;
 		spread.push_back( var*m_Eshifts[i] );
+	}
 	return spread;
 }
 
