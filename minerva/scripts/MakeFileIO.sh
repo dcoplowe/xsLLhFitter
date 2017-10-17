@@ -57,7 +57,7 @@ EOF
 
 # Make Header file:CCProtonPi0(TTree *tree=0);
 find_first="Declaration of leaf types"
-find_last="${treename}(TTree *tree=0);"
+find_last="${treename}(TTree"
 echo "find_last = ${find_last}"
 # Get block of variables and their respective branches:
 first_line=$(grep -n "${find_first}" ${treename}.h | awk '{print $1}')
@@ -66,7 +66,7 @@ first_line=${first_line//:}
 echo "first_line = ${first_line}"
 
 grep -n "${find_last}" ${treename}.h
-last_line=$(grep -n "${find_last}" ${treename}.h | awk '{print $1}')
+last_line=$(grep -n "${find_last}" ${treename}.h  | head -n 1 | awk '{print $1}')
 last_line=${last_line//:}
 echo "last_line = ${last_line}"
 
