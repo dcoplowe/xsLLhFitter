@@ -43,7 +43,7 @@ replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
 # 	cp FileIO_Maker.${ii} FileIO.${ii}
 # done
 cppfile="FileIO.cpp"
-cat < ${cppfile} <<EOF
+cat > ${cppfile} <<EOF
 $(cat FileIO_Maker.cpp)
 EOF
 
