@@ -407,7 +407,7 @@ std::vector<double> DetError::GenerateMuonThetashifts(const double muonThetaX_Er
 
 std::vector<double> DetError::GetMuonPShifts(const double muon_E_shift, const double muon_shift)
 {
-	double muonP_uncertainty = muon_E_shift/muon_P;
+	double muonP_uncertainty = muon_E_shift/muon_shift;
     return GenerateShifts(muonP_uncertainty); // ~ Gaussian(0.0, muonP_uncertainty)
 }
 
@@ -421,7 +421,7 @@ void DetError::GetCorrectedMuon3Mom(double &px, double &py, double &pz, const in
 	pz = mom.Z();
 }
 
-double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double theta_nodes[], bool wrtbeam);
+double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double theta_nodes[], bool wrtbeam)
 {
 	// We need sort out this so that we are can be in min. coords too.
 	double corrected_theta = 0.;
@@ -431,6 +431,5 @@ double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double the
 	// else corrected_theta = muon_theta_beam;
 	return corrected_theta;
 }
-
 
 #endif
