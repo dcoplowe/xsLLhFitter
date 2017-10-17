@@ -1,4 +1,7 @@
-source $(readlink -f ~/.profile)
+# source $(readlink -f ~/.profile)
+
+mydir=$(pwd)
+cd $(mydir)
 
 version="v10r8p12"
 minbase="/grid/fermiapp/minerva/software_releases/${version}/setup.sh"
@@ -7,7 +10,6 @@ if [ -z ${ROOTSYS+x} ]; then
 	echo "No root version. Sourcing from minerva version ${version}"
 	source ${minbase}
 fi
-
 
 input_error()
 {
@@ -35,3 +37,4 @@ TFile file("${rootfile}")
 TTree * intree = (TTree*)file->Get("${treename}")
 intree->MakeClass();
 EOF
+
