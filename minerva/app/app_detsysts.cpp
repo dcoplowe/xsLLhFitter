@@ -75,6 +75,8 @@ int main()
 	tree->Branch("proton_pT", &proton_pT, "proton_pT/D");
 	tree->Branch("pion_pT", &pion_pT, "pion_pT/D");
 
+	TransverseTools trans_tools;
+
 	Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
 	for(Int_t i = 0; i < loop_size; i++){
@@ -82,15 +84,15 @@ int main()
  		if(reader.truth_isSignal != 1) continue;
 
 		const TVector3 * muon = new TVector3(reader.muon_px, reader.muon_py, reader.muon_pz);
-		muon_pT = TransverseTools::GetPTRec(reader.CCProtonPi0_vtx, muon)->Mag();
+		muon_pT = trans_tools.GetPTRec(reader.CCProtonPi0_vtx, muon)->Mag();
 		delete muon;
 
 		const TVector3 * proton = new TVector3(reader.proton_px, reader.proton_py, reader.proton_pz);
-		proton_pT = TransverseTools::GetPTRec(reader.CCProtonPi0_vtx, proton)->Mag();
+		proton_pT = trans_tools.GetPTRec(reader.CCProtonPi0_vtx, proton)->Mag();
 		delete proton;
 
 		const TVector3 * pion = new TVector3(reader.pi0_px, reader.pi0_py, reader.pi0_pz);
-		pion_pT = TransverseTools::GetPTRec(reader.CCProtonPi0_vtx, pion)->Mag();
+		pion_pT = trans_tools.GetPTRec(reader.CCProtonPi0_vtx, pion)->Mag();
 		delete pion;
 
 		muon_P = reader.muon_P;
