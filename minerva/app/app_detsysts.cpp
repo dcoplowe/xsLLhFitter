@@ -83,7 +83,7 @@ int main()
 		std::vector<double> em_scale = DetError::GenerateShifts(reader.pi0_invMass);
 
 		cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
-		for(int ddd = 0; ddd < 500; ddd++) << " " << em_scale[ddd];
+		for(int ddd = 0; ddd < 500; ddd++) cout << " " << em_scale[ddd];
 		cout << endl;
 
 		// Want to make sure only one sample is filled in each interation
