@@ -71,9 +71,7 @@ last_line=${last_line//:}
 echo "last_line = ${last_line}"
 
 # last_line=$(expr ${last_line} - 1 )
-
-
-# sed -n ${first_line},${last_line}p ${treename}.h
+sed -n ${first_line},${last_line}p ${treename}.h
 # goodlines=$(sed -n ${first_line},${last_line}p ${treename}.h)
 
 cat > FileIO.h <<EOF
