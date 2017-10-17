@@ -51,7 +51,7 @@ void FileIO::Init()
 	// Set branch addresses and branch pointers
     fChain->SetMakeClass(1);
     
-$(echo $replacewith_cpp)
+	$(grep "fChain->SetBranchAddress" ${treename}.h)
 
     // This is so that we always have the size elements initialised.
     fChain->GetEntry(0);
