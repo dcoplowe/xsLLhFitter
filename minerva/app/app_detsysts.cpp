@@ -10,6 +10,7 @@
 
 #include <TransverseTools.h>
 #include <TTree.h>
+#include <TVector3.h>
 
 using std::cout;
 using std::endl;
