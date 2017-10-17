@@ -70,6 +70,8 @@ int main()
 	std::vector<double> v = DetError::GetEnergyShifts();
 	DetError::PrintEnergyShifts();
 
+	return 0;
+
 	for(size_t i =0; i < v.size(); i++){
 		cout << "v[" << i << "] = " << v[i] << endl;
 	}

@@ -403,7 +403,7 @@ std::vector<double> DetError::GenerateEnergyShifts(const double mc_1sigma, const
 void DetError::PrintEnergyShifts()
 {
 	for(size_t i = 0; i < m_Eshifts.size(); i++){
-		cout << "m_Eshifts[" << i << "]" << m_Eshifts[i] << endl;
+		cout << "m_Eshifts[" << i << "] = " << m_Eshifts[i] << endl;
 	}
 }
 
