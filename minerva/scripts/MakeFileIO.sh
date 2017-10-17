@@ -45,19 +45,20 @@ replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
 cppfile="FileIO.cpp"
 cat > ${cppfile} <<EOF
 $(cat FileIO_Maker.cpp)
+
+void FileIO::Init()
+{
+	// Set branch addresses and branch pointers
+    fChain->SetMakeClass(1);
+    
+$(echo $replacewith_cpp)
+
+    // This is so that we always have the size elements initialised.
+    fChain->GetEntry(0);
+}
+#endif
 EOF
 
-# void FileIO::Init()
-# {
-# 	// Set branch addresses and branch pointers
-#     fChain->SetMakeClass(1);
-    
-# $(echo $replacewith_cpp)
-
-#     // This is so that we always have the size elements initialised.
-#     fChain->GetEntry(0);
-# }
-# #endif
 
 
 # # For init: Find every instance of fChain->SetBranchAddress(...) and put this in Init()
