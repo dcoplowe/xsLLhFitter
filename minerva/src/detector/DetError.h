@@ -88,6 +88,7 @@ public:
 
 	static std::vector<double> GetFractionalError(const double var, const std::vector<double> &err_vec);
 
+	static void PrintEnergyShifts();
 	// Kinematic specific variatiions:
 	// dEnu = dEpi * E_pi  (where dEpi = fractional error on pi)
 	// dQ2 = (Q2 + m^2)dEnu (where dEnu = fractional error)

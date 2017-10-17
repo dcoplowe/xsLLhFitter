@@ -400,6 +400,14 @@ std::vector<double> DetError::GenerateEnergyShifts(const double mc_1sigma, const
     return GenerateShifts(em_uncertainty); // ~ Gaussian(0.0, em_uncertainty)
 }
 
+void DetError::PrintEnergyShifts()
+{
+	for(size_t i = 0; i < m_Eshifts.size(); I++){
+		cout << "m_Eshifts[" << i << "]" << m_Eshifts[i] << endl;
+	}
+}
+
+
 std::vector<double> DetError::GenerateMuonThetashifts(const double muonThetaX_Err, const double muonThetaY_Err)
 {
     // This is merely: sec^2(theta_X) + sec^2(theta_Y) = sec^2(theta) +1 
