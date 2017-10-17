@@ -3,13 +3,9 @@
 
 #include <FileIO.h>
 
-#include <iostream>
 #include <TTree.h>
 #include <TBranch.h>
 #include <cassert>
-
-using std::cout;
-using std::endl;
 
 void FileIO::InitLLNTuple()
 {

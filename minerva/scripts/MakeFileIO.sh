@@ -1,5 +1,5 @@
 # source $(readlink -f ~/.profile)
-
+# SHOULD BE THIS DIR:
 mydir=$(pwd)
 cd ${mydir}
 
@@ -58,18 +58,16 @@ EOF
 # Make Header file:CCProtonPi0(TTree *tree=0);
 find_first="Declaration of leaf types"
 find_last="${treename}(TTree"
-echo "find_last = ${find_last}"
+# echo "find_last = ${find_last}"
 # Get block of variables and their respective branches:
 first_line=$(grep -n "${find_first}" ${treename}.h | awk '{print $1}')
 first_line=${first_line//:}
-
-echo "first_line = ${first_line}"
-
+# echo "first_line = ${first_line}"
 grep -n "${find_last}" ${treename}.h
 last_line=$(grep -n "${find_last}" ${treename}.h  | head -n 1 | awk '{print $1}')
 last_line=${last_line//:}
 last_line=$(expr ${last_line} - 1 )
-echo "last_line = ${last_line}"
+# echo "last_line = ${last_line}"
 # goodlines=$(sed -n ${first_line},${last_line}p ${treename}.h)
 
 cat > FileIO.h <<EOF
@@ -82,3 +80,13 @@ $(cat FileIO_Maker.h)
 EOF
 
 rm ${treename}.{C,h}
+
+if [ ! -d ${mydir}/old ]; then
+	mkdir -p ${mydir}/old
+fi
+
+# Copy over FileIO.{cpp,h} to their correct locations:
+for ii in cpp h; do
+	cp ${mydir}/../src/fileio/FileIO.${ii} ${mydir}/old/FileIO.${ii}_old$(date "+%d%m%g")
+	# cp FileIO.${ii} ${mydir}/../src/fileio/FileIO.${ii}
+done
