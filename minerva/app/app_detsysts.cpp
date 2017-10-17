@@ -56,7 +56,7 @@ int main()
 	reader.SetupLLNTuple();
 
 	// cout << "reader.SetupLLNTuple();" << endl;
-	syst->AddVertErrorBand("Flux_BeamFocus", reader.mc_wgt_Flux_BeamFocus_sz);
+	syst->AddLatErrorBand("EM_EnergyScale", 500);
 	// syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
 
 	// string var_name[3] = {"muon_P", "proton_P", "pi0_P"};
@@ -80,24 +80,26 @@ int main()
 		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << endl;
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
-		std::vector<double> pi_response = DetError::GetPionResponseErr(true);
+		// std::vector<double> pi_response = DetError::GetPionResponseErr(true);
+		std::vector<double> em_scale = DetError::GenerateShifts(reader.pi0_invMass);
 
 		// Want to make sure only one sample is filled in each interation
 		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
 			syst->FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
-			syst->FillVertErrorBand("pi0LowMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			syst->FillLatErrorBand("pi0LowMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
 			// syst->FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(0);
 		}
 		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
 			syst->FillSample("signal", reader.pi0_invMass, reader.wgt);
-			syst->FillVertErrorBand("signal", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			syst->FillLatErrorBand("signal", "EM_EnergyScale", reader.pi0_invMass, em_scale);
 			// syst->FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(1);
 		}
-		else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
+		else if(higMass <= reader.pi0_invMass){
+		// else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
 			syst->FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
-			syst->FillVertErrorBand("pi0HigMass", "Flux_BeamFocus", reader.pi0_invMass, reader.mc_wgt_Flux_BeamFocus, reader.wgt);
+			syst->FillLatErrorBand("pi0HigMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
 			// syst->FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(2);
 		}

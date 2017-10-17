@@ -153,6 +153,9 @@ const int DetError::m_nToys = 500;
 const std::vector<double> DetError::m_nominal = DetError::MakeNormalShiftedUniverses();
 const std::vector<double> DetError::m_Eshifts = DetError::GenerateEnergyShifts();
 const std::vector<double> DetError::m_MuTshifts = DetError::GenerateMuonThetashifts();
+const std::vector<double> DetError::m_Emptyshifts = DetError::MakeEmptyShifts();
+std::vector<double> DetError::m_relEshifts = DetError::m_Emptyshifts;//DetError::MakeEmptyShifts();
+bool DetError::m_rel_warn = true;
 
 // std::vector<double> em_energy_random_shifts;
 // std::vector<double> muonP_random_shifts;
@@ -167,6 +170,52 @@ DetError::DetError()
 DetError::~DetError()
 {
 
+}
+
+std::vector<double> DetError::GetFractionalError(const double var, const std::vector<double> &err_vec)
+{
+	std::vector<double> fracE;
+	for(size_t i = 0; err_vec.size(); i++){
+		double tmp = err_vec[i]/var;
+		fracE.push_back( tmp );
+	}
+	return fracE;
+}
+
+std::vector<double> DetError::GetRelEnergyShifts(const double mom, const double mass)
+{	
+	std::vector<double> spread;
+	m_relEshifts.clear();
+	for(size_t i = 0; m_Eshifts.size(); i++){
+		double deltaE = sqrt( (1 + m_Eshifts[i])*(1 + m_Eshifts[i])*mom*mom + mass*mass) - sqrt(mom*mom + mass*mass); 
+		spread.push_back( deltaE );
+
+		double fracE = deltaE/sqrt(mom*mom + mass*mass);
+		m_relEshifts.push_back( fracE );
+	}
+	return spread;
+}
+
+std::vector<double> DetError::GetRelEShifts(const double var)
+{
+	if(m_rel_warn){
+		m_rel_warn = false;
+		cout << "DetError::GetRelEShifts(const double var) : Called : Warning ";
+		cout << ": Must be called after GetRelEnergyShifts(const double mom, const double mass)" << endl;
+	}
+
+	std::vector<double> spread;
+	for(size_t i = 0; m_relEshifts.size(); i++) 
+		spread.push_back( var*m_relEshifts[i] );
+	return spread;
+}
+
+std::vector<double> DetError::GetLinearEnergyShifts(const double var)
+{	
+	std::vector<double> spread;
+	for(size_t i = 0; m_Eshifts.size(); i++) 
+		spread.push_back( var*m_Eshifts[i] );
+	return spread;
 }
 
 std::vector<double> DetError::GenerateShifts(double sigma)
@@ -324,6 +373,14 @@ std::vector<double> DetError::MakeNormalShiftedUniverses()
 	}
 	return vec;
 }	
+
+std::vector<double> DetError::MakeEmptyShifts()
+{
+	std::std::vector<double> empty;
+	for(int i = 0; i < m_nToys; i++)
+		empty.push_back( 0. );
+	return empty;
+}
 
 std::vector<double> DetError::GenerateEnergyShifts(const double mc_1sigma, const double data_1sigma)
 {

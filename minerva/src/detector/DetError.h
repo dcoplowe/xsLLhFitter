@@ -20,6 +20,12 @@ public:
 	static std::vector<double> GenerateMuonThetashifts(const double muonThetaX_Err = 0.001, const double muonThetaY_Err = 0.0009);
 
 	static std::vector<double> GetEnergyShifts(){ return m_Eshifts; }
+
+	static std::vector<double> GetRelEnergyShifts(const double mom, const double mass = ParticleInfo::PionMass);
+	static std::vector<double> GetRelEShifts(const double var);
+
+	static std::vector<double> GetLinearEnergyShifts(const double var);
+	
 	static std::vector<double> GetMuonThetaShifts(){ return m_MuTshifts; }
 
     // FillVertErrorBand_MuonTracking_ByHand(hist, var); CCProtonPi0_minos_trk_p = minos_trk_p
@@ -32,6 +38,19 @@ public:
 	const double FSPartPy[], const double FSPartPz[], const double x0[], const double y0[], const double z0[],
 	const double xf[],const double yf[],const double zf[], const double traj_px0[], const double traj_py0[],
 	const double traj_pz0[], const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[], const double traj_E0[]);
+
+	static std::vector<double> GetFractionalError(const double var, const std::vector<double> &err_vec);
+
+	// Kinematic specific variatiions:
+	// dEnu = dEpi * E_pi  (where dEpi = fractional error on pi)
+	// dQ2 = (Q2 + m^2)dEnu (where dEnu = fractional error)
+	// dW2 = (2m_nEnu + Q2 - m^2)dEnu (where dEnu = fractional error)
+
+	// // Analysis specific:
+	// static std::vector<double> GetEnuShifts(const double E_pi, const std::vector<double> &pi_frac_er);
+	// static std::vector<double> GetQ2Shifts(const double Q2plusM2mu, const std::vector<double> &Enu_frac_er);
+	// static std::vector<double> GetW2Shifts(const double Mn2Enu_Q2_M2mu, const std::vector<double> &Enu_frac_er);
+
 
 private:
 	static std::string GetPlaylist(const int run, const int type);
@@ -48,7 +67,11 @@ private:
 
 	static const std::vector<double> m_Eshifts;
 	static const std::vector<double> m_MuTshifts;
+	static const std::vector<double> m_Emptyshifts;
+	static std::vector<double> MakeEmptyShifts();
 
+	static std::vector<double> m_relEshifts;
+	static bool m_rel_warn;
     // FillVertErrorBand_PionResponse_ByHand(hist, var);
     // FillVertErrorBand_NeutronResponse_ByHand(hist, var);
 };
@@ -80,6 +103,7 @@ public:
 	const double traj_x0[], const double traj_y0[], const double traj_z0[], const double traj_xf[], const double traj_yf[], const double traj_zf[]);
 
 	static const double NeutronMass = 939.565;
+	static const double PionMass = 134.9766;
 
 private:
 	TVector3 m_mom3;
