@@ -70,8 +70,6 @@ int main()
 	std::vector<double> v = DetError::GetEnergyShifts();
 	DetError::PrintEnergyShifts();
 
-	return 0;
-
 	for(size_t i =0; i < v.size(); i++){
 		cout << "v[" << i << "] = " << v[i] << endl;
 	}
@@ -85,8 +83,10 @@ int main()
 		// std::vector<double> pi_response = DetError::GetPionResponseErr(true);
 		std::vector<double> em_scale = DetError::GetLinearEnergyShifts(reader.pi0_invMass);
 
+		return 0;
+
 		cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
-		for(int ddd = 0; ddd < 500; ddd++) cout << " " << em_scale[ddd];
+		for(int ddd = 0; ddd < em_scale.size(); ddd++) cout << " " << em_scale[ddd];
 		cout << endl;
 
 		// Want to make sure only one sample is filled in each interation
