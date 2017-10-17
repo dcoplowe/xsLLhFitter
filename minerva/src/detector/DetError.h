@@ -56,7 +56,21 @@ class DetError
 public:
 	DetError();
 	~DetError();
-	
+
+	// Vertical Errors:
+	static std::vector<double> GetMINOSCorrectionErr(const double minos_trk_p, const int run, const int type,
+		const std::string &processing_name = "Eroica");
+
+	static std::vector<double> GetPionResponseErr(const bool has_charge_exchanged);
+
+	static std::vector<double> GetNeutronResponseErr(const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
+		const double FSPartPy[], const double FSPartPz[], const double x0[], const double y0[], const double z0[],
+		const double xf[],const double yf[],const double zf[], const double traj_px0[], const double traj_py0[],
+		const double traj_pz0[], const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[], const double traj_E0[]);
+
+	static std::vector<double> GetFractionalError(const double var, const std::vector<double> &err_vec);
+
+	// Lateral Errors:
 	static std::vector<double> GetProtonTrackingErr(double track_length);
 	static std::vector<double> GetProtonShifts(const double shifts_up[10], const double shifts_down[10], const int nProtons, bool is_single = true);
 	static std::vector<double> GetShifts(const double nominal, const std::vector<double> &shifts);
@@ -69,25 +83,21 @@ public:
 	static std::vector<double> GetEnergyShifts(){ return m_Eshifts; }
 
 	static std::vector<double> GetRelEnergyShifts(const double mom, const double mass = ParticleInfo::PionMass);
+
 	static std::vector<double> GetRelEShifts(const double var);
 
 	static std::vector<double> GetLinearEnergyShifts(const double var);
 	
 	static std::vector<double> GetMuonThetaShifts(){ return m_MuTshifts; }
 
+	static std::vector<double> GetMuonPShifts(const double muon_E_shift, const double muon_shift);
+
+	static void GetCorrectedMuon3Mom(double &px, double &py, double &pz, const int n_theta_nodes,
+		const double theta_nodes[], bool wrtbeam = false);
+
+	static double GetCorrectedMuonTheta(const int n_theta_nodes, const double theta_nodes[], bool wrtbeam = false);
+
     // FillVertErrorBand_MuonTracking_ByHand(hist, var); CCProtonPi0_minos_trk_p = minos_trk_p
-	static std::vector<double> GetMINOSCorrectionErr(const double minos_trk_p, const int run, const int type,
-		const std::string &processing_name = "Eroica");
-
-	static std::vector<double> GetPionResponseErr(const bool has_charge_exchanged);
-
-	static std::vector<double> GetNeutronResponseErr(const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
-	const double FSPartPy[], const double FSPartPz[], const double x0[], const double y0[], const double z0[],
-	const double xf[],const double yf[],const double zf[], const double traj_px0[], const double traj_py0[],
-	const double traj_pz0[], const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[], const double traj_E0[]);
-
-	static std::vector<double> GetFractionalError(const double var, const std::vector<double> &err_vec);
-
 	static void PrintEnergyShifts();
 	// Kinematic specific variatiions:
 	// dEnu = dEpi * E_pi  (where dEpi = fractional error on pi)

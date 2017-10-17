@@ -15,8 +15,10 @@ INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 # TMPINC = -I$(ntup)/Classes/KinematicCalculator
-TMPINC = -I$(ntup)/Classes/KinematicCalculator
-TMP = $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
+TMP_LIST = KinematicCalculator TranverseTools
+TMPINC = $(foreach dir, $(TMP_LIST),-I$(ntup)/Classes/$(dir))
+TMP = $(foreach dir, $(TMP_LIST), $(ntup)/Classes/$(dir)/$(dir).cpp )
+# $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
 
 # Sample.cpp:
 # 	rootcint -f Sampledict.cpp -c src/base/Sample.h src/base/ErrorType.h $(PLOTUTILSROOT) LinkDef.h

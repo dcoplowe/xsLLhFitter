@@ -219,7 +219,6 @@ std::vector<double> DetError::GetLinearEnergyShifts(const double var)
 	std::vector<double> spread;
 	for(size_t i = 0; i < m_Eshifts.size(); i++) {
 		double temp = var*m_Eshifts[i];
-		cout << "m_Eshifts[" << i << "] = " << var << " * " << m_Eshifts[i] << " = " << temp << endl;
 		if(temp < kEpsilon) temp = 0.;
 		spread.push_back( temp );
 	}
@@ -231,7 +230,6 @@ std::vector<double> DetError::GenerateShifts(double sigma)
     std::vector<double> random_shifts;
     for (unsigned int i = 0; i < m_nominal.size(); ++i){
         double temp = sigma * m_nominal[i];
-		cout << "temp[" << i << "] = " << sigma << "*" << m_nominal[i] << " = " << temp << endl;
 		if(temp < kEpsilon) temp = 0.;
         random_shifts.push_back(temp);
     }   
@@ -357,14 +355,6 @@ double DetError::Calc_f(double neutron_KE)
     return var_unc;
 }
 
-// double DetError::calcDistance(const TVector3 x0, const TVector3 x1)
-// {
-// 	TVector3 r = x1 - x0;
-// 	return r.Mag();
-// }
-
-// should this be inline??
-//inline 
 std::vector<double> DetError::GetErrorVec(const double variation)
 {
 	std::vector<double> fix;
@@ -396,7 +386,7 @@ std::vector<double> DetError::GenerateEnergyShifts(const double mc_1sigma, const
 {
     // Fill EM Energy Scale Shifts
     double em_uncertainty = sqrt(mc_1sigma*mc_1sigma + data_1sigma*data_1sigma);
-    cout << "em_uncertainty = sqrt(" << mc_1sigma <<"^2 + " << data_1sigma << "^2) = " << em_uncertainty << endl;
+    // cout << "em_uncertainty = sqrt(" << mc_1sigma <<"^2 + " << data_1sigma << "^2) = " << em_uncertainty << endl;
     return GenerateShifts(em_uncertainty); // ~ Gaussian(0.0, em_uncertainty)
 }
 
@@ -407,7 +397,6 @@ void DetError::PrintEnergyShifts()
 	}
 }
 
-
 std::vector<double> DetError::GenerateMuonThetashifts(const double muonThetaX_Err, const double muonThetaY_Err)
 {
     // This is merely: sec^2(theta_X) + sec^2(theta_Y) = sec^2(theta) +1 
@@ -415,5 +404,33 @@ std::vector<double> DetError::GenerateMuonThetashifts(const double muonThetaX_Er
     double muonTheta_Err = acos(cos_muonTheta_Err);
     return GenerateShifts(muonTheta_Err);
 }
+
+std::vector<double> DetError::GetMuonPShifts(const double muon_E_shift, const double muon_shift)
+{
+	double muonP_uncertainty = muon_E_shift/muon_P;
+    return GenerateShifts(muonP_uncertainty); // ~ Gaussian(0.0, muonP_uncertainty)
+}
+
+void DetError::GetCorrectedMuon3Mom(double &px, double &py, double &pz, const int n_theta_nodes, const double theta_nodes[], bool wrtbeam)
+{
+	TVector3 mom(px, py, pz);
+	double theta = GetCorrectedMuonTheta(n_theta_nodes, theta_nodes, wrtbeam);
+	mom.SetTheta(theta);
+	px = mom.X();
+	py = mom.Y();
+	pz = mom.Z();
+}
+
+double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double theta_nodes[], bool wrtbeam);
+{
+	// We need sort out this so that we are can be in min. coords too.
+	double corrected_theta = 0.;
+	if (n_theta_nodes >= 28) corrected_theta = theta_nodes[28];
+	else if (n_theta_nodes >= 19) corrected_theta = theta_nodes[19];
+	else if (n_theta_nodes >= 9) corrected_theta = theta_nodes[9];
+	// else corrected_theta = muon_theta_beam;
+	return corrected_theta;
+}
+
 
 #endif
