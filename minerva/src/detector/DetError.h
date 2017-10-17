@@ -1,3 +1,50 @@
+#ifndef __PARTICLEINFO__H__
+#define __PARTICLEINFO__H__
+
+#include <TVector3.h>
+
+class ParticleInfo{
+public:
+	ParticleInfo(const double px, const double py, const double pz);
+	~ParticleInfo();
+
+	void AddX0(const double x0, const double y0, const double z0);
+	void AddX1(const double x1, const double y1, const double z1);
+	void AddPTraj(const double traj_x0, const double traj_y0, const double traj_z0);
+	bool IsContained() const{ return m_contained; }
+
+	double Mom() const { return m_mom3.Mag(); }
+	double PathLength() const { return m_path_length; }//.Mag(); }
+
+	static int CountFSParticles(const int pdg, const double P_min, const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
+	const double FSPartPy[], const double FSPartPz[], int &index);
+
+	bool isNeutronInelastic(const int ind, const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[],
+	const double traj_x0[], const double traj_y0[], const double traj_z0[], const double traj_xf[], const double traj_yf[], const double traj_zf[]);
+
+	static const double NeutronMass = 939.565;
+	static const double PionMass = 134.9766;
+
+private:
+	TVector3 m_mom3;
+	TVector3 m_start;
+	TVector3 m_finish;
+	TVector3 m_traj;
+
+	void GetUncontainedPathLength();
+	double m_path_length;
+
+	bool m_have_start;
+	bool m_have_finish;
+	bool m_have_traj;
+	bool m_contained;
+
+	bool isPointContained(double x, double y, double z);
+	bool inside_hexagon(double x, double y, double apothem);
+};
+
+#endif
+
 #ifndef __DETERROR__H__
 #define __DETERROR__H__
 
@@ -74,53 +121,6 @@ private:
 	static bool m_rel_warn;
     // FillVertErrorBand_PionResponse_ByHand(hist, var);
     // FillVertErrorBand_NeutronResponse_ByHand(hist, var);
-};
-
-#endif
-
-#ifndef __PARTICLEINFO__H__
-#define __PARTICLEINFO__H__
-
-#include <TVector3.h>
-
-class ParticleInfo{
-public:
-	ParticleInfo(const double px, const double py, const double pz);
-	~ParticleInfo();
-
-	void AddX0(const double x0, const double y0, const double z0);
-	void AddX1(const double x1, const double y1, const double z1);
-	void AddPTraj(const double traj_x0, const double traj_y0, const double traj_z0);
-	bool IsContained() const{ return m_contained; }
-
-	double Mom() const { return m_mom3.Mag(); }
-	double PathLength() const { return m_path_length; }//.Mag(); }
-
-	static int CountFSParticles(const int pdg, const double P_min, const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
-	const double FSPartPy[], const double FSPartPz[], int &index);
-
-	bool isNeutronInelastic(const int ind, const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[],
-	const double traj_x0[], const double traj_y0[], const double traj_z0[], const double traj_xf[], const double traj_yf[], const double traj_zf[]);
-
-	static const double NeutronMass = 939.565;
-	static const double PionMass = 134.9766;
-
-private:
-	TVector3 m_mom3;
-	TVector3 m_start;
-	TVector3 m_finish;
-	TVector3 m_traj;
-
-	void GetUncontainedPathLength();
-	double m_path_length;
-
-	bool m_have_start;
-	bool m_have_finish;
-	bool m_have_traj;
-	bool m_contained;
-
-	bool isPointContained(double x, double y, double z);
-	bool inside_hexagon(double x, double y, double apothem);
 };
 
 #endif
