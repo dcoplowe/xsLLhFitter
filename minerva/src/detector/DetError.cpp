@@ -149,6 +149,10 @@ using namespace PlotUtils;
 #define kIniValue -999
 #endif
 
+#ifndef kEpsilon 
+#define kEpsilon 1e-12
+#endif
+
 const int DetError::m_nToys = 500;
 const std::vector<double> DetError::m_nominal = DetError::MakeNormalShiftedUniverses();
 const std::vector<double> DetError::m_Eshifts = DetError::GenerateEnergyShifts();
@@ -214,7 +218,9 @@ std::vector<double> DetError::GetLinearEnergyShifts(const double var)
 {	
 	std::vector<double> spread;
 	for(size_t i = 0; m_Eshifts.size(); i++) {
-		cout << "m_Eshifts[" << i << "] = " << var << "*" << m_Eshifts[i] << " = " << var*m_Eshifts[i] << endl;
+		double temp = var*m_Eshifts[i];
+		cout << "m_Eshifts[" << i << "] = " << var << " * " << m_Eshifts[i] << " = " << temp << endl;
+		if(temp < kEpsilon) temp = 0.
 		spread.push_back( var*m_Eshifts[i] );
 	}
 	return spread;
@@ -226,6 +232,7 @@ std::vector<double> DetError::GenerateShifts(double sigma)
     for (unsigned int i = 0; i < m_nominal.size(); ++i){
         double temp = sigma * m_nominal[i];
 		cout << "temp[" << i << "] = " << sigma << "*" << m_nominal[i] << " = " << temp << endl;
+		if(temp < kEpsilon) temp = 0.;
         random_shifts.push_back(temp);
     }   
     return random_shifts;
