@@ -20,16 +20,3 @@ private:
 	void InitLLNTuple();
 
 public:
-	// Vars from ntuple (user must add them from tree.makeclass()):
-	// Example:
-	// Here goes:
-	// Double_t varname;
-	// TBranch *b_varname;
-	// Then in FileIO::Init() (FileIO.cpp):
-	// fChain->SetBranchAddress("varname", &varname, &b_varname);
-
-	__ADD_PUBLIC_VARS_AND_BRANCHES__
-
-};
-
-#endif

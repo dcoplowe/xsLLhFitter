@@ -55,28 +55,23 @@ $(grep "fChain->SetBranchAddress" ${treename}.h)
 #endif
 EOF
 
+# Make Header file:
+find_first="// Declaration of leaf types"
+find_last="${treename}(TTree *tree=0);"
+
+# Get block of variables and their respective branches:
+first_line=$(grep -C 2 ${find_first} ${treename}.h)
+last_last=$(grep -C 2 ${find_last} ${treename}.h)
+
+sed -n ${first_line},${last_line}p ${treename}.h
+# goodlines=$(sed -n ${first_line},${last_line}p ${treename}.h)
+
+cat > FileIO.h <<EOF
+$(cat FileIO_Maker.h)
 
 
-# # For init: Find every instance of fChain->SetBranchAddress(...) and put this in Init()
-# # replace_h="__ADD_PUBLIC_VARS_AND_BRANCHES__"
-# replace_cpp="__ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__"
+};
+#endif
+EOF
 
-# # replacewith_h=$(grep "fChain->SetBranchAddress" ${treename}.h)
-# 
-# n_replacewith_cpp=$(${replacewith_cpp} | wc -l)
-# echo "Adding  lines to FileIO.cpp"
-
-# sed 's/${replace_cpp}/${replacewith_cpp}/g' FileIO.cpp
-# # sed "s/${replace_cpp}/${replacewith_cpp}/g" FileIO.cpp
-# # first=// Declaration of leaf types
-
-# void FileIO::Init()
-# {
-# 	// Set branch addresses and branch pointers
-#     fChain->SetMakeClass(1);
-
-#     __ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__
-    
-#     // This is so that we always have the size elements initialised.
-#     fChain->GetEntry(0);
-# }
+rm ${treename}.{C,h}
