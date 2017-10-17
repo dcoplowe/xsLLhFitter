@@ -31,5 +31,6 @@ fi
 
 # This could be improved (using PyRoot):
 root -l -b ${rootfile} <<EOF
-${treename}->MakeClass();
+TTree * intree = (TTree*)_file0->Get(${treename})
+intree->MakeClass();
 EOF
