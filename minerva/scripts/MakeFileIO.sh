@@ -31,7 +31,7 @@ fi
 
 # This could be improved (using PyRoot):
 root -l -b <<EOF
-TFile file(${rootfile})
-TTree * intree = (TTree*)file->Get(${treename})
+TFile file("${rootfile}")
+TTree * intree = (TTree*)file->Get("${treename}")
 intree->MakeClass();
 EOF
