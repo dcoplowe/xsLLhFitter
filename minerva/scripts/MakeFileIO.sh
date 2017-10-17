@@ -51,6 +51,17 @@ replace_cpp="__ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__"
 replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
 echo "Adding $(${replacewith_cpp} | wc -l) lines to FileIO.cpp"
 
-sed "s/${replace_cpp}/${replacewith_cpp}/g" FileIO.cpp
+sed 's/${replace_cpp}/${replacewith_cpp}/g' FileIO.cpp
 # sed "s/${replace_cpp}/${replacewith_cpp}/g" FileIO.cpp
 # first=// Declaration of leaf types
+
+# void FileIO::Init()
+# {
+# 	// Set branch addresses and branch pointers
+#     fChain->SetMakeClass(1);
+
+#     __ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__
+    
+#     // This is so that we always have the size elements initialised.
+#     fChain->GetEntry(0);
+# }
