@@ -38,12 +38,8 @@ TTree * intree = (TTree*)file.Get("${treename}")
 intree->MakeClass();
 EOF
 
-replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
-# for ii in h cpp; do 
-# 	cp FileIO_Maker.${ii} FileIO.${ii}
-# done
-cppfile="FileIO.cpp"
-cat > ${cppfile} <<EOF
+# cppfile="FileIO.cpp"
+cat > FileIO.cpp <<EOF
 $(cat FileIO_Maker.cpp)
 
 void FileIO::Init()
@@ -51,7 +47,7 @@ void FileIO::Init()
 	// Set branch addresses and branch pointers
     fChain->SetMakeClass(1);
     
-	$(grep "fChain->SetBranchAddress" ${treename}.h)
+$(grep "fChain->SetBranchAddress" ${treename}.h)
 
     // This is so that we always have the size elements initialised.
     fChain->GetEntry(0);
