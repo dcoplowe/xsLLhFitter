@@ -225,6 +225,7 @@ std::vector<double> DetError::GenerateShifts(double sigma)
     std::vector<double> random_shifts;
     for (unsigned int i = 0; i < m_nominal.size(); ++i){
         double temp = sigma * m_nominal[i];
+		cout << "temp[" << i << "] = " << sigma << "*" << m_nominal[i] << " = " << temp << endl;
         random_shifts.push_back(temp);
     }   
     return random_shifts;
@@ -388,6 +389,7 @@ std::vector<double> DetError::GenerateEnergyShifts(const double mc_1sigma, const
 {
     // Fill EM Energy Scale Shifts
     double em_uncertainty = sqrt(mc_1sigma*mc_1sigma + data_1sigma*data_1sigma);
+    cout << "em_uncertainty = sqrt(" << mc_1sigma <<"^2 + " << data_1sigma << "^2) = " << em_uncertainty << endl;
     return GenerateShifts(em_uncertainty); // ~ Gaussian(0.0, em_uncertainty)
 }
 
