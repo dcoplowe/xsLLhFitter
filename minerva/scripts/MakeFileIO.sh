@@ -74,4 +74,4 @@ $(cat FileIO_Maker.h)
 #endif
 EOF
 
-rm ${treename}.{C,h}
+# rm ${treename}.{C,h}
