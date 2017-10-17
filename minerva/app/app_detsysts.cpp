@@ -80,7 +80,7 @@ int main()
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
 		// std::vector<double> pi_response = DetError::GetPionResponseErr(true);
-		std::vector<double> em_scale = DetError::GenerateShifts(reader.pi0_invMass);
+		std::vector<double> em_scale = DetError::GetLinearEnergyShifts(reader.pi0_invMass);
 
 		cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
 		for(int ddd = 0; ddd < 500; ddd++) cout << " " << em_scale[ddd];
