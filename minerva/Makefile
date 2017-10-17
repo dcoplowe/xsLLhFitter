@@ -47,7 +47,7 @@ all: $(DET) $(MOD)
 # all: $(DET)
 
 $(DET): $(DETOBJS)
-	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 $(MOD): $(MODOBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
