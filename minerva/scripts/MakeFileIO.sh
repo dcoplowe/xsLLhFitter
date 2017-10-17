@@ -30,7 +30,8 @@ if [ -z ${treename+x} ]; then
 fi
 
 # This could be improved (using PyRoot):
-root -l -b ${rootfile} <<EOF
-TTree * intree = (TTree*)_file0->Get(${treename})
+root -l -b <<EOF
+TFile file(${rootfile})
+TTree * intree = (TTree*)file->Get(${treename})
 intree->MakeClass();
 EOF
