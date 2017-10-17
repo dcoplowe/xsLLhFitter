@@ -49,6 +49,7 @@ replace_cpp="__ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__"
 
 # replacewith_h=$(grep "fChain->SetBranchAddress" ${treename}.h)
 replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
+echo "Adding $(${replacewith_cpp} | wc -l) lines to FileIO.cpp"
 
 sed "s/${replace_cpp}/${replacewith_cpp}/g" FileIO.cpp
 # sed "s/${replace_cpp}/${replacewith_cpp}/g" FileIO.cpp
