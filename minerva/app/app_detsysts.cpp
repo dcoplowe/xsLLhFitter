@@ -9,6 +9,7 @@
 #include <DetError.h>
 
 #include <TransverseTools.h>
+#include <TTree.h>
 
 using std::cout;
 using std::endl;
