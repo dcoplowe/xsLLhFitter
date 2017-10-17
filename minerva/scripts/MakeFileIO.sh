@@ -70,12 +70,12 @@ last_line=$(grep -n "${find_last}" ${treename}.h  | head -n 1 | awk '{print $1}'
 last_line=${last_line//:}
 last_line=$(expr ${last_line} - 1 )
 echo "last_line = ${last_line}"
-sed -n ${first_line},${last_line}p ${treename}.h
 # goodlines=$(sed -n ${first_line},${last_line}p ${treename}.h)
 
 cat > FileIO.h <<EOF
 $(cat FileIO_Maker.h)
 
+	$(sed -n ${first_line},${last_line}p ${treename}.h)
 
 };
 #endif
