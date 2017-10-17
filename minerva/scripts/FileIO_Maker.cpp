@@ -65,15 +65,3 @@ void FileIO::InitLLNTuple()
     m_LLtuple->Branch("selpi_costheta",     &pi0_theta, "selpi_costheta/D");
     m_LLtuple->Branch("selpi_truecostheta", &truth_pi0_theta, "selpi_truecostheta/D");
 }
-
-void FileIO::Init()
-{
-	// Set branch addresses and branch pointers
-    fChain->SetMakeClass(1);
-
-    __ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__
-    
-    // This is so that we always have the size elements initialised.
-    fChain->GetEntry(0);
-}
-#endif
