@@ -86,6 +86,11 @@ fi
 
 # Copy over FileIO.{cpp,h} to their correct locations:
 for ii in cpp h; do
-	cp ${mydir}/../src/fileio/FileIO.${ii} ${mydir}/old/FileIO.${ii}_old$(date "+%d%m%g")
-	cp FileIO.${ii} ${mydir}/../src/fileio/FileIO.${ii}
+	if cmp --silent FileIO.${ii} ${mydir}/../src/fileio/FileIO.${ii}
+	then
+		echo "FileIO.{ii} is unchanged, will not copy to fileio directory."
+		cp ${mydir}/../src/fileio/FileIO.${ii} ${mydir}/old/FileIO.${ii}_old$(date "+%d%m%g")
+		cp FileIO.${ii} ${mydir}/../src/fileio/FileIO.${ii}
+	fi
+	rm FileIO.${ii}
 done
