@@ -38,22 +38,34 @@ TTree * intree = (TTree*)file.Get("${treename}")
 intree->MakeClass();
 EOF
 
+
 for ii in h cpp; do 
 	cp FileIO_Maker.${ii} FileIO.${ii}
 done
 
 
-# For init: Find every instance of fChain->SetBranchAddress(...) and put this in Init()
-# replace_h="__ADD_PUBLIC_VARS_AND_BRANCHES__"
-replace_cpp="__ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__"
 
-# replacewith_h=$(grep "fChain->SetBranchAddress" ${treename}.h)
-replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
-echo "Adding $(${replacewith_cpp} | wc -l) lines to FileIO.cpp"
 
-sed 's/${replace_cpp}/${replacewith_cpp}/g' FileIO.cpp
-# sed "s/${replace_cpp}/${replacewith_cpp}/g" FileIO.cpp
-# first=// Declaration of leaf types
+
+cat < FileIO.cpp <<EOF
+$(cat ${FileIO_Maker.${cpp}})
+$(echo "DADADD")
+EOF
+
+
+
+# # For init: Find every instance of fChain->SetBranchAddress(...) and put this in Init()
+# # replace_h="__ADD_PUBLIC_VARS_AND_BRANCHES__"
+# replace_cpp="__ADD_PUBLIC_VARS_AND_BRANCH_INITIALISATION_HERE__"
+
+# # replacewith_h=$(grep "fChain->SetBranchAddress" ${treename}.h)
+# replacewith_cpp=$(grep "fChain->SetBranchAddress" ${treename}.h)
+# n_replacewith_cpp=$(${replacewith_cpp} | wc -l)
+# echo "Adding  lines to FileIO.cpp"
+
+# sed 's/${replace_cpp}/${replacewith_cpp}/g' FileIO.cpp
+# # sed "s/${replace_cpp}/${replacewith_cpp}/g" FileIO.cpp
+# # first=// Declaration of leaf types
 
 # void FileIO::Init()
 # {
