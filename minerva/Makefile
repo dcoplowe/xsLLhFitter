@@ -15,7 +15,7 @@ INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 # TMPINC = -I$(ntup)/Classes/KinematicCalculator
-TMP_LIST = KinematicCalculator TranverseTools
+TMP_LIST = KinematicCalculator TransverseTools
 TMPINC = $(foreach dir, $(TMP_LIST),-I$(ntup)/Classes/$(dir))
 TMP = $(foreach dir, $(TMP_LIST), $(ntup)/Classes/$(dir)/$(dir).cpp )
 # $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp

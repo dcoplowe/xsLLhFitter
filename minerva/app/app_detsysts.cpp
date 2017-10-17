@@ -88,7 +88,7 @@ int main()
 		proton_pT = TransverseTools::GetPTRec(reader.CCProtonPi0_vtx, proton)->Mag();
 		delete proton;
 
-		const TVector3 * pion = new TVector3(reader.pion_px, reader.pion_py, reader.pion_pz);
+		const TVector3 * pion = new TVector3(reader.pi0_px, reader.pi0_py, reader.pi0_pz);
 		pion_pT = TransverseTools::GetPTRec(reader.CCProtonPi0_vtx, pion)->Mag();
 		delete pion;
 
