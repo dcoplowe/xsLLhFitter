@@ -5,6 +5,9 @@
 #include <ErrorType.h>
 #include <iostream>
 
+// Need Cintex for MnvHN persistance?1
+#include <Cintex/Cintex.h>
+
 using namespace std;
 
 int Sample::m_Nsamples = 0;
@@ -15,6 +18,7 @@ Sample::Sample(const std::string& name, const int nbins, const double x_low, con
 	MnvH1D(Form("%s_nbins%.3d_lowE%.3d_higE%.3d", name.c_str(), nbins, (int)x_low, (int)x_high), "", nbins, x_low, x_high), 
 	m_sampos(m_Nsamples++), m_value(-999.), m_wgt(-999.), m_start(-999), m_anabin(-999)
 {
+	ROOT::Cintex::Cintex::Enable();
 	m_error.clear();
 	int n_anabins = GetNbinsX() + 2;
 	m_anaHist = new MnvH1D(Form("%s_nbins%.3d_anaHist", GetName(), n_anabins), "", n_anabins, 0., (double)n_anabins);

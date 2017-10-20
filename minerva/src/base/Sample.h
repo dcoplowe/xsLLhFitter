@@ -14,6 +14,8 @@ class ErrorType;
 // #include <PlotUtils/MnvH2D.h>
 using namespace PlotUtils;
 
+// Do we want this?
+
 class Sample : public MnvH1D
 {
 public:
