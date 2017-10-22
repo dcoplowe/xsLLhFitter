@@ -6,7 +6,7 @@
 
 #include <TMatrixD.h>
 #include <TFile.h>
-// #include <DetError.h>
+#include <DetError.h>
 
 #include <TransverseTools.h>
 #include <TTree.h>
@@ -26,7 +26,7 @@ int main()
 	// string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root";
 	// string in_file = "ReducedNTuple_TransverseAnalysis_newSig_noMggcut_171017.root";
 	// New file using latest ntuple:
-	string in_file = "/minerva/data/users/dcoplowe/Analyse_Alice/MC/Reduce_newSIG_pi0Mcutn_FDy_prPIDSBn_prScorey_meSBn_101817.root"
+	string in_file = "/minerva/data/users/dcoplowe/Analyse_Alice/MC/Reduce_newSIG_pi0Mcutn_FDy_prPIDSBn_prScorey_meSBn_101817.root";
 	string in_tree = "CCProtonPi0";
 	string out_file = "DetSyst_Test.root";
 	bool verbose = false;
