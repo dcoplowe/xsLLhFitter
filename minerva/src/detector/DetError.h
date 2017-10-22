@@ -17,7 +17,10 @@ public:
 	double PathLength() const { return m_path_length; }//.Mag(); }
 
 	static int CountFSParticles(const int pdg, const double P_min, const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
-	const double FSPartPy[], const double FSPartPz[], int &index);
+	const double FSPartPy[], const double FSPartPz[]);
+
+	static int GetIndex(const int pdg, const int detmc_ntrajectory2, const int detmc_traj_mother[],
+		const int detmc_traj_pdg[], const double detmc_traj_E0[]);
 
 	bool isNeutronInelastic(const int ind, const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[],
 	const double traj_x0[], const double traj_y0[], const double traj_z0[], const double traj_xf[], const double traj_yf[], const double traj_zf[]);
@@ -51,22 +54,61 @@ private:
 #include <vector>
 #include <string>
 
+
+#include <PlotUtils/MnvNormalization.h>
+
+using namespace PlotUtils;
+
+class FileIO;
+
 class DetError
 {
 public:
 	DetError();
+	DetError(FileIO * fChain);
 	~DetError();
 
+	struct Default
+	{
+		std::vector<double> michel;
+		std::vector<double> michel_true;
+		std::vector<double> michel_false;
+		std::vector<double> mu_trking;
+		std::vector<double> neutron_res;
+		std::vector<double> pi_res;
+		std::vector<double> pr_trking;
+		
+		void clear(){
+			michel.clear();
+			michel_true.clear();
+			michel_false.clear();
+			mu_trking.clear();
+			neutron_res.clear();
+			pi_res.clear();
+			pr_trking.clear();
+		}
+	};
+
+	Default GetDefaults();
+
 	// Vertical Errors:
-	static std::vector<double> GetMINOSCorrectionErr(const double minos_trk_p, const int run, const int type,
-		const std::string &processing_name = "Eroica");
+	static std::vector<double> GetMINOSCorrectionErr(const double minos_trk_p, const int run, const int type);
 
 	static std::vector<double> GetPionResponseErr(const bool has_charge_exchanged);
 
-	static std::vector<double> GetNeutronResponseErr(const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
-		const double FSPartPy[], const double FSPartPz[], const double x0[], const double y0[], const double z0[],
-		const double xf[],const double yf[],const double zf[], const double traj_px0[], const double traj_py0[],
-		const double traj_pz0[], const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[], const double traj_E0[]);
+	static std::vector<double> GetNeutronResponseErr(const int nFSPart, const int FSPartPDG[], 
+		const double FSPartPx[], const double FSPartPy[], const double FSPartPz[], const int ntraj,
+		const int traj_pdg[], const int traj_mother[], const int traj_id[], const int traj_proc[],
+		const double traj_px0[], const double traj_py0[], const double traj_pz0[], const double traj_E0[],
+		const double traj_x0[], const double traj_y0[], const double traj_z0[],
+		const double traj_xf[],const double traj_yf[],const double traj_zf[]);
+
+	static double GetMichelErr(const bool truth_isBckg_withMichel);
+	static double GetMichelErrTrue(const bool truth_isBckg_withMichel);
+	static double GetMichelErrFalse(const bool truth_isBckg_withMichel);
+
+	static std::vector<double> GetPionResponseErr(const bool has_charge_exchanged);
+
 
 	static std::vector<double> GetFractionalError(const double var, const std::vector<double> &err_vec);
 
@@ -111,7 +153,15 @@ public:
 
 
 private:
+	FileIO * m_chain;
+	Default m_def;
+
 	static std::string GetPlaylist(const int run, const int type);
+
+	static const std::string m_processing_name;
+	static const std::string m_init_playlist;
+	static MnvNormalizer * m_normalizer;
+
 	static std::vector<double> GetErrorVec(const double variation);
 
 	static double Calc_f(double neutron_KE);
@@ -130,8 +180,17 @@ private:
 
 	static std::vector<double> m_relEshifts;
 	static bool m_rel_warn;
-    // FillVertErrorBand_PionResponse_ByHand(hist, var);
-    // FillVertErrorBand_NeutronResponse_ByHand(hist, var);
+
+	// Empty error:
+	static const std::vector<double> m_noError;
+
+	// Make the constant shifts once:
+	static const std::vector<double> m_michel_true;
+	static const std::vector<double> m_michel_false;
+
+	// Proton uncetainty:
+	const std::vector<double> m_prEshort;
+	const std::vector<double> m_prElong;
 };
 
 #endif

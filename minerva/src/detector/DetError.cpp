@@ -110,24 +110,34 @@ bool ParticleInfo::isNeutronInelastic(const int ind, const int ntraj, const int 
 }
 
 int ParticleInfo::CountFSParticles(const int pdg, const double P_min, const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
-	const double FSPartPy[], const double FSPartPz[], int &index)
+	const double FSPartPy[], const double FSPartPz[])
 {
-	index = kIniValue;
     int count = 0;
-    double mom_max = 0.;
     for (int i = 0; i < nFSPart; i++){
         if (FSPartPDG[i] == pdg){ 
         	TVector3 mom(FSPartPx[i], FSPartPy[i], FSPartPz[i]);
             if (mom.Mag() > P_min){ 
             	count++;
-            	if(mom.Mag() > mom_max){
-            		mom_max = mom.Mag();
-            		index = i;
-            	}
+            	break;
             }
         }
     }
     return count;
+}
+
+int ParticleInfo::GetIndex(const int pdg, const int detmc_ntrajectory2, const int detmc_traj_mother[], const int detmc_traj_pdg[],
+	const double detmc_traj_E0[])
+{
+	int index = kIniValue;
+    int count = 0;
+    double E_min = 0.;
+    for (int i = 0; i < detmc_ntrajectory2; i++){
+    	if(detmc_traj_mother[i] > 0 && pdg == detmc_traj_pdg[i] && E_min < detmc_traj_E0[i]){
+    		E_min = detmc_traj_E0[i];
+    		index = i;
+    	}
+    }
+    return index;
 }
 
 #endif
@@ -135,15 +145,12 @@ int ParticleInfo::CountFSParticles(const int pdg, const double P_min, const int 
 #ifndef __DETERROR__CPP__
 #define __DETERROR__CPP__
 
-#include <PlotUtils/MnvNormalization.h>
 #include <TVector3.h>
 #include <TRandom3.h>
 
 #include <iostream>
 using std::cout;
 using std::endl;
-
-using namespace PlotUtils;
 
 #ifndef kIniValue 
 #define kIniValue -999
@@ -158,8 +165,25 @@ const std::vector<double> DetError::m_nominal = DetError::MakeNormalShiftedUnive
 const std::vector<double> DetError::m_Eshifts = DetError::GenerateEnergyShifts();
 const std::vector<double> DetError::m_MuTshifts = DetError::GenerateMuonThetashifts();
 const std::vector<double> DetError::m_Emptyshifts = DetError::MakeEmptyShifts();
+const std::vector<double> DetError::m_noError = DetError::GetErrorVec(0.); 
 std::vector<double> DetError::m_relEshifts = DetError::m_Emptyshifts;//DetError::MakeEmptyShifts();
 bool DetError::m_rel_warn = true;
+
+// Eroica processing name:
+const std::string DetError::m_processing_name = ReadParam::GetParameterS("processing_name", default_DetError);
+const std::string DetError::m_init_playlist = ReadParam::GetParameterS("init_playlist", default_DetError);
+MnvNormalizer * DetError::m_normalizer = new MnvNormalizer(DetError::m_processing_name, DetError::m_init_playlist);
+
+// Uncertainty is 1.1% hence weights 1-0.011 AND 1+0.011
+// docDB 11443, slide 38 
+const std::vector<double> DetError::m_michel_true = DetError::GetErrorVec(0.011);
+// Uncertainty is 0.5% hence weights 1-0.005 AND 1+0.005
+  // docDB 11443, slide 38 
+const std::vector<double> DetError::m_michel_false = DetError::GetErrorVec(0.005);
+
+// Proton uncertainty:
+const std::vector<double> DetError::m_prEshort = DetError::GetErrorVec(0.046);
+const std::vector<double> DetError::m_prElong = DetError::GetErrorVec(0.003);
 
 // std::vector<double> em_energy_random_shifts;
 // std::vector<double> muonP_random_shifts;
@@ -174,6 +198,66 @@ DetError::DetError()
 DetError::~DetError()
 {
 
+}
+
+DetError::DetError(FileIO * fChain)
+{
+	m_chain = fChain;
+	// Whese 1 +/- correction
+	m_def.clear();
+}
+
+
+DetError::Default DetError::GetDefaults()
+{
+	m_def.clear();
+	// Michel (miss-)tagging:
+	m_def.michel_true = GetMichelErrTrue(m_chain->truth_isBckg_withMichel);
+	m_def.michel_false = GetMichelErrFalse(m_chain->truth_isBckg_withMichel);
+	// This is the combined mis-tag uncertainty:
+	m_def.michel = GetMichelErr(m_chain->truth_isBckg_withMichel);
+
+	// Muon tracking:
+	m_def.mu_trking = GetMINOSCorrectionErr(m_chain->CCProtonPi0_minos_trk_p, m_chain->mc_run, m_chain->mc_intType);
+
+	// Neutron response:
+	m_def.neutron_res = GetNeutronResponseErr(m_chain->mc_nFSPart, m_chain->mc_FSPartPDG, m_chain->mc_FSPartPx,
+		m_chain->mc_FSPartPy, m_chain->mc_FSPartPz, m_chain->detmc_ntrajectory2, m_chain->detmc_traj_pdg, 
+		m_chain->detmc_traj_mother, m_chain->detmc_traj_id, m_chain->detmc_traj_proc, m_chain->detmc_traj_px0,
+		m_chain->detmc_traj_py0, m_chain->detmc_traj_pz0, m_chain->detmc_traj_E0, m_chain->detmc_traj_x0, 
+		m_chain->detmc_traj_y0, m_chain->detmc_traj_z0, m_chain->detmc_traj_xf,m_chain->detmc_traj_yf,m_chain->detmc_traj_zf);
+
+	// Pion response:
+	m_def.pi_res = GetPionResponseErr(m_chain->truth_isBckg_SingleChargedPion_ChargeExchanged);
+
+	// Proton tracking:
+	if(m_chain->nProtonCandidates > 0) m_def.pr_trking = GetProtonTrackingErr(m_chain->proton_length);
+	else m_def.pr_trking = m_noError;
+
+	return m_def;
+}
+
+// Uncertainty is 0.5% hence weights 1-0.005 AND 1+0.005
+// docDB 11443, slide 38 
+// Uncertainty is 1.1% hence weights 1-0.011 AND 1+0.011
+// docDB 11443, slide 38 
+// Michel Fake Error Applied only to Events without True Michel 
+std::vector<double> DetError::GetMichelErr(const bool truth_isBckg_withMichel)
+{
+    if(!truth_isBckg_withMichel) return m_michel_false;
+    return m_michel_true;
+}
+
+std::vector<double> DetError::GetMichelErrTrue(const bool truth_isBckg_withMichel)
+{
+    if (truth_isBckg_withMichel) return m_michel_true;
+    return m_noError;
+}
+
+std::vector<double> DetError::GetMichelErrFalse(const bool truth_isBckg_withMichel)
+{
+    if (!truth_isBckg_withMichel) m_michel_false;
+    return m_noError;
 }
 
 std::vector<double> DetError::GetFractionalError(const double var, const std::vector<double> &err_vec)
@@ -246,8 +330,9 @@ std::vector<double> DetError::GetShifts(const double nominal, const std::vector<
 
 std::vector<double> DetError::GetProtonTrackingErr(double track_length)
 {
-    double correction = (track_length < 8*17.0 ? 0.046 : 0.003); //Ref: TN048
-    return GetErrorVec(correction);
+    //Ref: TN048
+    if(track_length < 8*17.0) return m_prEshort;
+    else return m_prElong;
 }
 
 std::vector<double> DetError::GetProtonShifts(const double shifts_up[10], const double shifts_down[10], const int nProtons, bool is_single)
@@ -268,12 +353,12 @@ void DetError::FillProtonEnergyShiftVector(std::vector<double> &energy_shifts, c
     for (int i = 0; i < nProtons; ++i) energy_shifts.push_back(shifts[i]);
 }
 
-std::vector<double> DetError::GetMINOSCorrectionErr(const double CCProtonPi0_minos_trk_p, const int run, const int type, const std::string &processing_name)
+std::vector<double> DetError::GetMINOSCorrectionErr(const double CCProtonPi0_minos_trk_p, const int run, const int type)
 {
 	std::string playlist = GetPlaylist(run, type);
-	if (playlist.compare("minerva_2p2h") == 0) playlist = "minerva13C";
-	MnvNormalizer normalizer(processing_name, playlist);
-	double correctionErr = normalizer.GetCorrectionErr(CCProtonPi0_minos_trk_p);
+    if (playlist.compare("minerva_2p2h") == 0) playlist = "minerva13C";
+    m_normalizer->LoadPlaylist(playlist);
+	double correctionErr = m_normalizer->GetCorrectionErr(CCProtonPi0_minos_trk_p);
 	return GetErrorVec(correctionErr);
 }
 
@@ -310,21 +395,27 @@ std::string DetError::GetPlaylist(const int run, const int type)
 // 	const double * FSPartPy[], const double * FSPartPz[], const double * x0[], const double * y0[], const double * z0[],
 // 	const double * xf[],const double * yf[],const double * zf[], const double * traj_px0[], const double * traj_py0[],
 // 	const double * traj_pz0[], const int ntraj, const int * traj_mother[], const int * traj_id[], const int * traj_proc[], const double * traj_E0[]
-std::vector<double> DetError::GetNeutronResponseErr(const int nFSPart, const int FSPartPDG[], const double FSPartPx[],
-	const double FSPartPy[], const double FSPartPz[], const double x0[], const double y0[], const double z0[],
-	const double xf[],const double yf[],const double zf[], const double traj_px0[], const double traj_py0[],
-	const double traj_pz0[], const int ntraj, const int traj_mother[], const int traj_id[], const int traj_proc[], const double traj_E0[])
+
+std::vector<double> DetError::GetNeutronResponseErr(
+	const int nFSPart, const int FSPartPDG[], const double FSPartPx[], const double FSPartPy[], const double FSPartPz[], 
+	const int ntraj, const int traj_pdg[], const int traj_mother[], const int traj_id[], const int traj_proc[],
+	const double traj_px0[], const double traj_py0[], const double traj_pz0[], const double traj_E0[],
+	const double traj_x0[], const double traj_y0[], const double traj_z0[],
+	const double traj_xf[],const double traj_yf[],const double traj_zf[])
 {
 	int index;
-	if(ParticleInfo::CountFSParticles(2112, 150., nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz, index) < 1) return GetErrorVec(0.);
+	if(ParticleInfo::CountFSParticles(2112, 150., nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz) < 1) return GetErrorVec(0.);
 
-	ParticleInfo neutron(FSPartPx[index], FSPartPy[index], FSPartPz[index]);
-	neutron.AddX0(x0[index], y0[index], z0[index]);
-	neutron.AddX1(xf[index], yf[index], zf[index]);
+	// detmc_ntrajectory2, detmc_traj_mother, detmc_traj_mother, detmc_traj_pdg, detmc_traj_E0
+	index = ParticleInfo::GetIndex(2112, ntraj, detmc_traj_mother, detmc_traj_mother, detmc_traj_pdg, detmc_traj_E0);
+
+	ParticleInfo neutron(traj_px0[index], traj_py0[index], traj_pz0[index]);
+	neutron.AddX0(traj_x0[index], traj_y0[index], traj_z0[index]);
+	neutron.AddX1(traj_xf[index], traj_yf[index], traj_zf[index]);
 	if(neutron.IsContained()) neutron.AddPTraj(traj_px0[index], traj_py0[index], traj_pz0[index]);
 	double path_length = neutron.PathLength();
 
-	bool isInelastic = neutron.isNeutronInelastic(index, ntraj, traj_mother, traj_id, traj_proc, x0, y0, z0, xf, yf, zf);
+	bool isInelastic = neutron.isNeutronInelastic(index, ntraj, traj_mother, traj_id, traj_proc, traj_x0, traj_y0, traj_z0, traj_xf, traj_yf, traj_zf);
     
     bool reweightable = (path_length > 0.0) && isInelastic; 
 

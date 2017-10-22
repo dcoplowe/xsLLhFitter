@@ -1,0 +1,4 @@
+//----------------- Analysis cut choices -----------------
+<| init_playlist = minerva1 |> 
+<| processing_name = Eroica |> 
+//--------------------------------------------------------
