@@ -52,9 +52,8 @@ int main()
 
 	TFile * ofile = FileIO::MakeOutFile(out_file);
 
-	Int_t loop_size = reader.GetEntries();
+	// Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
-
 	ofile->cd();
 	reader.SetupLLNTuple();
 
