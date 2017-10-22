@@ -107,9 +107,6 @@ public:
 	static double GetMichelErrTrue(const bool truth_isBckg_withMichel);
 	static double GetMichelErrFalse(const bool truth_isBckg_withMichel);
 
-	static std::vector<double> GetPionResponseErr(const bool has_charge_exchanged);
-
-
 	static std::vector<double> GetFractionalError(const double var, const std::vector<double> &err_vec);
 
 	// Lateral Errors:
