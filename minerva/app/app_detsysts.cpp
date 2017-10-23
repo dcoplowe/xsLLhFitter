@@ -84,7 +84,7 @@ int main()
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
 		DetError error(reader);
-		DetError::Defaults def_err = error.GetDefaults();
+		DetError::Default def_err = error.GetDefaults();
 			
 		cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
 		cout << endl;
