@@ -266,7 +266,7 @@ std::vector<double> DetError::GetMichelErrTrue(const bool truth_isBckg_withMiche
 
 std::vector<double> DetError::GetMichelErrFalse(const bool truth_isBckg_withMichel)
 {
-    if (!truth_isBckg_withMichel) m_michel_false;
+    if (!truth_isBckg_withMichel) return m_michel_false;
     return m_noError;
 }
 
