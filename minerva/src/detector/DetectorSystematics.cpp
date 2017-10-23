@@ -57,13 +57,13 @@ bool DetectorSystematics::AddDefaults()
 bool DetectorSystematics::FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
 	const double cvweight, const bool fillcv, const double *weights)
 {
-	bool filled = (FillLatErrorBand(sam_name, "MiMisTagTrue",    value, elist.michel_true,	cvweight, fillcv, weights) &&
-				   FillLatErrorBand(sam_name, "MiMisTagFalse",   value, elist.michel_false, cvweight, fillcv, weights) &&
-				// FillLatErrorBand(sam_name, "MichelTagging",   value, elist.michel, 	 	cvweight, fillcv, weights) &&
-				   FillLatErrorBand(sam_name, "MuonTracking",    value, elist.mu_trking, 	cvweight, fillcv, weights) &&
-				   FillLatErrorBand(sam_name, "NeutronResponse", value, elist.neutron_res, 	cvweight, fillcv, weights) &&
-				   FillLatErrorBand(sam_name, "PionResponse",    value, elist.pi_res, 		cvweight, fillcv, weights) &&
-				   FillLatErrorBand(sam_name, "ProtonTracking",  value, elist.pr_trking, 	cvweight, fillcv, weights) );
+	bool filled = (FillVertErrorBand(sam_name, "MiMisTagTrue",    value, elist.michel_true,	cvweight, fillcv, weights) &&
+				   FillVertErrorBand(sam_name, "MiMisTagFalse",   value, elist.michel_false, cvweight, fillcv, weights) &&
+				// FillVertErrorBand(sam_name, "MichelTagging",   value, elist.michel, 	 	cvweight, fillcv, weights) &&
+				   FillVertErrorBand(sam_name, "MuonTracking",    value, elist.mu_trking, 	cvweight, fillcv, weights) &&
+				   FillVertErrorBand(sam_name, "NeutronResponse", value, elist.neutron_res, 	cvweight, fillcv, weights) &&
+				   FillVertErrorBand(sam_name, "PionResponse",    value, elist.pi_res, 		cvweight, fillcv, weights) &&
+				   FillVertErrorBand(sam_name, "ProtonTracking",  value, elist.pr_trking, 	cvweight, fillcv, weights) );
 	return filled;
 }
 
