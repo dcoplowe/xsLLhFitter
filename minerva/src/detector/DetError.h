@@ -64,6 +64,7 @@ class DetError
 public:
 	DetError();
 	DetError(FileIO * fChain);
+	DetError(FileIO & fChain);
 	~DetError();
 
 	struct Default

@@ -87,7 +87,7 @@ int main()
 
 		DetError::Default def_err = error.GetDefaults();
 		
-		for(size_t ll = 0; ll < def_err.size(); ll++){
+		for(size_t ll = 0; ll < def_err.michel.size(); ll++){
 			if(ll == 0) cout << "Lower  Bound: ";
 			else cout << "Upper  Bound: ";
 			cout << " Michel = " << def_err.michel[ll];
