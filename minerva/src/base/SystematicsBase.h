@@ -20,6 +20,7 @@ public:
 	void AddSample(const std::string &name, const int nbins, const double x_low, const double x_high);
 	void AddSample(const std::string &name, const int nbins, const double * x_bins);
 	int GetNSamples(){ return (int)m_samples.size(); }
+	Sample * GetSample(const std::string &name);
 
 	void FillSample(const std::string &name, const double val, const double weight = 1.0);
 

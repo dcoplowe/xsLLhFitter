@@ -148,7 +148,6 @@ public:
 	// static std::vector<double> GetQ2Shifts(const double Q2plusM2mu, const std::vector<double> &Enu_frac_er);
 	// static std::vector<double> GetW2Shifts(const double Mn2Enu_Q2_M2mu, const std::vector<double> &Enu_frac_er);
 
-
 private:
 	FileIO * m_chain;
 	Default m_def;

@@ -3,6 +3,7 @@
 
 #include <SystematicsBase.h>
 
+#include <Cintex/Cintex.h>
 #include <Sample.h>
 #include <iostream>
 #include <TTree.h>
@@ -17,6 +18,7 @@ using std::endl;
 SystematicsBase::SystematicsBase(const int n_universes, const bool verbose) : m_Nuniverses(n_universes), m_verbose(verbose),
 	m_Nsamples(0), m_CurrentSample("") // , m_counter(-1)
 {
+	ROOT::Cintex::Cintex::Enable();
 	m_samples.clear();
 	Sample::Verbose(m_verbose);
 }
@@ -43,6 +45,17 @@ void SystematicsBase::AddSample(const std::string &name, const int nbins, const 
 		m_Nsamples++;
 		// m_samples_map[ name ] = m_counter++;
 	}
+}
+
+Sample * SystematicsBase::GetSample(const std::string &name)
+{
+	std::map<std::string, Sample*>::iterator it = m_samples.find( name );
+    if(it != m_samples.end()) return it->second;
+    else {
+    	cout << __FILE__ << ":" << __LINE__ << " : ERROR No samle named \"" << name << "\" found." << endl;
+    	exit(0); 
+    }
+    return 0x0;
 }
 
 SystematicsBase::~SystematicsBase()
