@@ -211,6 +211,13 @@ DetError::DetError(FileIO * fChain)
 }
 
 
+DetError::DetError(FileIO & fChain)
+{
+	m_chain = &fChain;
+	// Whese 1 +/- correction
+	m_def.clear();
+}
+
 DetError::Default DetError::GetDefaults()
 {
 	m_def.clear();
