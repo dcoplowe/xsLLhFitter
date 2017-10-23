@@ -64,8 +64,7 @@ bool DetectorSystematics::FillDefaults(const std::string& sam_name, const double
 				   FillLatErrorBand(sam_name, "MuonTracking",    value, elist.mu_trking, 	cvweight, fillcv, weights) &&
 				   FillLatErrorBand(sam_name, "NeutronResponse", value, elist.neutron_res, 	cvweight, fillcv, weights) &&
 				   FillLatErrorBand(sam_name, "PionResponse",    value, elist.pi_res, 		cvweight, fillcv, weights) &&
-				   FillLatErrorBand(sam_name, "ProtonTracking",  value, elist.pr_trking, 	cvweight, fillcv, weights) &&
-				   );
+				   FillLatErrorBand(sam_name, "ProtonTracking",  value, elist.pr_trking, 	cvweight, fillcv, weights) );
 
 	return filled;
 }
