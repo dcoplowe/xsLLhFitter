@@ -55,8 +55,8 @@ bool DetectorSystematics::AddDefaults()
 }
 
 bool DetectorSystematics::FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
-	const double cvweight  = 1.0, double cvWeightFromMe = 1)
-{
+	const double cvweight, double cvWeightFromMe)
+{						
 	bool filled = (FillVertErrorBand(sam_name, "MiMisTagTrue",    value, elist.michel_true,	 cvweight, cvWeightFromMe) &&
 				   FillVertErrorBand(sam_name, "MiMisTagFalse",   value, elist.michel_false, cvweight, cvWeightFromMe) &&
 				// FillVertErrorBand(sam_name, "MichelTagging",   value, elist.michel, 	 	 cvweight, cvWeightFromMe) &&
