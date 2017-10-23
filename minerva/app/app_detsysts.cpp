@@ -130,8 +130,8 @@ int main()
 	// cov.Print();
 	cov.Write("detsyst");
 
-	ofile->Close();
-	delete ofile;
+	// ofile->Close();
+	// delete ofile;
 
 	// delete syst;
 
