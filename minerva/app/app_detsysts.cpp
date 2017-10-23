@@ -88,7 +88,6 @@ int main()
 		DetError error(reader);
 		DetError::Default def_err = error.GetDefaults();
 		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
-		cout << endl;
 
 		// Want to make sure only one sample is filled in each interation
 		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
