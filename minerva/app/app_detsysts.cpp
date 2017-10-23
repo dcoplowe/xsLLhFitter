@@ -80,13 +80,9 @@ int main()
 		reader.GetEntry(i);
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
-		// std::vector<double> pi_response = DetError::GetPionResponseErr(true);
-		std::vector<double> em_scale = DetError::GetLinearEnergyShifts(reader.pi0_invMass);
-
-		return 0;
+		std::vector<double> pi_response = DetError::GetPionResponseErr(true);
 
 		cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
-		for(int ddd = 0; ddd < em_scale.size(); ddd++) cout << " " << em_scale[ddd];
 		cout << endl;
 
 		// Want to make sure only one sample is filled in each interation
