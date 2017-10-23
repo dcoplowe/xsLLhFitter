@@ -103,9 +103,9 @@ public:
 		const double traj_x0[], const double traj_y0[], const double traj_z0[],
 		const double traj_xf[],const double traj_yf[],const double traj_zf[]);
 
-	static double GetMichelErr(const bool truth_isBckg_withMichel);
-	static double GetMichelErrTrue(const bool truth_isBckg_withMichel);
-	static double GetMichelErrFalse(const bool truth_isBckg_withMichel);
+	static std::vector<double> GetMichelErr(const bool truth_isBckg_withMichel);
+	static std::vector<double> GetMichelErrTrue(const bool truth_isBckg_withMichel);
+	static std::vector<double> GetMichelErrFalse(const bool truth_isBckg_withMichel);
 
 	static std::vector<double> GetFractionalError(const double var, const std::vector<double> &err_vec);
 
