@@ -57,6 +57,9 @@ int main()
 	ofile->cd();
 	reader.SetupLLNTuple();
 
+	// Add default systematic errors to ALL samples:
+	syst->AddDefaults();
+
 	// Add the errors:
 	// For W we have the following errors to consider (from Ozgur's analysis):
 
@@ -80,28 +83,43 @@ int main()
 		reader.GetEntry(i);
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
-		std::vector<double> pi_response = DetError::GetPionResponseErr(true);
+		DetError error(reader);
 
+		DetError::Default def_err = error.GetDefaults();
+		
+		for(size_t ll = 0; ll < def_err.size(); ll++){
+			if(ll == 0) cout << "Lower  Bound: ";
+			else cout << "Upper  Bound: ";
+			cout << " Michel = " << def_err.michel[ll];
+			cout << " Michel True = " << def_err.michel_true[ll];
+			cout << " Michel False = " << def_err.michel_false[ll];
+			cout << " Moun Trcking = " << def_err.mu_trking[ll];
+			cout << " Neutron res. = " << def_err.neutron_res[ll];
+			cout << " Pion res. = " << def_err.pi_res[ll];
+			cout << " Proton Trcking. = " << def_err.pr_trking[ll];
+			cout << endl;
+		}
+			
 		cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
 		cout << endl;
 
 		// Want to make sure only one sample is filled in each interation
 		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
-			syst->FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
-			syst->FillLatErrorBand("pi0LowMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
+			// syst->FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
+			// syst->FillLatErrorBand("pi0LowMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
 			// syst->FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(0);
 		}
 		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
-			syst->FillSample("signal", reader.pi0_invMass, reader.wgt);
-			syst->FillLatErrorBand("signal", "EM_EnergyScale", reader.pi0_invMass, em_scale);
+			// syst->FillSample("signal", reader.pi0_invMass, reader.wgt);
+			// syst->FillLatErrorBand("signal", "EM_EnergyScale", reader.pi0_invMass, em_scale);
 			// syst->FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(1);
 		}
 		else if(higMass <= reader.pi0_invMass){
 		// else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
-			syst->FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
-			syst->FillLatErrorBand("pi0HigMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
+			// syst->FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
+			// syst->FillLatErrorBand("pi0HigMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
 			// syst->FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
 			reader.SetSample(2);
 		}

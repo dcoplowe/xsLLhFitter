@@ -35,6 +35,8 @@ public:
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
 	TMatrixD GetCovMatrix(const bool includeStat = false, const bool asFrac = true, const bool cov_area_normalize = false);
 
+	void AddDefaults();
+
 	static void SliceNorm(TMatrixD &cov);
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------

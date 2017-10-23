@@ -43,6 +43,19 @@ DetectorSystematics::~DetectorSystematics()
 	if(m_HanaHist) delete m_HanaHist;
 }
 
+bool DetectorSystematics::AddDefaults()
+{
+	// These errors have only an upper and lower bound (dim 2/2 universes)
+	const int n_wgts = 2;
+	AddVertErrorBand("MiMisTagTrue",  n_wgts);
+	AddVertErrorBand("MiMisTagFalse", n_wgts);
+	// AddVertErrorBand("MichelTagging", n_wgts);
+	AddVertErrorBand("MuonTracking", n_wgts);
+	AddVertErrorBand("NeutronResponse", n_wgts);
+	AddVertErrorBand("PionResponse", n_wgts);
+	AddVertErrorBand("ProtonTracking", n_wgts);
+}
+
 bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
