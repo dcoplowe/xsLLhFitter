@@ -520,6 +520,7 @@ void DetError::GetCorrectedMuon3Mom(double &px, double &py, double &pz, const in
 double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double theta_nodes[], bool wrtbeam)
 {
 	// We need sort out this so that we are can be in min. coords too.
+	(void)wrtbeam;
 	double corrected_theta = 0.;
 	if (n_theta_nodes >= 28) corrected_theta = theta_nodes[28];
 	else if (n_theta_nodes >= 19) corrected_theta = theta_nodes[19];
