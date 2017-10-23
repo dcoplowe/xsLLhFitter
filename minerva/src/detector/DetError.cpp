@@ -247,7 +247,7 @@ DetError::Default DetError::GetDefaults()
 	return m_def;
 }
 
-DetError::PrintDefaults()
+void DetError::PrintDefaults()
 {
 	for(size_t ll = 0; ll < m_def.michel.size(); ll++){
 		if(ll == 0) cout << "Lower  Bound: ";
