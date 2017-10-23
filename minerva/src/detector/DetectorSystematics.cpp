@@ -47,13 +47,27 @@ bool DetectorSystematics::AddDefaults()
 {
 	// These errors have only an upper and lower bound (dim 2/2 universes)
 	const int n_wgts = 2;
-	AddVertErrorBand("MiMisTagTrue",  n_wgts);
-	AddVertErrorBand("MiMisTagFalse", n_wgts);
-	// AddVertErrorBand("MichelTagging", n_wgts);
-	AddVertErrorBand("MuonTracking", n_wgts);
-	AddVertErrorBand("NeutronResponse", n_wgts);
-	AddVertErrorBand("PionResponse", n_wgts);
-	AddVertErrorBand("ProtonTracking", n_wgts);
+	bool added = (AddVertErrorBand("MiMisTagTrue",  n_wgts) && AddVertErrorBand("MiMisTagFalse", n_wgts) &&
+				  //AddVertErrorBand("MichelTagging", n_wgts) &&
+				  AddVertErrorBand("MuonTracking", n_wgts) && AddVertErrorBand("NeutronResponse", n_wgts) &&
+		  		  AddVertErrorBand("PionResponse", n_wgts) && AddVertErrorBand("ProtonTracking", n_wgts));
+	return added;
+}
+
+bool DetectorSystematics::FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
+	const double cvweight, const bool fillcv, const double *weights)
+{
+
+	bool filled = (FillLatErrorBand(sam_name, "MiMisTagTrue",    value, elist.michel_true,	cvweight, fillcv, weights) &&
+				   FillLatErrorBand(sam_name, "MiMisTagFalse",   value, elist.michel_false, cvweight, fillcv, weights) &&
+				// FillLatErrorBand(sam_name, "MichelTagging",   value, elist.michel, 	 	cvweight, fillcv, weights) &&
+				   FillLatErrorBand(sam_name, "MuonTracking",    value, elist.mu_trking, 	cvweight, fillcv, weights) &&
+				   FillLatErrorBand(sam_name, "NeutronResponse", value, elist.neutron_res, 	cvweight, fillcv, weights) &&
+				   FillLatErrorBand(sam_name, "PionResponse",    value, elist.pi_res, 		cvweight, fillcv, weights) &&
+				   FillLatErrorBand(sam_name, "ProtonTracking",  value, elist.pr_trking, 	cvweight, fillcv, weights) &&
+				   );
+
+	return filled;
 }
 
 bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples)

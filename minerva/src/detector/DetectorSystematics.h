@@ -4,6 +4,7 @@
 #include <SystematicsBase.h>
 #include <TMatrixD.h>
 #include <vector>
+#include <DetError.h>
 
 class TH1D;
 class ErrorType;
@@ -35,7 +36,10 @@ public:
 	MnvH1D * GetAnaHist() const { return m_anaHist; }
 	TMatrixD GetCovMatrix(const bool includeStat = false, const bool asFrac = true, const bool cov_area_normalize = false);
 
-	void AddDefaults();
+	bool AddDefaults();
+
+	bool FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
+		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0);
 
 	static void SliceNorm(TMatrixD &cov);
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------

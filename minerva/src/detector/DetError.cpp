@@ -129,7 +129,7 @@ int ParticleInfo::GetIndex(const int pdg, const int detmc_ntrajectory2, const in
 	const double detmc_traj_E0[])
 {
 	int index = kIniValue;
-    int count = 0;
+    // int count = 0;
     double E_min = 0.;
     for (int i = 0; i < detmc_ntrajectory2; i++){
     	if(detmc_traj_mother[i] > 0 && pdg == detmc_traj_pdg[i] && E_min < detmc_traj_E0[i]){
