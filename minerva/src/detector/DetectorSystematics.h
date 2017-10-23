@@ -39,7 +39,7 @@ public:
 	bool AddDefaults();
 
 	bool FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
-		const double cvweight = 1.0, const bool fillcv = true, const double *weights = 0);
+		const double cvweight  = 1.0, double cvWeightFromMe = 1);
 
 	static void SliceNorm(TMatrixD &cov);
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
