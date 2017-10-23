@@ -5,7 +5,7 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 RM = rm -fv
 
-DIR_LIST = src src/base src/fileio
+DIR_LIST = src src/base src/fileio src/parser
 # src/model/
 
 # files := $(foreach dir,$(dirs),$(wildcard $(dir)/*))

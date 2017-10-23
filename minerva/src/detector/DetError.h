@@ -32,14 +32,13 @@ private:
 	TVector3 m_mom3;
 	TVector3 m_start;
 	TVector3 m_finish;
-	TVector3 m_traj;
+	// TVector3 m_traj;
 
 	void GetUncontainedPathLength();
 	double m_path_length;
 
 	bool m_have_start;
 	bool m_have_finish;
-	bool m_have_traj;
 	bool m_contained;
 
 	bool isPointContained(double x, double y, double z);
@@ -53,7 +52,6 @@ private:
 
 #include <vector>
 #include <string>
-
 
 #include <PlotUtils/MnvNormalization.h>
 
@@ -186,8 +184,8 @@ private:
 	static const std::vector<double> m_michel_false;
 
 	// Proton uncetainty:
-	const std::vector<double> m_prEshort;
-	const std::vector<double> m_prElong;
+	static const std::vector<double> m_prEshort;
+	static const std::vector<double> m_prElong;
 };
 
 #endif

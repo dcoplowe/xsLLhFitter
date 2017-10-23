@@ -13,8 +13,8 @@ using std::cout;
 using std::endl;
 
 ParticleInfo::ParticleInfo(const double px, const double py, const double pz) : m_mom3(px, py, pz), m_start(0., 0., 0.),
-	m_finish(0., 0., 0.), m_traj(0., 0., 0.), m_path_length(0.),
-	m_have_start(false), m_have_finish(false),  m_have_traj(false), m_contained(false)
+	m_finish(0., 0., 0.), m_path_length(0.),
+	m_have_start(false), m_have_finish(false), m_contained(false)
 {
 }
 
@@ -45,16 +45,16 @@ void ParticleInfo::AddX1(const double x1, const double y1, const double z1)
 	}
 }
 
-void ParticleInfo::AddPTraj(const double traj_x0, const double traj_y0, const double traj_z0)
-{
-	m_have_traj = true;
-	m_traj.SetXYZ(traj_x0, traj_y0, traj_z0);
+// void ParticleInfo::AddPTraj(const double traj_x0, const double traj_y0, const double traj_z0)
+// {
+// 	m_have_traj = true;
+// 	m_traj.SetXYZ(traj_x0, traj_y0, traj_z0);
 
-	if(m_have_start && m_have_finish){
-		if(m_contained)  m_path_length = (m_finish - m_start).Mag();
-		else GetUncontainedPathLength();
-	}
-}
+// 	if(m_have_start && m_have_finish){
+// 		if(m_contained)  m_path_length = (m_finish - m_start).Mag();
+// 		else GetUncontainedPathLength();
+// 	}
+// }
 
 bool ParticleInfo::isPointContained(double x, double y, double z)
 {
@@ -82,9 +82,9 @@ void ParticleInfo::GetUncontainedPathLength()
 	double length = 0.0;
 	const double step_size = 50.0; 
 	for (;; length += step_size) {
-		double new_x = m_traj.X() + length * m_traj.Unit().X();
-		double new_y = m_traj.Y() + length * m_traj.Unit().Y();
-		double new_z = m_traj.Z() + length * m_traj.Unit().Z();
+		double new_x = m_mom3.X() + length * m_mom3.Unit().X();
+		double new_y = m_mom3.Y() + length * m_mom3.Unit().Y();
+		double new_z = m_mom3.Z() + length * m_mom3.Unit().Z();
 		if (!isPointContained(new_x,new_y,new_z)) break;
 	}
 	m_path_length = length;
@@ -148,6 +148,7 @@ int ParticleInfo::GetIndex(const int pdg, const int detmc_ntrajectory2, const in
 #include <TVector3.h>
 #include <TRandom3.h>
 #include <FileIO.h>
+#include <ReadParam.h>
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -160,7 +161,9 @@ using std::endl;
 #define kEpsilon 1e-12
 #endif
 
-const int DetError::m_nToys = 500;
+const std::string default_DetError = "options/run_opts.txt";
+
+const int DetError::m_nToys = ReadParam::GetParameterI("ntoys", default_DetError);// 500;
 const std::vector<double> DetError::m_nominal = DetError::MakeNormalShiftedUniverses();
 const std::vector<double> DetError::m_Eshifts = DetError::GenerateEnergyShifts();
 const std::vector<double> DetError::m_MuTshifts = DetError::GenerateMuonThetashifts();
@@ -403,16 +406,18 @@ std::vector<double> DetError::GetNeutronResponseErr(
 	const double traj_x0[], const double traj_y0[], const double traj_z0[],
 	const double traj_xf[],const double traj_yf[],const double traj_zf[])
 {
-	int index;
-	if(ParticleInfo::CountFSParticles(2112, 150., nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz) < 1) return GetErrorVec(0.);
+	int find_pdg = 2112;
+	double mom_thresh = 150.
+
+	if(ParticleInfo::CountFSParticles(find_pdg, mom_thresh, nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz) < 1) return GetErrorVec(0.);
 
 	// detmc_ntrajectory2, detmc_traj_mother, detmc_traj_mother, detmc_traj_pdg, detmc_traj_E0
-	index = ParticleInfo::GetIndex(2112, ntraj, detmc_traj_mother, detmc_traj_mother, detmc_traj_pdg, detmc_traj_E0);
+	int index = ParticleInfo::GetIndex(find_pdg, ntraj, traj_mother, traj_pdg, traj_E0);
 
 	ParticleInfo neutron(traj_px0[index], traj_py0[index], traj_pz0[index]);
 	neutron.AddX0(traj_x0[index], traj_y0[index], traj_z0[index]);
 	neutron.AddX1(traj_xf[index], traj_yf[index], traj_zf[index]);
-	if(neutron.IsContained()) neutron.AddPTraj(traj_px0[index], traj_py0[index], traj_pz0[index]);
+	// if(neutron.IsContained()) neutron.AddPTraj(traj_px0[index], traj_py0[index], traj_pz0[index]);
 	double path_length = neutron.PathLength();
 
 	bool isInelastic = neutron.isNeutronInelastic(index, ntraj, traj_mother, traj_id, traj_proc, traj_x0, traj_y0, traj_z0, traj_xf, traj_yf, traj_zf);
