@@ -407,9 +407,9 @@ std::vector<double> DetError::GetNeutronResponseErr(
 	const double traj_xf[],const double traj_yf[],const double traj_zf[])
 {
 	int find_pdg = 2112;
-	double mom_thresh = 150.
+	double mom_thresh = 150.;
 
-	if(ParticleInfo::CountFSParticles(find_pdg, mom_thresh, nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz) < 1) return GetErrorVec(0.);
+	if( ParticleInfo::CountFSParticles(find_pdg, mom_thresh, nFSPart, FSPartPDG, FSPartPx, FSPartPy, FSPartPz) < 1 ) return m_noError;
 
 	// detmc_ntrajectory2, detmc_traj_mother, detmc_traj_mother, detmc_traj_pdg, detmc_traj_E0
 	int index = ParticleInfo::GetIndex(find_pdg, ntraj, traj_mother, traj_pdg, traj_E0);
