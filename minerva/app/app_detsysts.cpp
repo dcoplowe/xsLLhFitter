@@ -129,8 +129,6 @@ int main()
 		}
 		// cout << "Now filling tree." << endl;
 		reader.Fill();
-
-		em_scale.clear();
 	}
 
 	reader.Write();
