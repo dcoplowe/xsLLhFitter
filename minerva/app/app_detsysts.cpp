@@ -12,6 +12,8 @@
 #include <TTree.h>
 #include <TVector3.h>
 
+#include <Sample.h>
+
 using std::cout;
 using std::endl;
 using std::string;
