@@ -247,6 +247,22 @@ DetError::Default DetError::GetDefaults()
 	return m_def;
 }
 
+DetError::PrintDefaults()
+{
+	for(size_t ll = 0; ll < m_def.michel.size(); ll++){
+		if(ll == 0) cout << "Lower  Bound: ";
+		else cout << "Upper  Bound: ";
+		cout << " Michel = " << m_def.michel[ll];
+		cout << " Michel True = " << m_def.michel_true[ll];
+		cout << " Michel False = " << m_def.michel_false[ll];
+		cout << " Moun Trcking = " << m_def.mu_trking[ll];
+		cout << " Neutron res. = " << m_def.neutron_res[ll];
+		cout << " Pion res. = " << m_def.pi_res[ll];
+		cout << " Proton Trcking. = " << m_def.pr_trking[ll];
+		cout << endl;
+	}
+}
+
 // Uncertainty is 0.5% hence weights 1-0.005 AND 1+0.005
 // docDB 11443, slide 38 
 // Uncertainty is 1.1% hence weights 1-0.011 AND 1+0.011

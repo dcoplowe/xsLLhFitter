@@ -57,7 +57,6 @@ bool DetectorSystematics::AddDefaults()
 bool DetectorSystematics::FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
 	const double cvweight, const bool fillcv, const double *weights)
 {
-
 	bool filled = (FillLatErrorBand(sam_name, "MiMisTagTrue",    value, elist.michel_true,	cvweight, fillcv, weights) &&
 				   FillLatErrorBand(sam_name, "MiMisTagFalse",   value, elist.michel_false, cvweight, fillcv, weights) &&
 				// FillLatErrorBand(sam_name, "MichelTagging",   value, elist.michel, 	 	cvweight, fillcv, weights) &&
@@ -65,7 +64,6 @@ bool DetectorSystematics::FillDefaults(const std::string& sam_name, const double
 				   FillLatErrorBand(sam_name, "NeutronResponse", value, elist.neutron_res, 	cvweight, fillcv, weights) &&
 				   FillLatErrorBand(sam_name, "PionResponse",    value, elist.pi_res, 		cvweight, fillcv, weights) &&
 				   FillLatErrorBand(sam_name, "ProtonTracking",  value, elist.pr_trking, 	cvweight, fillcv, weights) );
-
 	return filled;
 }
 
