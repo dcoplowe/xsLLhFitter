@@ -1,0 +1,76 @@
+//----------------- Analysis Run Choices -----------------
+<| applyWgts = 1 |>
+<| applyCorrections = 1 |>
+//--------------------------------------------------------
+
+//----------------- Analysis cut choices -----------------
+
+<| Emu_min = 1500.  |>
+<| Emu_max = 20000. |>
+
+<| Enu_min = 1500.  |>
+<| Enu_max = 20000. |>
+
+<| max_muon_theta = 25. |>
+<| max_gamma_dist = 125. |>
+
+<| applyPhotonDistance = 1 |>
+<| minPhotonDistance_1 = 14. |> 
+<| minPhotonDistance_2 = 0. |>
+
+<| min_pi0_cos_openingAngle = 0.95 |>
+<| min_pi0_energy = 400.0 |>
+
+<| W_max = 1800. |>
+
+<| make_pi0M_cut = 0 |>
+//Sidebands will only be filled if make pi0 cut is true:
+<| sideBand_LowInvMass = 0 |>
+<| sideBand_HighInvMass = 0 |>
+<| min_Delta_invMass = 40.0 |>
+<| max_Delta_invMass = 200.0 |>
+
+<| sideBand_PID = 0 |>
+<| sideBand_Michel = 0 |>
+
+// Proton scores:
+<| applyProtonScore = 1 |>
+<| minProtonScore_LLR = -5.0 |>
+
+<| new_signal_cuts = 1 |>
+
+//--------------------------------------------------------
+
+//----------------- Analysis cut choices -----------------
+
+<| init_playlist = minerva1 |> 
+<| processing_name = Eroica |> 
+//--------------------------------------------------------
+
+//---------------- Event Reweight Options ----------------
+
+<| applyFluxWeights = 1 |>
+<| applyBckgConstraints = 1 |>
+<| applyCompleteGENIETuning = 1 |>
+<| apply2p2hWeights = 1 |>
+<| applyGENIETuning_DeltaSuppression = 1 |>
+<| applyMINOSCorrection = 1 |>
+
+//Param values:
+//For 0.46 for GENIE v2.6.2:
+<| deuteriumNonResNorm = 0.43 |>
+<| deuteriumResNorm = 1.15 |>
+<| genieMaRes = 1.12 |>
+
+//2p2h fit params:
+<| 2ph2_norm = 18.5896 |>
+<| 2ph2_meanq0 = 0.256895 |>
+<| 2ph2_meanq3 = 0.509694 |>
+<| 2ph2_sigmaq0 = 0.0528243 |>
+<| 2ph2_sigmaq3 = 0.125003 |>
+<| 2ph2_corr = 0.949053 |>
+
+//Delta Quenching Factor(s):
+<| DeltaFactor_A = 1.0 |>
+<| DeltaFactor_Q0 = 0.116 |>
+//--------------------------------------------------------

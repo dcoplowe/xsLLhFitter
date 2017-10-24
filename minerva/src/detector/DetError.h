@@ -138,6 +138,16 @@ public:
 
     // FillVertErrorBand_MuonTracking_ByHand(hist, var); CCProtonPi0_minos_trk_p = minos_trk_p
 	static void PrintEnergyShifts();
+
+	// Calculate Variations in each universe for the cut variables
+	// that may fail the cut (and set the weights respectively):
+	enum LatType {
+		kEMScale = 0, kMuMom, kMuTheta, kPrBirks,
+		kPrMass, kPrBethBloch, kPrMEU
+	};
+	
+	double * GetWgts(LatType type) const;
+
 	// Kinematic specific variatiions:
 	// dEnu = dEpi * E_pi  (where dEpi = fractional error on pi)
 	// dQ2 = (Q2 + m^2)dEnu (where dEnu = fractional error)
@@ -163,6 +173,8 @@ private:
 	static double Calc_f(double neutron_KE);
 
 	static void FillProtonEnergyShiftVector(std::vector<double> &energy_shifts, const int nProtons, const double shifts[10]);
+
+	static const bool m_new_signal_cuts;
 
 	// Build Lateral Error Universes:
 	static const int m_nToys;

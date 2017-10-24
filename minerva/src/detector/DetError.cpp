@@ -9,6 +9,8 @@
 
 #include <TMath.h>
 #include <iostream>
+#include <DataInfo.h>
+
 using std::cout;
 using std::endl;
 
@@ -161,6 +163,9 @@ using std::endl;
 #define kEpsilon 1e-12
 #endif
 
+// For recalculation of cuts:
+const bool DetError::m_new_signal_cuts = ReadParam::GetParameterB("new_signal_cuts", "options/analysis_cuts.txt");
+
 const std::string default_DetError = "options/run_opts.txt";
 
 const int DetError::m_nToys = ReadParam::GetParameterI("ntoys", default_DetError);// 500;
@@ -188,6 +193,7 @@ const std::vector<double> DetError::m_michel_false = DetError::GetErrorVec(0.005
 const std::vector<double> DetError::m_prEshort = DetError::GetErrorVec(0.046);
 const std::vector<double> DetError::m_prElong = DetError::GetErrorVec(0.003);
 
+// const std::vector<double> DetError::m_muPshifts = Det
 // std::vector<double> em_energy_random_shifts;
 // std::vector<double> muonP_random_shifts;
 // std::vector<double> muon_theta_random_shifts;
@@ -540,11 +546,12 @@ void DetError::GetCorrectedMuon3Mom(double &px, double &py, double &pz, const in
 	pz = mom.Z();
 }
 
+// THis isn't needed as we have already calculated it.
 double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double theta_nodes[], bool wrtbeam)
 {
 	// We need sort out this so that we are can be in min. coords too.
 	(void)wrtbeam;
-	double corrected_theta = 0.;
+	double corrected_theta = kIniValue;
 	if (n_theta_nodes >= 28) corrected_theta = theta_nodes[28];
 	else if (n_theta_nodes >= 19) corrected_theta = theta_nodes[19];
 	else if (n_theta_nodes >= 9) corrected_theta = theta_nodes[9];
@@ -552,4 +559,147 @@ double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double the
 	return corrected_theta;
 }
 
+double * DetError::GetWgts(DetError::LatType type)
+{
+	// If we are varying W, Q2 and Enu need to be calculated too
+
+	// Setup variables as their defaults:
+	double E_g1 = m_chain->gamma1_E;
+	double E_g1 = m_chain->gamma2_E;
+	
+	double pi0_E = m_chain->pi0_E;
+
+	double Emu = m_chain->muon_E;
+	double Pmu = m_chain->muon_P;
+	double Thetamu = m_chain->muon_theta_beam;
+
+	double Enu = m_chain->Enu;
+	double Q2 = m_chain->Q2;
+	double W = m_chain->W;
+
+	double extra_energy = m_chain->vertex_blob_energy + m_chain->Extra_Energy_Total;
+
+	int nProtons = m_chain->nProtonCandidates;
+	// double extra_energy = 0.0;
+	for(int p = 0; p < nProtons; p++) extra_energy += all_protons_KE[p];
+	
+	int ntoys = m_nToys;
+	if(type >= kPrMass) ntoys = 2;
+	
+	double * wgts = new double[ ntoys ];
+
+	// std::vector<double> prShifts;
+	// prShifts.clear();
+
+	std::vector< std::vector<double> > variation;
+	variation.clear();
+
+	switch(type){
+			case kMuMom:
+			{
+				variation.push_back( DetError::GetMuonPShifts(m_chain->muon_E_shift, m_chain->muon_shift) );	
+				break;
+			}
+			case kPrBirks:
+			{
+				for(int p = 0; p < nProtons; p++){
+					double error = m_chain->all_protons_energy_shift_Birks[i]/m_chain->all_protons_E[i];
+					variation.push_back( GenerateShifts(error) );
+				}
+				break;
+			}
+			case kPrMass:
+			{
+				variation.push_back( GetProtonShifts(m_chain->all_protons_energy_shift_Mass_Up, 
+					m_chain->all_protons_energy_shift_Mass_Down, nProtons) );
+				break;
+			}
+			case kPrBethBloch:
+			{
+				variation.push_back( GetProtonShifts(m_chain->all_protons_energy_shift_BetheBloch_Up,
+					m_chain->all_protons_energy_shift_BetheBloch_Down, nProtons) );
+				break;
+			}
+			case kPrMEU:
+			{
+				variation.push_back( GetProtonShifts(m_chain->all_protons_energy_shift_MEU_Up,
+					m_chain->all_protons_energy_shift_MEU_Down, nProtons) );
+				break;
+			}				
+			default: break;
+		}
+
+	for(int i = 0; i < ntoys; i++){
+		double tmp_E_g1 = E_g1;
+		double tmp_E_g2 = E_g2;
+
+		double tmp_pi0_P = pi0_P;
+		double tmp_pi0_E = pi0_E;
+
+		double tmp_Emu = Emu;
+		double tmp_Pmu = Pmu;
+		double tmp_Thetamu = Thetamu;
+
+		double tmp_extra_energy = extra_energy;// + total_proton_KE;
+
+		switch(type){
+			case kEMScale:
+			{
+				// EM Energy Dependent Variables
+				tmp_E_g1 *= (1.0 + m_Eshifts[i]);
+				tmp_E_g2 *= (1.0 + m_Eshifts[i]);
+				tmp_pi0_P *= (1.0 + m_Eshifts[i]);
+				tmp_pi0_E = KinCalc::GetParticleE(tmp_pi0_P, DataInfo::Mass::Pi0);
+				break;
+			}
+			case kMuMom:
+			{
+				// Muon Variables
+				tmp_Pmu *= (1.0 + variation[0][i]);
+				tmp_Emu = KinCalc::GetParticleE(tmp_Pmu, DataInfo::Mass::Muon);        
+				break;
+			}
+			case kMuTheta:
+			{
+				tmp_Thetamu *= (1.0 + m_MuTshifts[i]);
+				break;
+			}
+			case kPrBirks:
+			{
+				for (int p = nProtons; p < nProtons; ++p ){
+					tmp_extra_energy += variation[p][i];// prShifts[p]; 
+				}
+				break;
+			}
+			case kPrMass:
+			case kPrBethBloch:
+			case kPrMEU:
+			{
+				for (int p = i*nProtons; p < (i+1)*nProtons; ++p ){
+					tmp_extra_energy += variation[0][p];// prShifts[p]; 
+				}
+			}				
+			default: break;
+		}
+
+		// For new signal def. much of this is not required:
+		// Only muon and gammas info is need.
+		double tmp_W = W;
+		if(!m_new_signal_cuts){
+			double tmp_Enu = Enu;
+			double tmp_Q2 = Q2;
+			if(type != kMuTheta) tmp_Enu = KinCalc::GetEnu(tmp_Emu, tmp_pi0_E, tmp_extra_energy);		
+			tmp_Q2 = KinCalc::GetQSq(tmp_Enu, tmp_Emu, tmp_Pmu, tmp_Thetamu);
+			tmp_Wsq = KinCalc::GetWSq(tmp_Enu, tmp_Q2, tmp_Emu);
+			tmp_W = tmp_Wsq > 0 ? sqrt(tmp_Wsq) : kIniValue;
+			EnuEmu = tmp_Enu;
+		}
+		else EnuEmu = Emu;
+
+		if(CutsandCorrections::CheckCaloCuts(tmp_E_g1, tmp_E_g2, m_chain->pi0_cos_openingAngle, EnuEmu, tmp_W)) wgts[i] = 1.;
+		else wgts[i] = 0.;
+	}
+    return wgts;
+}
+	
 #endif

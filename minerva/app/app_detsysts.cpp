@@ -62,6 +62,9 @@ int main()
 	// Add default systematic errors to ALL samples:
 	syst->AddDefaults();
 
+	// Add specific variable shifts:
+	syst->AddLatErrorBand("EMScale", 500);
+
 	// Add the errors:
 	// For W we have the following errors to consider (from Ozgur's analysis):
 
@@ -72,13 +75,6 @@ int main()
 	// 4) Pion response
 	// 5) Proton tracking
 
-
-	// syst->AddLatErrorBand("EM_EnergyScale", 500);
-
-	// syst->
-
-	// syst->AddVertErrorBand("ppfx1_Total", reader.mc_wgt_ppfx1_Total_sz);
-
 	Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
 	for(Int_t i = 0; i < loop_size; i++){
@@ -87,37 +83,46 @@ int main()
 		// var in fill Vert/Lat error. May be problematic?
 		DetError error(reader);
 		DetError::Default def_err = error.GetDefaults();
+		std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.pi0_invMass);
 		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
 
+		// Need to check the effect of the lateral shifts for the cuts:
+		// For each universe check if that that cuts were passed (if not passed 
+		// we don't apply that variation to that universe (set it to zero)):
+		// Deal with this via weights --> If the universe fails to pass cuts
+		// set the weights to zero.
+
+		// kEMScale = 0, kMuMom, kMuTheta, kPrBirks,
+		// kPrMass, kPrBethBloch, kPrMEU
+		double * wgts = error.GetWgts(DetError::kEMScale);
+
+		string sam_name = "";
 		// Want to make sure only one sample is filled in each interation
 		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
-			syst->FillSample("pi0LowMass", reader.pi0_invMass, reader.wgt);
-			syst->FillDefaults("pi0LowMass", reader.pi0_invMass, def_err);
-			// syst->FillLatErrorBand("pi0LowMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
-			// syst->FillVertErrorBand("pi0LowMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			sam_name = "pi0LowMass";
 			reader.SetSample(0);
 		}
 		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
-			syst->FillSample("signal", reader.pi0_invMass, reader.wgt);
-			syst->FillDefaults("signal", reader.pi0_invMass, def_err);
-			// syst->FillLatErrorBand("signal", "EM_EnergyScale", reader.pi0_invMass, em_scale);
-			// syst->FillVertErrorBand("signal", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			sam_name = "signal";
 			reader.SetSample(1);
 		}
 		else if(higMass <= reader.pi0_invMass){
 		// else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
-			syst->FillSample("pi0HigMass", reader.pi0_invMass, reader.wgt);
-			syst->FillDefaults("pi0HigMass", reader.pi0_invMass, def_err);
-			// syst->FillLatErrorBand("pi0HigMass", "EM_EnergyScale", reader.pi0_invMass, em_scale);
-			// syst->FillVertErrorBand("pi0HigMass", "ppfx1_Total", reader.pi0_invMass, reader.mc_wgt_ppfx1_Total, reader.wgt);
+			sam_name = "pi0HigMass";
 			reader.SetSample(2);
 		}
 		else{
-			// cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
+			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
 			reader.SetSample(3);
 		}
-		// cout << "Now filling tree." << endl;
+
+		if(!sam_name.empty()){
+			syst->FillSample(sam_name, reader.pi0_invMass, reader.wgt);
+			syst->FillDefaults(sam_name, reader.pi0_invMass, def_err);
+			syst->FillLatErrorBand(sam_name, "EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
+		}
 		reader.Fill();
+		delete [] wgts;
 	}
 
 	reader.Write();
