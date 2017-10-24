@@ -82,7 +82,7 @@ int main()
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
 		DetError error(reader);
-		DetError::Default def_err = error.GetDefaults();
+		DetError::Default default_errors = error.GetDefaults();
 		std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.pi0_invMass);
 		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
 
@@ -118,7 +118,7 @@ int main()
 
 		if(!sam_name.empty()){
 			syst->FillSample(sam_name, reader.pi0_invMass, reader.wgt);
-			syst->FillDefaults(sam_name, reader.pi0_invMass, def_err);
+			syst->FillDefaults(sam_name, reader.pi0_invMass, default_errors);
 			syst->FillLatErrorBand(sam_name, "EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
 		}
 		reader.Fill();
