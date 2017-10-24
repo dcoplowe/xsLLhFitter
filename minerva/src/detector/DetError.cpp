@@ -559,7 +559,7 @@ double DetError::GetCorrectedMuonTheta(const int n_theta_nodes, const double the
 	return corrected_theta;
 }
 
-double * DetError::GetWgts(DetError::LatType type)
+double * DetError::GetWgts(DetError::LatType type) const
 {
 	// If we are varying W, Q2 and Enu need to be calculated too
 
