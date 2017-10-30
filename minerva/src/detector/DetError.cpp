@@ -10,6 +10,7 @@
 #include <TMath.h>
 #include <iostream>
 #include <DataInfo.h>
+#include <CalculateKinematics.h>
 
 using std::cout;
 using std::endl;
@@ -565,8 +566,9 @@ double * DetError::GetWgts(DetError::LatType type) const
 
 	// Setup variables as their defaults:
 	double E_g1 = m_chain->gamma1_E;
-	double E_g1 = m_chain->gamma2_E;
+	double E_g2 = m_chain->gamma2_E;
 	
+	double pi0_P = m_chain->pi0_P;
 	double pi0_E = m_chain->pi0_E;
 
 	double Emu = m_chain->muon_E;
@@ -574,14 +576,14 @@ double * DetError::GetWgts(DetError::LatType type) const
 	double Thetamu = m_chain->muon_theta_beam;
 
 	double Enu = m_chain->Enu;
-	double Q2 = m_chain->Q2;
+	double Q2 = m_chain->QSq;
 	double W = m_chain->W;
 
 	double extra_energy = m_chain->vertex_blob_energy + m_chain->Extra_Energy_Total;
 
 	int nProtons = m_chain->nProtonCandidates;
 	// double extra_energy = 0.0;
-	for(int p = 0; p < nProtons; p++) extra_energy += all_protons_KE[p];
+	for(int p = 0; p < nProtons; p++) extra_energy += m_chain->all_protons_KE[p];
 	
 	int ntoys = m_nToys;
 	if(type >= kPrMass) ntoys = 2;
@@ -597,13 +599,13 @@ double * DetError::GetWgts(DetError::LatType type) const
 	switch(type){
 			case kMuMom:
 			{
-				variation.push_back( DetError::GetMuonPShifts(m_chain->muon_E_shift, m_chain->muon_shift) );	
+				variation.push_back( DetError::GetMuonPShifts(m_chain->muon_E_shift, m_chain->muon_P) );	
 				break;
 			}
 			case kPrBirks:
 			{
 				for(int p = 0; p < nProtons; p++){
-					double error = m_chain->all_protons_energy_shift_Birks[i]/m_chain->all_protons_E[i];
+					double error = m_chain->all_protons_energy_shift_Birks[p]/m_chain->all_protons_E[p];
 					variation.push_back( GenerateShifts(error) );
 				}
 				break;
