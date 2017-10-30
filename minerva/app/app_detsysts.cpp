@@ -81,9 +81,7 @@ int main()
 		reader.GetEntry(i);
 		// Think of something a litte simpler that hold the var in fill sample and then fills the
 		// var in fill Vert/Lat error. May be problematic?
-		DetError error(reader);
-		DetError::Default default_errors = error.GetDefaults();
-		std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.pi0_invMass);
+		
 		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
 
 		// Need to check the effect of the lateral shifts for the cuts:
@@ -94,7 +92,6 @@ int main()
 
 		// kEMScale = 0, kMuMom, kMuTheta, kPrBirks,
 		// kPrMass, kPrBethBloch, kPrMEU
-		double * wgts = error.GetWgts(DetError::kEMScale);
 
 		string sam_name = "";
 		// Want to make sure only one sample is filled in each interation
@@ -118,11 +115,17 @@ int main()
 
 		if(!sam_name.empty()){
 			syst->FillSample(sam_name, reader.pi0_invMass, reader.wgt);
+			DetError error(reader);
+			DetError::Default default_errors = error.GetDefaults();
 			syst->FillDefaults(sam_name, reader.pi0_invMass, default_errors);
+
+			// Now will with wgts and shifts:
+			std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.pi0_invMass);
+			double * wgts = error.GetWgts(DetError::kEMScale);
 			syst->FillLatErrorBand(sam_name, "EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
+			delete [] wgts;
 		}
 		reader.Fill();
-		delete [] wgts;
 	}
 
 	reader.Write();

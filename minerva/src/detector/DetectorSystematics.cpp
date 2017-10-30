@@ -257,7 +257,7 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 	int tot_bins = 0;
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
 	for (; it != m_samples.end(); ++it)
-		tot_bins += it->second->GetNbinsX();
+		tot_bins += it->second->GetNAnaBins();
 
 	if(m_verbose) cout << "Found to be " << tot_bins << endl;
 
@@ -271,9 +271,9 @@ void DetectorSystematics::BuildAnaHist(const bool includeStat)
 			Sample * histo = it->second;
 			if(histo->GetSampPos() != nn) continue;
 			cout << "histo->GetSampPos() = " << histo->GetSampPos() << endl;
-			for(int i = 0; i < histo->GetNbinsX(); i++){
-				m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i+1));
-				if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i+1));
+			for(int i = histo->GetMinBin(); i < histo->GetMaxBin(); i++){
+				m_HanaHist->SetBinContent(current_bin, histo->GetBinContent(i));
+				if(includeStat) m_HanaHist->SetBinError(current_bin, histo->GetBinError(i));
 				current_bin++;
 			}
 		}
@@ -429,7 +429,11 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 						Sample * histo = it->second;
 						if(histo->GetSampPos() != nn) continue;
 						// cout << "histo->GetSampPos() = " << histo->GetSampPos() << " : " << histo->GetName() << endl;
-					
+						
+						// For computing the integral we want to make sure we are using the correct range:
+						int nlowBin = histo->GetMinBin();
+						int nhighBin = histo->GetNAnaBins();
+
 						// Area scale is not yet correct, need to understand if the idea is to area noramise the errors to a single sample. 
 						// Maybe only ever area normalise by the signal bin.
 						int nhists = 0;
@@ -437,12 +441,14 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 						switch(er_type->GetType()){
 							case ErrorType::kLateral:
 							case ErrorType::kLateralCV:
-								area_scale = histo->Integral()/histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+								area_scale = histo->Integral(nlowBin, nhighBin);
+								area_scale *= 1./histo->GetLatErrorBand(er_type->GetName())->GetHists()[j]->Integral(nlowBin, nhighBin);
 								nhists = (int)histo->GetLatErrorBand( er_type->GetName() )->GetHists().size();
 								break;
 							case ErrorType::kVertical:
 							case ErrorType::kVerticalCV:
-								area_scale = histo->Integral()/histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->Integral();
+								area_scale = histo->Integral(nlowBin, nhighBin);
+								area_scale *= 1./histo->GetVertErrorBand(er_type->GetName())->GetHists()[j]->Integral(nlowBin, nhighBin);
 								nhists = (int)histo->GetVertErrorBand( er_type->GetName() )->GetHists().size();
 								break;
 							default:
@@ -455,7 +461,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 						// if(cov_area_normalize) cout << " Area Norm: " << area_scale;
 						// cout << endl;
 
-						for(int bin = 1; bin < histo->GetNbinsX() + 1; bin++){
+						for(int bin = histo->GetMinBin(); bin < histo->GetMaxBin(); bin++){
 							double bin_content = 0.;
 							if(nhists != 0){
 								switch(er_type->GetType()){
@@ -644,6 +650,42 @@ TH1D * DetectorSystematics::ToPDF(TH1D *hraw, std::string hn){
     hist->SetEntries(tmpnt);
     
     return hist;
+}
+
+void DetectorSystematics::MakeBinning(const std::string &out_name)
+{
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it){ 
+		Sample * sam =	it->second;
+
+		std::string tmp_name = out_name;
+		if(!tmp_name.empty()) tmp_name += "_";
+		tmp_name += Form("sample%d_%s.txt", sam->GetSampPos(), sam->GetName() );
+
+		cout << "File Name: " << tmp_name << endl;
+
+		std::ofstream file;
+		file.open(tmp_name.c_str());
+
+		// Check if underlow/overflow is included;
+
+		for(int i = sam->GetMinBin(); i < sam->GetMaxBin(); i++){
+			// Fill 1D then 2D: We haven't defined a second dim yet
+			// So use p/m 99999999. 
+			cout << sam->GetBinLowEdge(i) << " " << sam->GetBinLowEdge(i + 1) << " " << -9999999. << " " << 9999999. << endl;
+
+			file<<std::left;
+			file.width(12); file<< sam->GetBinLowEdge(i) <<" ";    
+			file.width(12); file<< sam->GetBinLowEdge(i + 1)<<" ";      
+			file.width(12); file<< -9999999 << " ";      
+			file.width(12); file<< 9999999 << " ";      
+			file<<std::endl;
+
+		}
+
+
+	}
+
 }
 
 #endif

@@ -22,12 +22,25 @@ public:
 	// Should simplify this and remove the model bit. 
 	// Just make this more of a wrapper for the Minverva histo class.
 	// static std::string CurrentSample;
+
+	// Set whether or not the sample needs under and over flow bins included (this 
+	// is for cases where we have the same distribution for each same).
+
+	enum FlowBins
+	{
+		kNone = 0, kUnder, kOver, kBoth
+	};
+
 	Sample() : MnvH1D() {;}
-	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high);
-	Sample(const std::string& name, const int nbins, const double * x_bins);
+	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high, FlowBins uoflow = kNone);
+	Sample(const std::string& name, const int nbins, const double * x_bins, FlowBins uoflow = kNone);
 	virtual ~Sample();
 
 	int GetSampPos() const { return m_sampos; }
+
+	int GetNAnaBins();
+	int GetMinBin();
+	int GetMaxBin();
 
 	void AddError(ErrorType * type){ m_error.push_back(type); }
 	bool FillError(ErrorType * type) const;
@@ -98,6 +111,8 @@ private:
 
 	int	m_start;
 	int m_anabin;
+
+	FlowBins m_uoflows;
 };
 
 #endif

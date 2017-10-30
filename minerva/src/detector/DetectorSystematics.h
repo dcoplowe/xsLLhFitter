@@ -38,6 +38,8 @@ public:
 
 	bool AddDefaults();
 
+	void MakeBinning(const std::string &out_name = "");
+
 	bool FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1);
 
