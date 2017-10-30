@@ -71,7 +71,7 @@ bool DetectorSystematics::FillDefaults(const std::string& sam_name, const double
 bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
-	string tmp_name = name + m_lat_name;
+	string tmp_name = name;// + m_lat_name;
 	if(IsUniqueError(tmp_name)){ 
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kLateral);
 		m_errors.push_back(tmp_et);
@@ -89,16 +89,23 @@ bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_u
 bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
+	cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
 	
-	string tmp_name = name + m_lat_name;
+	string tmp_name = name;// + m_lat_name;
 	if(IsUniqueError(tmp_name)){
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kLateralCV); 
 		m_errors.push_back(tmp_et);
 		
+		cout << "Adding to sample(s): " << endl;
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
+			cout << "					  " << it->first;
 			it->second->AddError(tmp_et);
-			if(it->second->AddLatErrorBandAndFillWithCV(tmp_name, n_universes )) counter++;
+			if(it->second->AddLatErrorBandAndFillWithCV(tmp_name, n_universes )){ 
+				counter++;
+				cout << " Success ";
+			}
+			cout << endl;
 		}
 		(void)fill_samples;
 	}
@@ -109,7 +116,7 @@ bool DetectorSystematics::AddVertErrorBand(const std::string& name, const int n_
 {
 	size_t counter = 0;
 
-	string tmp_name = name + m_ver_name;
+	string tmp_name = name;// + m_ver_name;
 	if(IsUniqueError(tmp_name)){ 
 		// if(m_verbose)
 		cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
@@ -137,7 +144,7 @@ bool DetectorSystematics::AddVertErrorBandAndFillWithCV(const std::string& name,
 {
 	size_t counter = 0;
 
-	string tmp_name = name + m_ver_name;
+	string tmp_name = name;// + m_ver_name;
 	if(IsUniqueError(tmp_name)){ 
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kVerticalCV);
 		m_errors.push_back(tmp_et);
@@ -156,7 +163,7 @@ bool DetectorSystematics::AddUncorrError(const std::string& name, const std::str
 {
 	size_t counter = 0;
 
-	string tmp_name = name + m_uncer_name;
+	string tmp_name = name;// + m_uncer_name;
 	if(IsUniqueError(tmp_name)){ 
 		ErrorType * tmp_et = new ErrorType(tmp_name, -999, ErrorType::kUnCorError);
 		m_errors.push_back(tmp_et);
@@ -175,7 +182,7 @@ bool DetectorSystematics::AddUncorrErrorAndFillWithCV(const std::string& name, c
 {
 	size_t counter = 0;
 
-	string tmp_name = name + m_uncer_name;
+	string tmp_name = name;// + m_uncer_name;
 	if(IsUniqueError(tmp_name)){ 
 		ErrorType * tmp_et = new ErrorType(tmp_name, -999, ErrorType::kUnCorErrorCV);
 		m_errors.push_back(tmp_et);
@@ -310,6 +317,11 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 	// else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
 	// else if(norm.find("S") != std::string::npos) cov_slice_normalize = true;
 	// Check that all the samples have the same errors:	
+
+	cout << "Errors: " << m_errors.size() << endl;
+	for(size_t er = 0; er < m_errors.size(); er++){
+		cout << er + 1 << ": " << m_errors[er]->GetName() << endl;
+	}
 
 	cout << "Linking errors from individual samples" << endl;
 
