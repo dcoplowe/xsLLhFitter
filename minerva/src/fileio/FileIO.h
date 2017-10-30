@@ -821,8 +821,8 @@ public:
    Double_t        prong_part_mass[__MAX_ARRAY_SIZE__];   //[n_prongs]
    Int_t           prong_part_charge[__MAX_ARRAY_SIZE__];   //[n_prongs]
    Int_t           prong_part_pid[__MAX_ARRAY_SIZE__];   //[n_prongs]
-   vector<vector<double> > *prong_part_E;
-   vector<vector<double> > *prong_part_pos;
+   // vector<vector<double> > *prong_part_E;
+   // vector<vector<double> > *prong_part_pos;
    Double_t        dpTT;
    Double_t        dpT;
    Double_t        dalphaT;
@@ -1658,8 +1658,8 @@ public:
    TBranch        *b_prong_part_mass;   //!
    TBranch        *b_prong_part_charge;   //!
    TBranch        *b_prong_part_pid;   //!
-   TBranch        *b_prong_part_E;   //!
-   TBranch        *b_prong_part_pos;   //!
+   // TBranch        *b_prong_part_E;   //!
+   // TBranch        *b_prong_part_pos;   //!
    TBranch        *b_dpTT;   //!
    TBranch        *b_dpT;   //!
    TBranch        *b_dalphaT;   //!

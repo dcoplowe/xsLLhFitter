@@ -870,8 +870,8 @@ void FileIO::Init()
    fChain->SetBranchAddress("prong_part_mass", prong_part_mass, &b_prong_part_mass);
    fChain->SetBranchAddress("prong_part_charge", prong_part_charge, &b_prong_part_charge);
    fChain->SetBranchAddress("prong_part_pid", prong_part_pid, &b_prong_part_pid);
-   fChain->SetBranchAddress("prong_part_E", &prong_part_E, &b_prong_part_E);
-   fChain->SetBranchAddress("prong_part_pos", &prong_part_pos, &b_prong_part_pos);
+   // fChain->SetBranchAddress("prong_part_E", &prong_part_E, &b_prong_part_E);
+   // fChain->SetBranchAddress("prong_part_pos", &prong_part_pos, &b_prong_part_pos);
    fChain->SetBranchAddress("dpTT", &dpTT, &b_dpTT);
    fChain->SetBranchAddress("dpT", &dpT, &b_dpT);
    fChain->SetBranchAddress("dalphaT", &dalphaT, &b_dalphaT);
