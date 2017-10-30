@@ -40,9 +40,9 @@ namespace DataInfo{
 
 		const std::string Run = "options/" + ReadParam::GetParameterS("run", base_file);
 		const std::string ReconPars = "options/" + ReadParam::GetParameterS("recon", base_file);
-		const std::string ManagePlots = "options/" + ReadParam::GetParameterS("manage_plots", base_file);
-		const std::string TransPlots = "options/" + ReadParam::GetParameterS("transverse_plots", base_file);
-		const std::string PartiPlots = "options/" + ReadParam::GetParameterS("particle_plots", base_file);
+		// const std::string ManagePlots = "options/" + ReadParam::GetParameterS("manage_plots", base_file);
+		// const std::string TransPlots = "options/" + ReadParam::GetParameterS("transverse_plots", base_file);
+		// const std::string PartiPlots = "options/" + ReadParam::GetParameterS("particle_plots", base_file);
 	}
 }
 
