@@ -89,9 +89,8 @@ bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_u
 bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, const int n_universes, const std::string &fill_samples)
 {
 	size_t counter = 0;
-	cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
-	
 	string tmp_name = name;// + m_lat_name;
+	cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
 	if(IsUniqueError(tmp_name)){
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kLateralCV); 
 		m_errors.push_back(tmp_et);
