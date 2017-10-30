@@ -16,12 +16,6 @@ INCS += -Isrc/detector -Isrc/model
 INCS += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
-# TMPINC = -I$(ntup)/Classes/KinematicCalculator
-TMP_LIST = KinematicCalculator TransverseTools
-TMPINC = $(foreach dir, $(TMP_LIST),-I$(ntup)/Classes/$(dir))
-TMP = $(foreach dir, $(TMP_LIST), $(ntup)/Classes/$(dir)/$(dir).cpp )
-# $(ntup)/Classes/KinematicCalculator/KinematicCalculator.cpp
-
 # Sample.cpp:
 # 	rootcint -f Sampledict.cpp -c src/base/Sample.h src/base/ErrorType.h $(PLOTUTILSROOT) LinkDef.h
  
@@ -49,13 +43,13 @@ all: $(DET) $(MOD)
 # all: $(DET)
 
 $(DET): $(DETOBJS)
-	$(CXX) $(OPTS) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(OPTS) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 $(MOD): $(MODOBJS)
-	$(CXX) $(OPTS) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(OPTS) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 .cpp.o:
-	$(CXX) $(OPTS) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) $(TMPINC) -c $< -o $@
+	$(CXX) $(OPTS) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) -c $< -o $@
 
 .PHONY: clean
 clean:
