@@ -5,7 +5,7 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 RM = rm -fv
 
-# OPTS=-D __REWEIGHT__
+# OPTS=-D __ENABLE__REWEIGHT__
 
 DIR_LIST = src src/base src/fileio src/parser src/tools
 # src/model/
