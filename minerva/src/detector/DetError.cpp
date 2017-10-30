@@ -10,7 +10,7 @@
 #include <TMath.h>
 #include <iostream>
 #include <DataInfo.h>
-#include <CalculateKinematics.h>
+#include <KinematicCalculator.h>
 #include <CutsandCorrections.h>
 
 using std::cout;
