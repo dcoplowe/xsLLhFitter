@@ -1,4 +1,4 @@
-<| run = run_options.txt |>
+<| run = run_opts.txt |>
 
 <| recon = recon_params.txt |>
 
