@@ -11,6 +11,7 @@
 #include <iostream>
 #include <DataInfo.h>
 #include <CalculateKinematics.h>
+#include <CutsandCorrections.h>
 
 using std::cout;
 using std::endl;
@@ -689,10 +690,10 @@ double * DetError::GetWgts(DetError::LatType type) const
 		double tmp_W = W;
 		if(!m_new_signal_cuts){
 			double tmp_Enu = Enu;
-			double tmp_Q2 = Q2;
+			double tmp_QSq = QSq;
 			if(type != kMuTheta) tmp_Enu = KinCalc::GetEnu(tmp_Emu, tmp_pi0_E, tmp_extra_energy);		
-			tmp_Q2 = KinCalc::GetQSq(tmp_Enu, tmp_Emu, tmp_Pmu, tmp_Thetamu);
-			tmp_Wsq = KinCalc::GetWSq(tmp_Enu, tmp_Q2, tmp_Emu);
+			tmp_QSq = KinCalc::GetQSq(tmp_Enu, tmp_Emu, tmp_Pmu, tmp_Thetamu);
+			double tmp_Wsq = KinCalc::GetWSq(tmp_Enu, tmp_QSq, tmp_Emu);
 			tmp_W = tmp_Wsq > 0 ? sqrt(tmp_Wsq) : kIniValue;
 			EnuEmu = tmp_Enu;
 		}
