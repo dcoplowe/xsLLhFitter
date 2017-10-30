@@ -99,7 +99,7 @@ double KinCalc::GetInvMassSq(const double E1, const double E2, const double angl
 	return ( 2*E1*E2*Get1cosTh(angle, is_deg) );
 }
 
-double KinCalc::Pi0InvMass(const double E1, const double E2, const cosTheta)
+double KinCalc::Pi0InvMass(const double E1, const double E2, const double cosTheta)
 {
     return TMath::Sqrt( 2.*E1*E2*(1. - cosTheta) );
 }

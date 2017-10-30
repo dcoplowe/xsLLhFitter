@@ -41,7 +41,7 @@ public:
 
 	static double GetInvMassSq(const double E1, const double E2, const double angle, const bool is_deg = true);
 	static double GetInvMass(const double E1, const double E2, const double angle, const bool is_deg = true);
-	static double Pi0InvMass(const double E1, const double E2, const cosTheta);
+	static double Pi0InvMass(const double E1, const double E2, const double cosTheta);
 
 	static TVector3 GetGammaMom(const double Energy, const double dir[]);
 
