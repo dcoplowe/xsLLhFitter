@@ -17,8 +17,6 @@ private:
 	void InitLLNTuple();
 
 public:
-	
-   	// Declaration of leaf types
 
 	   // Declaration of leaf types
    Double_t        eventID;
