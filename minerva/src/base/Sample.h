@@ -32,8 +32,8 @@ public:
 	};
 
 	Sample() : MnvH1D() {;}
-	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high, FlowBins uoflow = kNone);
-	Sample(const std::string& name, const int nbins, const double * x_bins, FlowBins uoflow = kNone);
+	Sample(const std::string& name, const  int nbins, const double x_low, const double x_high, FlowBins uoflows = kNone);
+	Sample(const std::string& name, const int nbins, const double * x_bins, FlowBins uoflows = kNone);
 	virtual ~Sample();
 
 	int GetSampPos() const { return m_sampos; }
