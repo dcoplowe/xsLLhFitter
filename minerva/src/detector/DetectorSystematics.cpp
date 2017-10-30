@@ -10,6 +10,7 @@
 #include <sstream>
 #include <ErrorType.h>
 #include <TMath.h>
+#include <fstream>
 
 using std::cout;
 using std::endl;
