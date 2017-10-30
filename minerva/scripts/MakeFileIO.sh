@@ -38,9 +38,26 @@ TTree * intree = (TTree*)file.Get("${treename}")
 intree->MakeClass();
 EOF
 
+cp ${mydir}/../src/fileio/FileIO.{h,cpp} ${mydir}
+
+#---------------------------------------- FileIO .cpp file ----------------------------------------
+
+# In cpp file we want to find and replace only the Init part
+find_first="FileIO::Init()"
+first_line=$(grep -n "${find_first}" FileIO.cpp  | head -n 1 | awk '{print $1}')
+first_line=${first_line%%:*}
+# Get block of variables and their respective branches:
+length=$(sed -n -e '/Init/,$p' FileIO.cpp | grep -n "}")
+length=${length%%:*}
+last_line=$(expr ${first_line} + ${length} - 1)
+
+echo "first_line = ${first_line}"
+echo "last_line = ${last_line}"
+sed "$first_line,$last_line d" FileIO.cpp > FileIO.cpp_tmp 
+
 # cppfile="FileIO.cpp"
 cat > FileIO.cpp <<EOF
-$(cat FileIO_Maker.cpp)
+$(cat FileIO.cpp_tmp | grep -v \#endif) 
 
 void FileIO::Init()
 {
@@ -51,9 +68,31 @@ $(grep "fChain->SetBranchAddress" ${treename}.h)
 
     // This is so that we always have the size elements initialised.
     fChain->GetEntry(0);
+
 }
 #endif
 EOF
+
+#---------------------------------------- FileIO .h file ----------------------------------------
+
+# Now for the header file:
+find_first="__DO_NOT_DELETE_COMMENTED_LINE__"
+first_line=$(grep -n "${find_first}" FileIO.h  | head -n 1 | awk '{print $1}')
+first_line=${first_line%%:*}
+if [ "$first_line" -eq "$first_line" ] 2>/dev/null; then
+  	echo "Found number $first_line"
+else
+  	echo "No line found: $find_first"
+  	find_first="Declaration of leaf types"
+  	echo "Checking for $find_first"
+	first_line=$(grep -n "${find_first}" FileIO.h  | head -n 1 | awk '{print $1}')
+	first_line=${first_line%%:*}
+	if [ "$first_line" -eq "$first_line" ] 2>/dev/null; then
+  		echo "Found number $first_line"
+  	fi
+fi
+
+sed "$first_line,$ d" FileIO.h > FileIO.h_tmp
 
 # Make Header file:CCProtonPi0(TTree *tree=0);
 find_first="Declaration of leaf types"
@@ -61,22 +100,27 @@ find_last="${treename}(TTree"
 # echo "find_last = ${find_last}"
 # Get block of variables and their respective branches:
 first_line=$(grep -n "${find_first}" ${treename}.h | awk '{print $1}')
-first_line=${first_line//:}
+first_line=${first_line%%:*}
 # echo "first_line = ${first_line}"
 last_line=$(grep -n "${find_last}" ${treename}.h  | head -n 1 | awk '{print $1}')
-last_line=${last_line//:}
+last_line=${last_line%%:*}
 last_line=$(expr ${last_line} - 1 )
-# echo "last_line = ${last_line}"
-# goodlines=$(sed -n ${first_line},${last_line}p ${treename}.h)
 
 cat > FileIO.h <<EOF
-$(cat FileIO_Maker.h)
+$(cat FileIO.h_tmp)
+	
+   	$(echo // ${find_first})
 
 	$(sed -n ${first_line},${last_line}p ${treename}.h)
 
 };
 #endif
 EOF
+
+rm FileIO.*_tmp
+
+# Find and replace all arrays and set with larger size:
+sed -i -e 's/\[.*\]\;/\[__MAX_ARRAY_SIZE__\]\;/g' FileIO.h
 
 rm ${treename}.{C,h}
 

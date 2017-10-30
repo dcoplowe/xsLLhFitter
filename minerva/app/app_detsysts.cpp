@@ -124,11 +124,17 @@ int main()
 			double * wgts = error.GetWgts(DetError::kEMScale);
 			syst->FillLatErrorBand(sam_name, "EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
 			delete [] wgts;
+
+
+
+
 		}
 		reader.Fill();
 	}
 
 	reader.Write();
+
+	syst->MakeBinning();
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
