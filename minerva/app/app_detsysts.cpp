@@ -12,6 +12,7 @@
 // #include <TVector3.h>
 
 #include <Sample.h>
+#include <ReadParam.h>
 
 using std::cout;
 using std::endl;
@@ -21,15 +22,18 @@ using std::string;
 #define kIniValue -999
 #endif
 
+const std::string default_Params = "options/run_opts.txt";
+
 // int main(int argc, char const *argv[])
 int main()
 {
 	// string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root";
 	// string in_file = "ReducedNTuple_TransverseAnalysis_newSig_noMggcut_171017.root";
 	// New file using latest ntuple:
-	string in_file = "/minerva/data/users/dcoplowe/Analyse_Alice/MC/mc_run271017_oldSIG_FDy_prScorey_pi0Mcuty_prPIDSBn_meSBn_102917.root";
-	string in_tree = "CCProtonPi0";
-	string out_file = "DetSyst_Test.root";
+	// "/minerva/data/users/dcoplowe/Analyse_Alice/MC/mc_run271017_oldSIG_FDy_prScorey_pi0Mcuty_prPIDSBn_meSBn_102917.root"
+	string in_file = ReadParam::GetParameterS("in_file", default_Params);
+	string in_tree = ReadParam::GetParameterS("tree_name", default_Params);//"CCProtonPi0";
+	string out_file = ReadParam::GetParameterS("out_file", default_Params);//"DetSyst_Test.root";
 	bool verbose = false;
 
 	DetectorSystematics * syst = new DetectorSystematics(100, verbose);
