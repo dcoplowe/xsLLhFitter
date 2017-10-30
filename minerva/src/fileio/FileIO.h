@@ -17,6 +17,8 @@ private:
 	void InitLLNTuple();
 
 public:
+	
+   	// Declaration of leaf types
 
 	   // Declaration of leaf types
    Double_t        eventID;
@@ -30,8 +32,8 @@ public:
    Double_t        CCProtonPi0_y;
    Double_t        CCProtonPi0_W;
    Double_t        CCProtonPi0_score;
-   Double_t        CCProtonPi0_leptonE[4];
-   Double_t        CCProtonPi0_vtx[4];
+   Double_t        CCProtonPi0_leptonE[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_vtx[__MAX_ARRAY_SIZE__];
    Bool_t          CCProtonPi0_minos_trk_is_contained;
    Bool_t          CCProtonPi0_minos_trk_is_ok;
    Bool_t          CCProtonPi0_minos_used_range;
@@ -102,22 +104,22 @@ public:
    Double_t        CCProtonPi0_trajMuonProngPy;
    Double_t        CCProtonPi0_trajMuonProngPz;
    Double_t        CCProtonPi0_trajMuonTheta;
-   Int_t           CCProtonPi0_isProtonInsideOD[10];
-   Int_t           CCProtonPi0_ntrajProtonProng[10];
-   Int_t           CCProtonPi0_trajProtonProngPDG[10];
-   Int_t           CCProtonPi0_trajProtonProngPrimary[10];
-   Double_t        CCProtonPi0_endProtonTrajMomentum[10];
-   Double_t        CCProtonPi0_endProtonTrajXPosition[10];
-   Double_t        CCProtonPi0_endProtonTrajYPosition[10];
-   Double_t        CCProtonPi0_endProtonTrajZPosition[10];
-   Double_t        CCProtonPi0_trajProtonPhi[10];
-   Double_t        CCProtonPi0_trajProtonProngEnergy[10];
-   Double_t        CCProtonPi0_trajProtonProngMomentum[10];
-   Double_t        CCProtonPi0_trajProtonProngPSelf[10];
-   Double_t        CCProtonPi0_trajProtonProngPx[10];
-   Double_t        CCProtonPi0_trajProtonProngPy[10];
-   Double_t        CCProtonPi0_trajProtonProngPz[10];
-   Double_t        CCProtonPi0_trajProtonTheta[10];
+   Int_t           CCProtonPi0_isProtonInsideOD[__MAX_ARRAY_SIZE__];
+   Int_t           CCProtonPi0_ntrajProtonProng[__MAX_ARRAY_SIZE__];
+   Int_t           CCProtonPi0_trajProtonProngPDG[__MAX_ARRAY_SIZE__];
+   Int_t           CCProtonPi0_trajProtonProngPrimary[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_endProtonTrajMomentum[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_endProtonTrajXPosition[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_endProtonTrajYPosition[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_endProtonTrajZPosition[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonPhi[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonProngEnergy[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonProngMomentum[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonProngPSelf[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonProngPx[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonProngPy[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonProngPz[__MAX_ARRAY_SIZE__];
+   Double_t        CCProtonPi0_trajProtonTheta[__MAX_ARRAY_SIZE__];
    Bool_t          truth_isGamma1_conv_inside;
    Bool_t          truth_isGamma2_conv_inside;
    Bool_t          truth_pi0_bkg;
@@ -226,6 +228,8 @@ public:
    Double_t        truth_pi0_KE_BeforeFSI;
    Double_t        truth_pi0_P;
    Double_t        truth_pi0_P_BeforeFSI;
+   Double_t        truth_pi0_cos_openingAngle;
+   Double_t        truth_pi0_openingAngle;
    Double_t        truth_pi0_theta;
    Double_t        truth_pi0_theta_beam;
    Double_t        truth_pi0_theta_beam_BeforeFSI;
@@ -238,65 +242,65 @@ public:
    Double_t        truth_track_michel_evis_total_truth;
    Double_t        truth_vtx_michel_evis_total_truth;
    Double_t        truth_vtx_michel_large_evis_total_truth;
-   Double_t        truth_gamma1_4P[4];
-   Double_t        truth_gamma1_final_pos[3];
-   Double_t        truth_gamma1_final_pos_estimated[3];
-   Double_t        truth_gamma1_init_pos[3];
-   Double_t        truth_gamma2_4P[4];
-   Double_t        truth_gamma2_final_pos[3];
-   Double_t        truth_gamma2_final_pos_estimated[3];
-   Double_t        truth_gamma2_init_pos[3];
+   Double_t        truth_gamma1_4P[__MAX_ARRAY_SIZE__];
+   Double_t        truth_gamma1_final_pos[__MAX_ARRAY_SIZE__];
+   Double_t        truth_gamma1_final_pos_estimated[__MAX_ARRAY_SIZE__];
+   Double_t        truth_gamma1_init_pos[__MAX_ARRAY_SIZE__];
+   Double_t        truth_gamma2_4P[__MAX_ARRAY_SIZE__];
+   Double_t        truth_gamma2_final_pos[__MAX_ARRAY_SIZE__];
+   Double_t        truth_gamma2_final_pos_estimated[__MAX_ARRAY_SIZE__];
+   Double_t        truth_gamma2_init_pos[__MAX_ARRAY_SIZE__];
    Int_t           genie_wgt_n_shifts;
-   Double_t        truth_genie_wgt_AGKYxF1pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_AhtBY[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_BhtBY[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_CCQEPauliSupViaKF[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_CV1uBY[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_CV2uBY[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_EtaNCEL[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrAbs_N[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrAbs_pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrCEx_N[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrCEx_pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrElas_N[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrElas_pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrInel_N[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrInel_pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrPiProd_N[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_FrPiProd_pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_MFP_N[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_MFP_pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_MaCCQE[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_MaCCQEshape[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_MaNCEL[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_MaRES[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_MvRES[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_NormCCQE[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_NormCCRES[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_NormDISCC[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_NormNCRES[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_RDecBR1gamma[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_Rvn1pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_Rvn2pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_Rvp1pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_Rvp2pi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_Theta_Delta2Npi[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_VecFFCCQEshape[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_genie_wgt_shifts[7];   //[genie_wgt_n_shifts]
-   Double_t        truth_michelMuon_endPoint[3];
-   Double_t        truth_muon_4P[4];
-   Double_t        truth_pi0_4P[4];
-   Double_t        truth_proton_4P[4];
+   Double_t        truth_genie_wgt_AGKYxF1pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_AhtBY[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_BhtBY[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_CCQEPauliSupViaKF[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_CV1uBY[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_CV2uBY[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_EtaNCEL[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrAbs_N[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrAbs_pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrCEx_N[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrCEx_pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrElas_N[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrElas_pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrInel_N[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrInel_pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrPiProd_N[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_FrPiProd_pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_MFP_N[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_MFP_pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_MaCCQE[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_MaCCQEshape[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_MaNCEL[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_MaRES[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_MvRES[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_NormCCQE[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_NormCCRES[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_NormDISCC[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_NormNCRES[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_RDecBR1gamma[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_Rvn1pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_Rvn2pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_Rvp1pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_Rvp2pi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_Theta_Delta2Npi[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_VecFFCCQEshape[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_genie_wgt_shifts[__MAX_ARRAY_SIZE__];   //[genie_wgt_n_shifts]
+   Double_t        truth_michelMuon_endPoint[__MAX_ARRAY_SIZE__];
+   Double_t        truth_muon_4P[__MAX_ARRAY_SIZE__];
+   Double_t        truth_pi0_4P[__MAX_ARRAY_SIZE__];
+   Double_t        truth_proton_4P[__MAX_ARRAY_SIZE__];
    Int_t           physEvtNum;
    Int_t           n_hyps;
    Int_t           processType;
    Int_t           primaryPart;
    Int_t           n_slices;
-   Int_t           slice_numbers[1];   //[n_slices]
+   Int_t           slice_numbers[__MAX_ARRAY_SIZE__];   //[n_slices]
    Int_t           shared_slice;
-   Double_t        vtx[4];
-   Double_t        vtxErr[4];
-   Double_t        E[4];
+   Double_t        vtx[__MAX_ARRAY_SIZE__];
+   Double_t        vtxErr[__MAX_ARRAY_SIZE__];
+   Double_t        E[__MAX_ARRAY_SIZE__];
    Int_t           reco_vertex_batch;
    Bool_t          found_truth;
    Bool_t          ImprovedMichel_EventHasMichel;
@@ -448,6 +452,9 @@ public:
    Double_t        muon_E_shift;
    Double_t        muon_KE;
    Double_t        muon_P;
+   Double_t        muon_X_startpos;
+   Double_t        muon_Y_startpos;
+   Double_t        muon_Z_startpos;
    Double_t        muon_muScore;
    Double_t        muon_phi;
    Double_t        muon_phi_beam;
@@ -556,139 +563,151 @@ public:
    Double_t        vtx_x;
    Double_t        vtx_y;
    Double_t        vtx_z;
-   Int_t           all_protons_kinked[10];
-   Int_t           all_protons_odMatch[10];
+   Int_t           all_protons_kinked[__MAX_ARRAY_SIZE__];
+   Int_t           all_protons_odMatch[__MAX_ARRAY_SIZE__];
    Int_t           detmc_traj_id_sz;
-   Int_t           detmc_traj_id[365];   //[detmc_traj_id_sz]
+   Int_t           detmc_traj_id[__MAX_ARRAY_SIZE__];   //[detmc_traj_id_sz]
    Int_t           detmc_traj_mother_sz;
-   Int_t           detmc_traj_mother[365];   //[detmc_traj_mother_sz]
+   Int_t           detmc_traj_mother[__MAX_ARRAY_SIZE__];   //[detmc_traj_mother_sz]
    Int_t           detmc_traj_pdg_sz;
-   Int_t           detmc_traj_pdg[365];   //[detmc_traj_pdg_sz]
+   Int_t           detmc_traj_pdg[__MAX_ARRAY_SIZE__];   //[detmc_traj_pdg_sz]
    Int_t           detmc_traj_proc_sz;
-   Int_t           detmc_traj_proc[365];   //[detmc_traj_proc_sz]
+   Int_t           detmc_traj_proc[__MAX_ARRAY_SIZE__];   //[detmc_traj_proc_sz]
    Int_t           detmc_traj_status_sz;
-   Int_t           detmc_traj_status[365];   //[detmc_traj_status_sz]
+   Int_t           detmc_traj_status[__MAX_ARRAY_SIZE__];   //[detmc_traj_status_sz]
    Int_t           g1dedx_cluster_occupancy_sz;
-   Int_t           g1dedx_cluster_occupancy[6];   //[g1dedx_cluster_occupancy_sz]
+   Int_t           g1dedx_cluster_occupancy[__MAX_ARRAY_SIZE__];   //[g1dedx_cluster_occupancy_sz]
    Int_t           g2dedx_cluster_occupancy_sz;
-   Int_t           g2dedx_cluster_occupancy[6];   //[g2dedx_cluster_occupancy_sz]
+   Int_t           g2dedx_cluster_occupancy[__MAX_ARRAY_SIZE__];   //[g2dedx_cluster_occupancy_sz]
    Int_t           nTracks_Secondary_Vtx_sz;
-   Int_t           nTracks_Secondary_Vtx[8];   //[nTracks_Secondary_Vtx_sz]
-   Double_t        all_protons_E[10];
-   Double_t        all_protons_KE[10];
-   Double_t        all_protons_LLRScore[10];
-   Double_t        all_protons_P[10];
-   Double_t        all_protons_chi2_ndf[10];
-   Double_t        all_protons_endPointX[10];
-   Double_t        all_protons_endPointY[10];
-   Double_t        all_protons_endPointZ[10];
-   Double_t        all_protons_energy_shift_BetheBloch_Down[10];
-   Double_t        all_protons_energy_shift_BetheBloch_Up[10];
-   Double_t        all_protons_energy_shift_Birks[10];
-   Double_t        all_protons_energy_shift_MEU_Down[10];
-   Double_t        all_protons_energy_shift_MEU_Up[10];
-   Double_t        all_protons_energy_shift_Mass_Down[10];
-   Double_t        all_protons_energy_shift_Mass_Up[10];
-   Double_t        all_protons_energy_shift_Nominal[10];
-   Double_t        all_protons_length[10];
-   Double_t        all_protons_p_calCorrection[10];
-   Double_t        all_protons_p_dEdXTool[10];
-   Double_t        all_protons_p_visEnergy[10];
-   Double_t        all_protons_phi[10];
-   Double_t        all_protons_phi_beam[10];
-   Double_t        all_protons_pionScore[10];
-   Double_t        all_protons_protonScore[10];
-   Double_t        all_protons_px[10];
-   Double_t        all_protons_py[10];
-   Double_t        all_protons_pz[10];
-   Double_t        all_protons_score1_shift_BetheBloch_Down[10];
-   Double_t        all_protons_score1_shift_BetheBloch_Up[10];
-   Double_t        all_protons_score1_shift_Birks[10];
-   Double_t        all_protons_score1_shift_MEU_Down[10];
-   Double_t        all_protons_score1_shift_MEU_Up[10];
-   Double_t        all_protons_score1_shift_Mass_Down[10];
-   Double_t        all_protons_score1_shift_Mass_Up[10];
-   Double_t        all_protons_score1_shift_Nominal[10];
-   Double_t        all_protons_startPointX[10];
-   Double_t        all_protons_startPointY[10];
-   Double_t        all_protons_startPointZ[10];
-   Double_t        all_protons_theta[10];
-   Double_t        all_protons_theta_beam[10];
+   Int_t           nTracks_Secondary_Vtx[__MAX_ARRAY_SIZE__];   //[nTracks_Secondary_Vtx_sz]
+   Double_t        all_protons_E[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_KE[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_LLRScore[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_P[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_chi2_ndf[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_endPointX[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_endPointY[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_endPointZ[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_BetheBloch_Down[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_BetheBloch_Up[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_Birks[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_MEU_Down[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_MEU_Up[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_Mass_Down[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_Mass_Up[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_energy_shift_Nominal[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_length[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_p_calCorrection[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_p_dEdXTool[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_p_visEnergy[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_phi[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_phi_beam[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_pionScore[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_protonScore[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_px[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_py[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_pz[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_BetheBloch_Down[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_BetheBloch_Up[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_Birks[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_MEU_Down[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_MEU_Up[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_Mass_Down[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_Mass_Up[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_score1_shift_Nominal[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_startPointX[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_startPointY[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_startPointZ[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_theta[__MAX_ARRAY_SIZE__];
+   Double_t        all_protons_theta_beam[__MAX_ARRAY_SIZE__];
    Int_t           detmc_traj_E0_sz;
-   Double_t        detmc_traj_E0[365];   //[detmc_traj_E0_sz]
+   Double_t        detmc_traj_E0[__MAX_ARRAY_SIZE__];   //[detmc_traj_E0_sz]
    Int_t           detmc_traj_Ef_sz;
-   Double_t        detmc_traj_Ef[365];   //[detmc_traj_Ef_sz]
+   Double_t        detmc_traj_Ef[__MAX_ARRAY_SIZE__];   //[detmc_traj_Ef_sz]
    Int_t           detmc_traj_preEf_sz;
-   Double_t        detmc_traj_preEf[365];   //[detmc_traj_preEf_sz]
+   Double_t        detmc_traj_preEf[__MAX_ARRAY_SIZE__];   //[detmc_traj_preEf_sz]
    Int_t           detmc_traj_prepxf_sz;
-   Double_t        detmc_traj_prepxf[365];   //[detmc_traj_prepxf_sz]
+   Double_t        detmc_traj_prepxf[__MAX_ARRAY_SIZE__];   //[detmc_traj_prepxf_sz]
    Int_t           detmc_traj_prepyf_sz;
-   Double_t        detmc_traj_prepyf[365];   //[detmc_traj_prepyf_sz]
+   Double_t        detmc_traj_prepyf[__MAX_ARRAY_SIZE__];   //[detmc_traj_prepyf_sz]
    Int_t           detmc_traj_prepzf_sz;
-   Double_t        detmc_traj_prepzf[365];   //[detmc_traj_prepzf_sz]
+   Double_t        detmc_traj_prepzf[__MAX_ARRAY_SIZE__];   //[detmc_traj_prepzf_sz]
    Int_t           detmc_traj_px0_sz;
-   Double_t        detmc_traj_px0[365];   //[detmc_traj_px0_sz]
+   Double_t        detmc_traj_px0[__MAX_ARRAY_SIZE__];   //[detmc_traj_px0_sz]
    Int_t           detmc_traj_pxf_sz;
-   Double_t        detmc_traj_pxf[365];   //[detmc_traj_pxf_sz]
+   Double_t        detmc_traj_pxf[__MAX_ARRAY_SIZE__];   //[detmc_traj_pxf_sz]
    Int_t           detmc_traj_py0_sz;
-   Double_t        detmc_traj_py0[365];   //[detmc_traj_py0_sz]
+   Double_t        detmc_traj_py0[__MAX_ARRAY_SIZE__];   //[detmc_traj_py0_sz]
    Int_t           detmc_traj_pyf_sz;
-   Double_t        detmc_traj_pyf[365];   //[detmc_traj_pyf_sz]
+   Double_t        detmc_traj_pyf[__MAX_ARRAY_SIZE__];   //[detmc_traj_pyf_sz]
    Int_t           detmc_traj_pz0_sz;
-   Double_t        detmc_traj_pz0[365];   //[detmc_traj_pz0_sz]
+   Double_t        detmc_traj_pz0[__MAX_ARRAY_SIZE__];   //[detmc_traj_pz0_sz]
    Int_t           detmc_traj_pzf_sz;
-   Double_t        detmc_traj_pzf[365];   //[detmc_traj_pzf_sz]
+   Double_t        detmc_traj_pzf[__MAX_ARRAY_SIZE__];   //[detmc_traj_pzf_sz]
    Int_t           detmc_traj_t0_sz;
-   Double_t        detmc_traj_t0[365];   //[detmc_traj_t0_sz]
+   Double_t        detmc_traj_t0[__MAX_ARRAY_SIZE__];   //[detmc_traj_t0_sz]
    Int_t           detmc_traj_tf_sz;
-   Double_t        detmc_traj_tf[365];   //[detmc_traj_tf_sz]
+   Double_t        detmc_traj_tf[__MAX_ARRAY_SIZE__];   //[detmc_traj_tf_sz]
    Int_t           detmc_traj_x0_sz;
-   Double_t        detmc_traj_x0[365];   //[detmc_traj_x0_sz]
+   Double_t        detmc_traj_x0[__MAX_ARRAY_SIZE__];   //[detmc_traj_x0_sz]
    Int_t           detmc_traj_xf_sz;
-   Double_t        detmc_traj_xf[365];   //[detmc_traj_xf_sz]
+   Double_t        detmc_traj_xf[__MAX_ARRAY_SIZE__];   //[detmc_traj_xf_sz]
    Int_t           detmc_traj_y0_sz;
-   Double_t        detmc_traj_y0[365];   //[detmc_traj_y0_sz]
+   Double_t        detmc_traj_y0[__MAX_ARRAY_SIZE__];   //[detmc_traj_y0_sz]
    Int_t           detmc_traj_yf_sz;
-   Double_t        detmc_traj_yf[365];   //[detmc_traj_yf_sz]
+   Double_t        detmc_traj_yf[__MAX_ARRAY_SIZE__];   //[detmc_traj_yf_sz]
    Int_t           detmc_traj_z0_sz;
-   Double_t        detmc_traj_z0[365];   //[detmc_traj_z0_sz]
+   Double_t        detmc_traj_z0[__MAX_ARRAY_SIZE__];   //[detmc_traj_z0_sz]
    Int_t           detmc_traj_zf_sz;
-   Double_t        detmc_traj_zf[365];   //[detmc_traj_zf_sz]
-   Double_t        fit_vtx[3];
+   Double_t        detmc_traj_zf[__MAX_ARRAY_SIZE__];   //[detmc_traj_zf_sz]
+   Double_t        fit_vtx[__MAX_ARRAY_SIZE__];
    Int_t           g1dedx_cluster_energy_sz;
-   Double_t        g1dedx_cluster_energy[6];   //[g1dedx_cluster_energy_sz]
+   Double_t        g1dedx_cluster_energy[__MAX_ARRAY_SIZE__];   //[g1dedx_cluster_energy_sz]
    Int_t           g1dedx_rev_cluster_energy_sz;
-   Double_t        g1dedx_rev_cluster_energy[125];   //[g1dedx_rev_cluster_energy_sz]
+   Double_t        g1dedx_rev_cluster_energy[__MAX_ARRAY_SIZE__];   //[g1dedx_rev_cluster_energy_sz]
    Int_t           g2dedx_cluster_energy_sz;
-   Double_t        g2dedx_cluster_energy[6];   //[g2dedx_cluster_energy_sz]
+   Double_t        g2dedx_cluster_energy[__MAX_ARRAY_SIZE__];   //[g2dedx_cluster_energy_sz]
    Int_t           g2dedx_rev_cluster_energy_sz;
-   Double_t        g2dedx_rev_cluster_energy[122];   //[g2dedx_rev_cluster_energy_sz]
-   Double_t        gamma1_direction[3];
-   Double_t        gamma1_end_vertex[3];
-   Double_t        gamma1_vertex[3];
-   Double_t        gamma2_direction[3];
-   Double_t        gamma2_end_vertex[3];
-   Double_t        gamma2_vertex[3];
+   Double_t        g2dedx_rev_cluster_energy[__MAX_ARRAY_SIZE__];   //[g2dedx_rev_cluster_energy_sz]
+   Double_t        gamma1_direction[__MAX_ARRAY_SIZE__];
+   Double_t        gamma1_end_vertex[__MAX_ARRAY_SIZE__];
+   Double_t        gamma1_vertex[__MAX_ARRAY_SIZE__];
+   Double_t        gamma2_direction[__MAX_ARRAY_SIZE__];
+   Double_t        gamma2_end_vertex[__MAX_ARRAY_SIZE__];
+   Double_t        gamma2_vertex[__MAX_ARRAY_SIZE__];
+   Int_t           muon_XPos_allNodes_sz;
+   Double_t        muon_XPos_allNodes[__MAX_ARRAY_SIZE__];   //[muon_XPos_allNodes_sz]
+   Int_t           muon_X_allNodes_sz;
+   Double_t        muon_X_allNodes[__MAX_ARRAY_SIZE__];   //[muon_X_allNodes_sz]
+   Int_t           muon_YPos_allNodes_sz;
+   Double_t        muon_YPos_allNodes[__MAX_ARRAY_SIZE__];   //[muon_YPos_allNodes_sz]
+   Int_t           muon_Y_allNodes_sz;
+   Double_t        muon_Y_allNodes[__MAX_ARRAY_SIZE__];   //[muon_Y_allNodes_sz]
+   Int_t           muon_ZPos_allNodes_sz;
+   Double_t        muon_ZPos_allNodes[__MAX_ARRAY_SIZE__];   //[muon_ZPos_allNodes_sz]
+   Int_t           muon_Z_allNodes_sz;
+   Double_t        muon_Z_allNodes[__MAX_ARRAY_SIZE__];   //[muon_Z_allNodes_sz]
    Int_t           muon_thetaX_allNodes_sz;
-   Double_t        muon_thetaX_allNodes[168];   //[muon_thetaX_allNodes_sz]
+   Double_t        muon_thetaX_allNodes[__MAX_ARRAY_SIZE__];   //[muon_thetaX_allNodes_sz]
    Int_t           muon_thetaY_allNodes_sz;
-   Double_t        muon_thetaY_allNodes[168];   //[muon_thetaY_allNodes_sz]
+   Double_t        muon_thetaY_allNodes[__MAX_ARRAY_SIZE__];   //[muon_thetaY_allNodes_sz]
    Int_t           muon_theta_allNodes_sz;
-   Double_t        muon_theta_allNodes[168];   //[muon_theta_allNodes_sz]
+   Double_t        muon_theta_allNodes[__MAX_ARRAY_SIZE__];   //[muon_theta_allNodes_sz]
    Int_t           od_distanceBlobTower_sz;
-   Double_t        od_distanceBlobTower[2];   //[od_distanceBlobTower_sz]
+   Double_t        od_distanceBlobTower[__MAX_ARRAY_SIZE__];   //[od_distanceBlobTower_sz]
    Int_t           od_idBlobTime_sz;
-   Double_t        od_idBlobTime[2];   //[od_idBlobTime_sz]
+   Double_t        od_idBlobTime[__MAX_ARRAY_SIZE__];   //[od_idBlobTime_sz]
    Int_t           od_towerEnergy_sz;
-   Double_t        od_towerEnergy[6];   //[od_towerEnergy_sz]
+   Double_t        od_towerEnergy[__MAX_ARRAY_SIZE__];   //[od_towerEnergy_sz]
    Int_t           od_towerNClusters_sz;
-   Double_t        od_towerNClusters[6];   //[od_towerNClusters_sz]
+   Double_t        od_towerNClusters[__MAX_ARRAY_SIZE__];   //[od_towerNClusters_sz]
    Int_t           od_towerTime_sz;
-   Double_t        od_towerTime[6];   //[od_towerTime_sz]
+   Double_t        od_towerTime[__MAX_ARRAY_SIZE__];   //[od_towerTime_sz]
    Int_t           od_towerTimeBlobMuon_sz;
-   Double_t        od_towerTimeBlobMuon[2];   //[od_towerTimeBlobMuon_sz]
+   Double_t        od_towerTimeBlobMuon[__MAX_ARRAY_SIZE__];   //[od_towerTimeBlobMuon_sz]
    Int_t           od_towerTimeBlobOD_sz;
-   Double_t        od_towerTimeBlobOD[2];   //[od_towerTimeBlobOD_sz]
+   Double_t        od_towerTimeBlobOD[__MAX_ARRAY_SIZE__];   //[od_towerTimeBlobOD_sz]
    Int_t           ev_run;
    Int_t           ev_subrun;
    Int_t           ev_detector;
@@ -728,38 +747,38 @@ public:
    Double_t        mc_Q2;
    Double_t        mc_nuT;
    Double_t        mc_w;
-   Double_t        mc_vtx[4];
-   Double_t        mc_incomingPartVec[4];
-   Double_t        mc_initNucVec[4];
-   Double_t        mc_primFSLepton[4];
+   Double_t        mc_vtx[__MAX_ARRAY_SIZE__];
+   Double_t        mc_incomingPartVec[__MAX_ARRAY_SIZE__];
+   Double_t        mc_initNucVec[__MAX_ARRAY_SIZE__];
+   Double_t        mc_primFSLepton[__MAX_ARRAY_SIZE__];
    Int_t           mc_nFSPart;
-   Double_t        mc_FSPartPx[78];   //[mc_nFSPart]
-   Double_t        mc_FSPartPy[78];   //[mc_nFSPart]
-   Double_t        mc_FSPartPz[78];   //[mc_nFSPart]
-   Double_t        mc_FSPartE[78];   //[mc_nFSPart]
-   Int_t           mc_FSPartPDG[78];   //[mc_nFSPart]
+   Double_t        mc_FSPartPx[__MAX_ARRAY_SIZE__];   //[mc_nFSPart]
+   Double_t        mc_FSPartPy[__MAX_ARRAY_SIZE__];   //[mc_nFSPart]
+   Double_t        mc_FSPartPz[__MAX_ARRAY_SIZE__];   //[mc_nFSPart]
+   Double_t        mc_FSPartE[__MAX_ARRAY_SIZE__];   //[mc_nFSPart]
+   Int_t           mc_FSPartPDG[__MAX_ARRAY_SIZE__];   //[mc_nFSPart]
    Int_t           mc_er_nPart;
-   Int_t           mc_er_ID[105];   //[mc_er_nPart]
-   Int_t           mc_er_status[105];   //[mc_er_nPart]
-   Double_t        mc_er_posInNucX[105];   //[mc_er_nPart]
-   Double_t        mc_er_posInNucY[105];   //[mc_er_nPart]
-   Double_t        mc_er_posInNucZ[105];   //[mc_er_nPart]
-   Double_t        mc_er_Px[105];   //[mc_er_nPart]
-   Double_t        mc_er_Py[105];   //[mc_er_nPart]
-   Double_t        mc_er_Pz[105];   //[mc_er_nPart]
-   Double_t        mc_er_E[105];   //[mc_er_nPart]
-   Int_t           mc_er_FD[105];   //[mc_er_nPart]
-   Int_t           mc_er_LD[105];   //[mc_er_nPart]
-   Int_t           mc_er_mother[105];   //[mc_er_nPart]
+   Int_t           mc_er_ID[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Int_t           mc_er_status[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Double_t        mc_er_posInNucX[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Double_t        mc_er_posInNucY[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Double_t        mc_er_posInNucZ[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Double_t        mc_er_Px[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Double_t        mc_er_Py[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Double_t        mc_er_Pz[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Double_t        mc_er_E[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Int_t           mc_er_FD[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Int_t           mc_er_LD[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
+   Int_t           mc_er_mother[__MAX_ARRAY_SIZE__];   //[mc_er_nPart]
    Int_t           mc_fr_nNuAncestorIDs;
-   Int_t           mc_fr_nuAncestorIDs[9];   //[mc_fr_nNuAncestorIDs]
+   Int_t           mc_fr_nuAncestorIDs[__MAX_ARRAY_SIZE__];   //[mc_fr_nNuAncestorIDs]
    Int_t           mc_fr_nuParentID;
    Int_t           mc_fr_decMode;
-   Double_t        mc_fr_primProtonVtx[3];
-   Double_t        mc_fr_primProtonP[4];
-   Double_t        mc_fr_nuParentDecVtx[3];
-   Double_t        mc_fr_nuParentProdVtx[3];
-   Double_t        mc_fr_nuParentProdP[4];
+   Double_t        mc_fr_primProtonVtx[__MAX_ARRAY_SIZE__];
+   Double_t        mc_fr_primProtonP[__MAX_ARRAY_SIZE__];
+   Double_t        mc_fr_nuParentDecVtx[__MAX_ARRAY_SIZE__];
+   Double_t        mc_fr_nuParentProdVtx[__MAX_ARRAY_SIZE__];
+   Double_t        mc_fr_nuParentProdP[__MAX_ARRAY_SIZE__];
    Double_t        mc_cvweight_total;
    Double_t        wgt;
    Double_t        mc_cvweight_totalFlux;
@@ -771,15 +790,15 @@ public:
    Double_t        mc_gen1_cvweight_totalFlux;
    Double_t        mc_gen1_cvweight_NA49;
    Int_t           mc_wgt_Flux_BeamFocus_sz;
-   Double_t        mc_wgt_Flux_BeamFocus[100];   //[mc_wgt_Flux_BeamFocus_sz]
+   Double_t        mc_wgt_Flux_BeamFocus[__MAX_ARRAY_SIZE__];   //[mc_wgt_Flux_BeamFocus_sz]
    Int_t           mc_wgt_gen1_Flux_Tertiary_sz;
-   Double_t        mc_wgt_gen1_Flux_Tertiary[100];   //[mc_wgt_gen1_Flux_Tertiary_sz]
+   Double_t        mc_wgt_gen1_Flux_Tertiary[__MAX_ARRAY_SIZE__];   //[mc_wgt_gen1_Flux_Tertiary_sz]
    Int_t           mc_wgt_gen1_Flux_NA49_sz;
-   Double_t        mc_wgt_gen1_Flux_NA49[100];   //[mc_wgt_gen1_Flux_NA49_sz]
+   Double_t        mc_wgt_gen1_Flux_NA49[__MAX_ARRAY_SIZE__];   //[mc_wgt_gen1_Flux_NA49_sz]
    Int_t           mc_wgt_Norm_sz;
-   Double_t        mc_wgt_Norm[1];   //[mc_wgt_Norm_sz]
+   Double_t        mc_wgt_Norm[__MAX_ARRAY_SIZE__];   //[mc_wgt_Norm_sz]
    Int_t           mc_wgt_ppfx1_Total_sz;
-   Double_t        mc_wgt_ppfx1_Total[100];   //[mc_wgt_ppfx1_Total_sz]
+   Double_t        mc_wgt_ppfx1_Total[__MAX_ARRAY_SIZE__];   //[mc_wgt_ppfx1_Total_sz]
    Int_t           mc_vertex_batch;
    Double_t        numi_pot;
    Double_t        numi_horn_curr;
@@ -799,13 +818,44 @@ public:
    Double_t        numi_trtgtd;
    Int_t           batch_structure;
    Int_t           n_prongs;
-   Int_t           prong_nParticles[6];   //[n_prongs]
-   Double_t        prong_part_score[6];   //[n_prongs]
-   Double_t        prong_part_mass[6];   //[n_prongs]
-   Int_t           prong_part_charge[6];   //[n_prongs]
-   Int_t           prong_part_pid[6];   //[n_prongs]
-   // vector<vector<double> > *prong_part_E;
-   // vector<vector<double> > *prong_part_pos;
+   Int_t           prong_nParticles[__MAX_ARRAY_SIZE__];   //[n_prongs]
+   Double_t        prong_part_score[__MAX_ARRAY_SIZE__];   //[n_prongs]
+   Double_t        prong_part_mass[__MAX_ARRAY_SIZE__];   //[n_prongs]
+   Int_t           prong_part_charge[__MAX_ARRAY_SIZE__];   //[n_prongs]
+   Int_t           prong_part_pid[__MAX_ARRAY_SIZE__];   //[n_prongs]
+   vector<vector<double> > *prong_part_E;
+   vector<vector<double> > *prong_part_pos;
+   Double_t        dpTT;
+   Double_t        dpT;
+   Double_t        dalphaT;
+   Double_t        dphiT;
+   Double_t        Enu;
+   Double_t        QSq;
+   Double_t        WSq;
+   Double_t        W;
+   Double_t        deltaInvMass_reco;
+   Double_t        delta_pi_theta_reco;
+   Double_t        delta_pi_phi_reco;
+   Double_t        muon_pT;
+   Double_t        proton_pT;
+   Double_t        pion_pT;
+   Double_t        total_proton_KE;
+   Double_t        dpTT_true;
+   Double_t        dpT_true;
+   Double_t        dalphaT_true;
+   Double_t        dphiT_true;
+   Double_t        Enu_true;
+   Double_t        QSq_true;
+   Double_t        WSq_true;
+   Double_t        W_true;
+   Double_t        deltaInvMass_true;
+   Double_t        delta_pi_theta_true;
+   Double_t        delta_pi_phi_true;
+   Double_t        muon_pT_true;
+   Double_t        proton_pT_true;
+   Double_t        pion_pT_true;
+   Double_t        total_proton_KE_true;
+   Int_t           mc_flag;
 
    // List of branches
    TBranch        *b_eventID;   //!
@@ -1015,6 +1065,8 @@ public:
    TBranch        *b_truth_pi0_KE_BeforeFSI;   //!
    TBranch        *b_truth_pi0_P;   //!
    TBranch        *b_truth_pi0_P_BeforeFSI;   //!
+   TBranch        *b_truth_pi0_cos_openingAngle;   //!
+   TBranch        *b_truth_pi0_openingAngle;   //!
    TBranch        *b_truth_pi0_theta;   //!
    TBranch        *b_truth_pi0_theta_beam;   //!
    TBranch        *b_truth_pi0_theta_beam_BeforeFSI;   //!
@@ -1237,6 +1289,9 @@ public:
    TBranch        *b_muon_E_shift;   //!
    TBranch        *b_muon_KE;   //!
    TBranch        *b_muon_P;   //!
+   TBranch        *b_muon_X_startpos;   //!
+   TBranch        *b_muon_Y_startpos;   //!
+   TBranch        *b_muon_Z_startpos;   //!
    TBranch        *b_muon_muScore;   //!
    TBranch        *b_muon_phi;   //!
    TBranch        *b_muon_phi_beam;   //!
@@ -1458,6 +1513,18 @@ public:
    TBranch        *b_gamma2_direction;   //!
    TBranch        *b_gamma2_end_vertex;   //!
    TBranch        *b_gamma2_vertex;   //!
+   TBranch        *b_muon_XPos_allNodes_sz;   //!
+   TBranch        *b_muon_XPos_allNodes;   //!
+   TBranch        *b_muon_X_allNodes_sz;   //!
+   TBranch        *b_muon_X_allNodes;   //!
+   TBranch        *b_muon_YPos_allNodes_sz;   //!
+   TBranch        *b_muon_YPos_allNodes;   //!
+   TBranch        *b_muon_Y_allNodes_sz;   //!
+   TBranch        *b_muon_Y_allNodes;   //!
+   TBranch        *b_muon_ZPos_allNodes_sz;   //!
+   TBranch        *b_muon_ZPos_allNodes;   //!
+   TBranch        *b_muon_Z_allNodes_sz;   //!
+   TBranch        *b_muon_Z_allNodes;   //!
    TBranch        *b_muon_thetaX_allNodes_sz;   //!
    TBranch        *b_muon_thetaX_allNodes;   //!
    TBranch        *b_muon_thetaY_allNodes_sz;   //!
@@ -1593,8 +1660,39 @@ public:
    TBranch        *b_prong_part_mass;   //!
    TBranch        *b_prong_part_charge;   //!
    TBranch        *b_prong_part_pid;   //!
-   // TBranch        *b_prong_part_E;   //!
-   // TBranch        *b_prong_part_pos;   //!
+   TBranch        *b_prong_part_E;   //!
+   TBranch        *b_prong_part_pos;   //!
+   TBranch        *b_dpTT;   //!
+   TBranch        *b_dpT;   //!
+   TBranch        *b_dalphaT;   //!
+   TBranch        *b_dphiT;   //!
+   TBranch        *b_Enu;   //!
+   TBranch        *b_QSq;   //!
+   TBranch        *b_WSq;   //!
+   TBranch        *b_W;   //!
+   TBranch        *b_deltaInvMass_reco;   //!
+   TBranch        *b_delta_pi_theta_reco;   //!
+   TBranch        *b_delta_pi_phi_reco;   //!
+   TBranch        *b_muon_pT;   //!
+   TBranch        *b_proton_pT;   //!
+   TBranch        *b_pion_pT;   //!
+   TBranch        *b_total_proton_KE;   //!
+   TBranch        *b_dpTT_true;   //!
+   TBranch        *b_dpT_true;   //!
+   TBranch        *b_dalphaT_true;   //!
+   TBranch        *b_dphiT_true;   //!
+   TBranch        *b_Enu_true;   //!
+   TBranch        *b_QSq_true;   //!
+   TBranch        *b_WSq_true;   //!
+   TBranch        *b_W_true;   //!
+   TBranch        *b_deltaInvMass_true;   //!
+   TBranch        *b_delta_pi_theta_true;   //!
+   TBranch        *b_delta_pi_phi_reco_true;   //!
+   TBranch        *b_muon_pT_true;   //!
+   TBranch        *b_proton_pT_true;   //!
+   TBranch        *b_pion_pT_true;   //!
+   TBranch        *b_total_proton_KE_true;   //!
+   TBranch        *b_mc_flag;   //!
 
 };
 #endif
