@@ -48,6 +48,11 @@ public:
 	static bool IsEnuInRange(const double Energy);
 	static bool IsInRange(const double Energy, const double min, const double max);
 	static bool IsWInRange(const double W);
+	static bool IsInvMassInRange(const double m);
+
+	static bool CheckCaloCuts(const double E_g1, const double E_g2, const double pi0_cos_openingAngle,
+		const double EnuEmu, const double W);
+
 
 private:
 	const bool m_applyWgts;

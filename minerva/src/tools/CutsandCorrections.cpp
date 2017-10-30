@@ -426,6 +426,11 @@ bool CutsandCorrections::IsWInRange(const double W){
     return IsInRange(W, 0., m_W_max);
 }
 
+bool CutsandCorrections::IsInvMassInRange(const double m)
+{
+    return IsInRange(m, m_min_Pi0_invMass, m_max_Pi0_invMass);
+}
+
 double CutsandCorrections::GetMuonThetaCorrection(FileIO * fChain)
 {
 	double corrected_theta = fChain->muon_theta_beam;
@@ -475,6 +480,26 @@ std::string CutsandCorrections::GetPlaylist(const int run, const int type)
     }
     return playlist;
 }
+
+bool CutsandCorrections::CheckCaloCuts(const double E_g1, const double E_g2, const double pi0_cos_openingAngle,
+    const double EnuEmu, const double W)
+{
+    bool base = !IsOpeningAngleSmallAndEnergyLow(E_g1, E_g2, pi0_cos_openingAngle);
+
+    bool cuts = false;
+    if(m_new_signal_cuts){
+        cuts = IsEmuInRange(EnuEmu);
+    }
+    else{
+        cuts = IsEnuInRange(EnuEmu) && IsWInRange(W);
+    }
+
+    bool pi0inv = true;
+    if(m_make_pi0M_cut) pi0inv = IsInvMassInRange(KinCalc::Pi0InvMass(E_g1, E_g2, pi0_cos_openingAngle));
+
+    return (base && cuts && pi0inv);
+}
+
 
 // void CutsandCorrections::SetParamsFromFile(const std::string &file)
 // {
