@@ -7,7 +7,10 @@
 using namespace PlotUtils;
 
 class FileIO;
+
+#ifdef __REWEIGHT__
 class ReweightEvent;
+#endif
 
 class CutsandCorrections
 {
@@ -43,7 +46,9 @@ public:
 
 private:
 	const bool m_applyWgts;
+	#ifdef __REWEIGHT__
 	ReweightEvent * m_RW;
+	#endif
 
 	static std::string GetPlaylist(const int run, const int type);
 	static const std::string m_processing_name;

@@ -7,7 +7,10 @@
 // #include <PlotUtils/MnvNormalization.h>
 #include <ReadParam.h>
 #include <TMath.h>
+
+#ifdef __REWEIGHT__
 #include <ReweightEvent.h>
+#endif
 
 using namespace std;
 
@@ -59,17 +62,21 @@ CutsandCorrections::CutsandCorrections(const bool applyWgts) : m_applyWgts(apply
 {
     PrintSetupInfo();
 
+    #ifdef __REWEIGHT__
     if(m_applyWgts){
         m_RW = new ReweightEvent();
     }
     else m_RW = 0x0;
+    #endif
 }
 
 CutsandCorrections::~CutsandCorrections()
 {
+    #ifdef __REWEIGHT__
     if(m_applyWgts){
         if(m_RW != NULL) delete m_RW;
     }
+    #endif
 }
 
 bool CutsandCorrections::PassedCuts(FileIO * fChain)
@@ -80,7 +87,9 @@ bool CutsandCorrections::PassedCuts(FileIO * fChain)
     // Apply reweights for cut histogram:
     // This isn't used yet.
     double wgt = 1.;
+    #ifdef __REWEIGHT__
     if(m_applyWgts) wgt = m_RW->GetWgt(fChain);
+    #endif
 
     if(fChain->Cut_Vertex_None == 1) return false;
     // ------------------------------------------------------------------------

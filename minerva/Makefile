@@ -5,6 +5,8 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 RM = rm -fv
 
+OPTS=-D __REWEIGHT__
+
 DIR_LIST = src src/base src/fileio src/parser src/tools
 # src/model/
 
@@ -47,13 +49,13 @@ all: $(DET) $(MOD)
 # all: $(DET)
 
 $(DET): $(DETOBJS)
-	$(CXX) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(OPTS) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 $(MOD): $(MODOBJS)
-	$(CXX) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
+	$(CXX) $(OPTS) $(CXXFLAGS) $(INCS) $(TMPINC) -o $@ $^ $(ROOTFLAGS) $(LDLIBS)
 
 .cpp.o:
-	$(CXX) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) $(TMPINC) -c $< -o $@
+	$(CXX) $(OPTS) $(ROOTFLAGS) $(CXXFLAGS) $(INCS) $(TMPINC) -c $< -o $@
 
 .PHONY: clean
 clean:
