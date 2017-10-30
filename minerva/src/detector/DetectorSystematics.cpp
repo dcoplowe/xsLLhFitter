@@ -374,14 +374,14 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			}
 
 			if( has_error ){
-				cout << "Found " << nhists << " hists found for error " << er_type->GetName() << " in sample " << it->first << endl;
+				// cout << "Found " << nhists << " hists for error " << er_type->GetName() << " in sample " << it->first << endl;
 				// er_nhists_tot += nhists;
 				if(nhists > 0 && counter == 0){ 
 
 					er_nhists = nhists;
 					counter++;
 
-					cout << "Setting Up Checks: Sample hist numbers are identical (or zero). Require " << er_nhists << " hists" << endl;
+					// cout << "Setting Up Checks: Sample hist numbers are identical (or zero). Require " << er_nhists << " hists" << endl;
 
 					// Get the wgts from this sample (as it will be the same in all sample for this error)
 					univ_wgts.clear();
@@ -420,7 +420,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 		// Check that we have errors:
 		if(er_nhists > 0){
 
-			cout << "Errors looking good! Now building universe histograms" << endl;
+			// cout << "Errors looking good! Now building universe histograms" << endl;
 
 			// Lets include this error!!:
 			std::vector<TH1D*> new_erhists;
