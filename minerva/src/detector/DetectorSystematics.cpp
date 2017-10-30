@@ -518,32 +518,41 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			switch(er_type->GetType()){
 				case ErrorType::kLateral:
 				case ErrorType::kLateralCV:
+				{
+					cout << "kLateral : " << er_type->GetName() << endl;
 					m_anaHist->AddLatErrorBand(er_type->GetName(), new_erhists);
 					m_anaHist->GetLatErrorBand(er_type->GetName())->SetUseSpreadError(UseSpreadError);
-	     			// Set universe weights; does not work if universes are different for two histograms
+					     			// Set universe weights; does not work if universes are different for two histograms
 					if(same_universes) {
 						for(int j = 0; j < er_nhists; j++)
 							m_anaHist->GetLatErrorBand( er_type->GetName() )->SetUnivWgt(j, univ_wgts[j] );
 					}
 					break;
+				}
 				case ErrorType::kVertical:
 				case ErrorType::kVerticalCV:
+				{
+					cout << "kVertical : " << er_type->GetName() << endl;
 					m_anaHist->AddVertErrorBand( er_type->GetName(),  new_erhists);
 					m_anaHist->GetVertErrorBand(er_type->GetName())->SetUseSpreadError(UseSpreadError);
-	     			// Set universe weights; does not work if universes are different for two histograms
+					// Set universe weights; does not work if universes are different for two histograms
 					if(same_universes) {
 						for(int j = 0; j<er_nhists; j++)
 							m_anaHist->GetVertErrorBand(er_type->GetName())->SetUnivWgt(j, univ_wgts[j]);
 					}
 					break;
+				}
 				case ErrorType::kUnCorError:
 				case ErrorType::kUnCorErrorCV:
+				{
+					cout << "kUnCorError : " << er_type->GetName() << endl;
 					if(new_erhists.size() == 1) m_anaHist->AddUncorrError(er_type->GetName(), new_erhists[0]);
 					else{
 						cout << __FILE__ << ":" << __LINE__ << " Error : Could not add uncorrelated error to analysis hist. Wrong size: " << new_erhists.size() << endl; 
 						exit(0);
 					}
 					break;
+				}
 				default:
 					cout << "This shouldn't evetr be called..." << endl;
 					break;
