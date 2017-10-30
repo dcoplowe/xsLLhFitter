@@ -37,7 +37,7 @@
 <| applyProtonScore = 1 |>
 <| minProtonScore_LLR = -5.0 |>
 
-<| new_signal_cuts = 1 |>
+<| new_signal_cuts = 0 |>
 
 //--------------------------------------------------------
 
