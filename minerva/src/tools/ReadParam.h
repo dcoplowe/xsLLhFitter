@@ -43,6 +43,9 @@ public:
 
     static bool IsNumber(const std::string &name);
 
+    static void GetBinning(const std::string &name, const std::string &infile, int &nbins, double *&binning, const std::string &left_arrow = left_brace, 
+        const std::string &right_arrow = right_brace, const std::string &ignore = ignore_sign);
+
 private:
     static std::string GetParameterN(const std::string &name, const std::string &infile, 
         const std::string &left_arrow, const std::string &right_arrow, const std::string &ignore);

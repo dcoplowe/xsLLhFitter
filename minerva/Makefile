@@ -7,7 +7,7 @@ RM = rm -fv
 
 # OPTS=-D __ENABLE__REWEIGHT__
 
-DIR_LIST = src src/base src/fileio src/parser src/tools
+DIR_LIST = src src/base src/fileio src/tools
 # src/model/
 
 # files := $(foreach dir,$(dirs),$(wildcard $(dir)/*))

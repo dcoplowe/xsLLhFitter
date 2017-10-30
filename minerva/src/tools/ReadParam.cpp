@@ -209,4 +209,59 @@ bool ReadParam::GetParameterB(const std::string &name, const std::string &infile
     return static_cast<bool>( GetParameterI(name, infile, left_arrow, right_arrow, ignore) );
 }
 
+void ReadParam::GetBinning(const std::string &name, const std::string &infile, int &nbins, double *&binning, const std::string &left_arrow, 
+    const std::string &right_arrow, const std::string &ignore)
+{
+    string line = GetParameterS(name, infile, left_arrow, right_arrow, false, ignore);
+    // Get the number of bins:
+    cout << "For name = " << name << " line = " << line << endl;
+    // Then get the binning:
+    // loop through the elements in the line:
+    string word;
+    std::stringstream iss(line);
+    int counter = 0;
+    std::vector<double> bins_in; 
+    while( iss >> word )     
+    {
+        word.erase(std::remove(word.begin(),word.end(),' '),word.end());
+        if(IsNumber(word)){
+            if(counter == 0) nbins = atoi(word.c_str());
+            else bins_in.push_back( atof(word.c_str()) );
+            counter++;
+        }
+        else cout << "Not a number: " << word << endl;
+    }
+
+    if(bins_in.size() < 2){
+        cout << "Not enough params:";
+        cout << "    Require: var = nbins low high " << endl;
+        cout << "         or  var = nbins x_0 x_1 x_2 x_{nbins}" << endl;
+        exit(0);
+    }
+    else if(bins_in.size() == 2){
+        cout << "Bin width expected to be the same" << endl;
+        double min = bins_in[0];
+        double max = bins_in[1];
+        double delta = max - min;
+        delta *= 1./(double)nbins;
+        bins_in.clear();
+
+        for(int i = 0; i < nbins + 1; i++){
+            bins_in.push_back( min + i*delta );
+        }
+    }
+
+    // Check size is good: (array == nbins + 1)
+    if(nbins + 1 == (int)bins_in.size()){
+        cout << "Size is good" << endl;
+    }
+
+    binning = new double [ nbins + 1 ];
+    for(int i = 0; i < nbins + 1; i++){
+        binning[i] = bins_in[i];
+        // cout << "binning[" << i << "]" << binning[i] << endl;
+    }
+    bins_in.clear();
+}
+
 #endif
