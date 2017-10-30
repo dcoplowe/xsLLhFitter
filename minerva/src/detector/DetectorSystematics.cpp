@@ -306,6 +306,7 @@ TMatrixD DetectorSystematics::GetCovMatrix(const bool includeStat, const bool as
 			exit(0);
 		}
 	}
+	else m_anaHist->ClearAllErrorBands();
 
 	// Determine normalisation:
 	// bool cov_area_normalize = false;
