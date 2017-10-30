@@ -121,9 +121,6 @@ EOF
 
 sed -i -e 's/\[.*\]\;/\[__MAX_ARRAY_SIZE__\]\;/g' FileIO.h
 
-exit
-rm FileIO.*_tmp
-
 rm ${treename}.{C,h}
 
 if [ ! -d ${mydir}/old ]; then
@@ -138,5 +135,5 @@ for ii in cpp h; do
 		cp ${mydir}/../src/fileio/FileIO.${ii} ${mydir}/old/FileIO.${ii}_old$(date "+%d%m%g")
 		cp FileIO.${ii} ${mydir}/../src/fileio/FileIO.${ii}
 	fi
-	rm FileIO.${ii}
+	rm FileIO.${ii} FileIO.${ii}_tmp
 done
