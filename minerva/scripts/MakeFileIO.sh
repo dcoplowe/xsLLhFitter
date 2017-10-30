@@ -39,7 +39,7 @@ intree->MakeClass();
 EOF
 
 cp ${mydir}/../src/fileio/FileIO.{h,cpp} ${mydir}
-
+ls ${mydir}
 #---------------------------------------- FileIO .cpp file ----------------------------------------
 
 # In cpp file we want to find and replace only the Init part
@@ -117,10 +117,12 @@ $(cat FileIO.h_tmp)
 #endif
 EOF
 
-rm FileIO.*_tmp
-
 # Find and replace all arrays and set with larger size:
+
 sed -i -e 's/\[.*\]\;/\[__MAX_ARRAY_SIZE__\]\;/g' FileIO.h
+
+exit
+rm FileIO.*_tmp
 
 rm ${treename}.{C,h}
 

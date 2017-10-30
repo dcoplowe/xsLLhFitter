@@ -11,6 +11,10 @@ class TTree;
 #define kIniValue -999
 #endif
 
+#ifndef __MAX_ARRAY_SIZE__
+#define __MAX_ARRAY_SIZE__ 1000
+#endif
+
 class FileIOBase
 {
 public:
