@@ -27,7 +27,7 @@ int main()
 	// string in_file = "ReducedNTuple_TransverseAnalysis_noMggcut.root";
 	// string in_file = "ReducedNTuple_TransverseAnalysis_newSig_noMggcut_171017.root";
 	// New file using latest ntuple:
-	string in_file = "/minerva/data/users/dcoplowe/Analyse_Alice/MC/Reduce_newSIG_pi0Mcutn_FDy_prPIDSBn_prScorey_meSBn_101817.root";
+	string in_file = "/minerva/data/users/dcoplowe/Analyse_Alice/MC/mc_run271017_oldSIG_FDy_prScorey_pi0Mcuty_prPIDSBn_meSBn_102917.root";
 	string in_tree = "CCProtonPi0";
 	string out_file = "DetSyst_Test.root";
 	bool verbose = false;
