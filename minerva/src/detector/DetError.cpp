@@ -688,6 +688,7 @@ double * DetError::GetWgts(DetError::LatType type) const
 		// For new signal def. much of this is not required:
 		// Only muon and gammas info is need.
 		double tmp_W = W;
+		double EnuEmu = Emu;
 		if(!m_new_signal_cuts){
 			double tmp_Enu = Enu;
 			double tmp_QSq = QSq;
@@ -697,7 +698,6 @@ double * DetError::GetWgts(DetError::LatType type) const
 			tmp_W = tmp_Wsq > 0 ? sqrt(tmp_Wsq) : kIniValue;
 			EnuEmu = tmp_Enu;
 		}
-		else EnuEmu = Emu;
 
 		if(CutsandCorrections::CheckCaloCuts(tmp_E_g1, tmp_E_g2, m_chain->pi0_cos_openingAngle, EnuEmu, tmp_W)) wgts[i] = 1.;
 		else wgts[i] = 0.;
