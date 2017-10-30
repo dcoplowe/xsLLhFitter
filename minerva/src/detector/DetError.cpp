@@ -577,7 +577,7 @@ double * DetError::GetWgts(DetError::LatType type) const
 	double Thetamu = m_chain->muon_theta_beam;
 
 	double Enu = m_chain->Enu;
-	double Q2 = m_chain->QSq;
+	double QSq = m_chain->QSq;
 	double W = m_chain->W;
 
 	double extra_energy = m_chain->vertex_blob_energy + m_chain->Extra_Energy_Total;
