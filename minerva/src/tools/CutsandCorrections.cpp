@@ -8,6 +8,7 @@
 #include <ReadParam.h>
 #include <TMath.h>
 #include <DataInfo.h>
+#include <KinematicCalculator.h>
 
 #ifdef __ENABLE__REWEIGHT__
 #include <ReweightEvent.h>
@@ -59,7 +60,7 @@ MnvNormalizer * CutsandCorrections::m_normalizer = new MnvNormalizer(CutsandCorr
 #ifdef __ENABLE__CUTSTATS__
 CutsandCorrections::CutsandCorrections() : m_applyWgts(false), stats()
 #else
-CutsandCorrections::CutsandCorrections() : m_applyWgts(false)
+CutsandCorrections::CutsandCorrections()
 #endif
 {
     PrintSetupInfo();
@@ -67,7 +68,7 @@ CutsandCorrections::CutsandCorrections() : m_applyWgts(false)
 #ifdef __ENABLE__CUTSTATS__
 CutsandCorrections::CutsandCorrections(const bool applyWgts) : m_applyWgts(applyWgts), stats()
 #else
-CutsandCorrections::CutsandCorrections(const bool applyWgts) : m_applyWgts(applyWgts)
+CutsandCorrections::CutsandCorrections(const bool applyWgts)
 #endif
 {
     PrintSetupInfo();
@@ -77,6 +78,8 @@ CutsandCorrections::CutsandCorrections(const bool applyWgts) : m_applyWgts(apply
         m_RW = new ReweightEvent();
     }
     else m_RW = 0x0;
+    #else 
+    (void)applyWgts; 
     #endif
 }
 
@@ -96,8 +99,8 @@ bool CutsandCorrections::PassedCuts(FileIO * fChain)
 
     // Apply reweights for cut histogram:
     // This isn't used yet.
-    double wgt = 1.;
     #ifdef __ENABLE__REWEIGHT__
+    double wgt = 1.;
     if(m_applyWgts) wgt = m_RW->GetWgt(fChain);
     #endif
 

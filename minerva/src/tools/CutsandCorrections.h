@@ -53,10 +53,9 @@ public:
 	static bool CheckCaloCuts(const double E_g1, const double E_g2, const double pi0_cos_openingAngle,
 		const double EnuEmu, const double W);
 
-
 private:
-	const bool m_applyWgts;
 	#ifdef __ENABLE__REWEIGHT__
+	const bool m_applyWgts;
 	ReweightEvent * m_RW;
 	#endif
 	
