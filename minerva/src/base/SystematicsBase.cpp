@@ -29,19 +29,19 @@ SystematicsBase::SystematicsBase(const bool verbose) : m_Nuniverses(1), m_verbos
 	m_samples.clear();
 }
 
-void SystematicsBase::AddSample(const std::string &name, const int nbins, const double x_low, const double x_high)
+void SystematicsBase::AddSample(const std::string &name, const int nbins, const double x_low, const double x_high, Sample::FlowBins uoflows)
 {
 	if(IsUniqueSample(name)){
-		m_samples [ name ] = new Sample(name, nbins, x_low, x_high);
+		m_samples [ name ] = new Sample(name, nbins, x_low, x_high, uoflows);
 		m_Nsamples++;
 	}
 }
 
-void SystematicsBase::AddSample(const std::string &name, const int nbins, const double * x_bins)
+void SystematicsBase::AddSample(const std::string &name, const int nbins, const double * x_bins, Sample::FlowBins uoflows)
 {
 	if(IsUniqueSample(name)){
 		// m_samples.push_back( new Sample(name, nbins, x_bins) );
-		m_samples [ name ] = new Sample(name, nbins, x_bins);
+		m_samples [ name ] = new Sample(name, nbins, x_bins, uoflows);
 		m_Nsamples++;
 		// m_samples_map[ name ] = m_counter++;
 	}

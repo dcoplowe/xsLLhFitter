@@ -5,7 +5,8 @@
 #include <vector>
 #include <map>
 
-class Sample;
+#include <Sample.h>
+
 class TTree;
 
 class SystematicsBase
@@ -17,8 +18,8 @@ public:
 	// virtual void Run() = 0;
 
 	void SetNUniverses(const int var){ m_Nuniverses = var; }
-	void AddSample(const std::string &name, const int nbins, const double x_low, const double x_high);
-	void AddSample(const std::string &name, const int nbins, const double * x_bins);
+	void AddSample(const std::string &name, const int nbins, const double x_low, const double x_high, Sample::FlowBins uoflows = kNone);
+	void AddSample(const std::string &name, const int nbins, const double * x_bins, Sample::FlowBins uoflows = kNone);
 	int GetNSamples(){ return (int)m_samples.size(); }
 	Sample * GetSample(const std::string &name);
 
