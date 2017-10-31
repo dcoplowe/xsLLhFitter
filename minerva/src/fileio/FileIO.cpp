@@ -28,11 +28,10 @@ void FileIO::InitLLNTuple()
     m_LLtuple->Branch("D2Rec", &D2Reco, ("D2Rec/D"));
 
     // Other branches used by fitter:
-    Int_t mectopology = kIniValue;
 
     // Analysis cut branches:
     m_LLtuple->Branch("reaction",       &mc_intType, "reaction/I");
-    m_LLtuple->Branch("mectopology",    &mectopology, "mectopology/I");
+    m_LLtuple->Branch("mc_flag",    &mc_flag, "mc_flag/I");
     m_LLtuple->Branch("muMomRec",       &muon_P, "muMomRec/D");
     m_LLtuple->Branch("muMomTrue",      &truth_muon_P, "muMomTrue/D");
     m_LLtuple->Branch("muCosThetaRec",  &muon_theta, "muCosThetaRec/D");
@@ -60,7 +59,6 @@ void FileIO::InitLLNTuple()
     m_LLtuple->Branch("selpi_truemom",      &truth_pi0_P, "selpitrue_mom/D");
     m_LLtuple->Branch("selpi_costheta",     &pi0_theta, "selpi_costheta/D");
     m_LLtuple->Branch("selpi_truecostheta", &truth_pi0_theta, "selpi_truecostheta/D");
-
 }
 
 void FileIO::Init()

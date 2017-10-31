@@ -17,8 +17,7 @@ private:
 	void InitLLNTuple();
 
 public:
-
-	   // Declaration of leaf types
+	   // Declaration of leaf type
    Double_t        eventID;
    Int_t           CCProtonPi0_nuFlavor;
    Int_t           CCProtonPi0_nuHelicity;

@@ -49,9 +49,9 @@ int main()
 	int nsigMass_bins = (int)(higMass - lowMass)/den;
 	int nhigMass_bins = (int)(maxMass - higMass)/den;
 
-	syst->AddSample("pi0LowMass", nlowMass_bins, 0.,      lowMass);
+	syst->AddSample("pi0LowMass", nlowMass_bins, 0.,      lowMass, Sample::kUnder);
 	syst->AddSample("signal",  	 nsigMass_bins, lowMass, higMass);
-	syst->AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass);
+	syst->AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass, Sample::kOver);
 	
 	FileIO reader(in_file, in_tree);
 
@@ -98,15 +98,15 @@ int main()
 
 		string sam_name = "";
 		// Want to make sure only one sample is filled in each interation
-		if(0. < reader.pi0_invMass && reader.pi0_invMass <= lowMass){
+		if(0. <= reader.pi0_invMass && reader.pi0_invMass < lowMass){
 			sam_name = "pi0LowMass";
 			reader.SetSample(0);
 		}
-		else if(lowMass < reader.pi0_invMass && reader.pi0_invMass < higMass){
+		else if(lowMass <= reader.pi0_invMass && reader.pi0_invMass <= higMass){
 			sam_name = "signal";
 			reader.SetSample(1);
 		}
-		else if(higMass <= reader.pi0_invMass){
+		else if(higMass < reader.pi0_invMass){
 		// else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
 			sam_name = "pi0HigMass";
 			reader.SetSample(2);
@@ -127,10 +127,6 @@ int main()
 			double * wgts = error.GetWgts(DetError::kEMScale);
 			syst->FillLatErrorBand(sam_name, "EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
 			delete [] wgts;
-
-
-
-
 		}
 		reader.Fill();
 	}
