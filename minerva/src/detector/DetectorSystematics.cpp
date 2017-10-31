@@ -72,14 +72,21 @@ bool DetectorSystematics::AddLatErrorBand(const std::string& name, const int n_u
 {
 	size_t counter = 0;
 	string tmp_name = name;// + m_lat_name;
+	cout << "Add Lateral Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
 	if(IsUniqueError(tmp_name)){ 
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kLateral);
 		m_errors.push_back(tmp_et);
 		
+		cout << "Adding to sample(s): " << endl;
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
+			cout << "					  " << it->first;
 			it->second->AddError(tmp_et);
-			if(it->second->AddLatErrorBand(tmp_name, n_universes ) ) counter++;
+			if(it->second->AddLatErrorBand(tmp_name, n_universes ) ){ 
+				counter++;
+				cout << " Success ";
+			}
+			cout << endl;
 		}
 		(void)fill_samples;
 	}
@@ -90,7 +97,7 @@ bool DetectorSystematics::AddLatErrorBandAndFillWithCV(const std::string& name, 
 {
 	size_t counter = 0;
 	string tmp_name = name;// + m_lat_name;
-	cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
+	cout << "Add Lateral Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;
 	if(IsUniqueError(tmp_name)){
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kLateralCV); 
 		m_errors.push_back(tmp_et);
@@ -144,14 +151,21 @@ bool DetectorSystematics::AddVertErrorBandAndFillWithCV(const std::string& name,
 	size_t counter = 0;
 
 	string tmp_name = name;// + m_ver_name;
+	cout << "Add Vertical Error Band: " << tmp_name << " with " << n_universes << " universes." <<  endl;	
 	if(IsUniqueError(tmp_name)){ 
 		ErrorType * tmp_et = new ErrorType(tmp_name, n_universes, ErrorType::kVerticalCV);
 		m_errors.push_back(tmp_et);
 	
+		cout << "Adding to sample(s): " << endl;
 		std::map<std::string,Sample*>::iterator it= m_samples.begin();
 		for (; it != m_samples.end(); ++it){ 
+			cout << "					  " << it->first;
 			it->second->AddError(tmp_et);
-			if(it->second->AddVertErrorBandAndFillWithCV(tmp_name, n_universes )) counter++;
+			if(it->second->AddVertErrorBandAndFillWithCV(tmp_name, n_universes )){ 
+				counter++;
+				cout << " Success ";
+			}
+			cout << endl;
 		}
 		(void)fill_samples;
 	}
@@ -684,18 +698,14 @@ void DetectorSystematics::MakeBinning(const std::string &out_name)
 		if(!tmp_name.empty()) tmp_name += "_";
 		tmp_name += Form("sample%d_%s.txt", sam->GetSampPos(), sam->GetName() );
 
-		cout << "File Name: " << tmp_name << endl;
-
+		// cout << "File Name: " << tmp_name << endl;
 		std::ofstream file;
 		file.open(tmp_name.c_str());
-
 		// Check if underlow/overflow is included;
-
 		for(int i = sam->GetMinBin(); i < sam->GetMaxBin(); i++){
 			// Fill 1D then 2D: We haven't defined a second dim yet
 			// So use p/m 99999999. 
-			cout << sam->GetBinLowEdge(i) << " " << sam->GetBinLowEdge(i + 1) << " " << -9999999. << " " << 9999999. << endl;
-
+			// cout << sam->GetBinLowEdge(i) << " " << sam->GetBinLowEdge(i + 1) << " " << -9999999. << " " << 9999999. << endl;
 			file<<std::left;
 			file.width(12); file<< sam->GetBinLowEdge(i) <<" ";    
 			file.width(12); file<< sam->GetBinLowEdge(i + 1)<<" ";      

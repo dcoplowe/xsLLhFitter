@@ -99,33 +99,54 @@ void SystematicsBase::FillSample(const std::string &name, const double val, cons
 bool SystematicsBase::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const std::vector<double>& shifts,
 	const double cvweight, const bool fillcv, const double *weights)
 {
+	if(m_verbose) cout << "Filling Lateral Error Band: " << name << " for sample " << sam_name;
 	bool pass = false;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
 		if( it->second->FillLatErrorBand(name, value, shifts, cvweight, fillcv, weights) ) pass = true;
 	}
+	
+	if(m_verbose){
+		if(pass) cout << " Success" << endl;
+		else cout << endl;
+	}
+
 	return pass;
 }
 
 bool SystematicsBase::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * shifts, const double cvweight,
 	const bool fillcv, const double *weights)
 {
+	if(m_verbose) cout << "Filling Lateral Error Band: " << name << " for sample " << sam_name;
 	bool pass = false;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
 		if( it->second->FillLatErrorBand(name, value, shifts, cvweight, fillcv, weights) ) pass = true;
 	}
+
+	if(m_verbose){
+		if(pass) cout << " Success" << endl;
+		else cout << endl;
+	}
+
 	return pass;
 }
 
 bool SystematicsBase::FillLatErrorBand(const std::string& sam_name, const std::string& name, const double value, const double shiftDown, const double shiftUp,
 	const double cvweight, const bool fillcv)
 {
+	if(m_verbose) cout << "Filling Lateral Error Band: " << name << " for sample " << sam_name;
 	bool pass = false;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
 		if( it->second->FillLatErrorBand(name, value, shiftDown, shiftUp, cvweight, fillcv) ) pass = true;
 	}
+
+	if(m_verbose){
+		if(pass) cout << " Success" << endl;
+		else cout << endl;
+	}
+
 	return pass;
 }
 
@@ -133,7 +154,7 @@ bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::
 	const double cvweight, double cvWeightFromMe)
 {
 	bool pass = false;
-	if(m_verbose) cout << "Filling vertical Error Band: " << name << " for sample " << sam_name;
+	if(m_verbose) cout << "Filling Vertical Error Band: " << name << " for sample " << sam_name;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
 		if( it->second->FillVertErrorBand(name, value, weights, cvweight, cvWeightFromMe) ) pass = true;
@@ -149,7 +170,7 @@ bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::
 bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::string& name, const double value, const double * weights,
 	const double cvweight, double cvWeightFromMe)
 {
-	if(m_verbose) cout << "Filling vertical Error Band: " << name << " for sample " << sam_name;
+	if(m_verbose) cout << "Filling Vertical Error Band: " << name << " for sample " << sam_name;
 	bool pass = false;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
@@ -167,7 +188,7 @@ bool SystematicsBase::FillVertErrorBand(const std::string& sam_name, const std::
 	const double cvweight, double cvWeightFromMe)
 {
 	bool pass = false;
-	if(m_verbose)cout << "Filling vertical Error Band: " << name << " for sample " << sam_name;
+	if(m_verbose)cout << "Filling Vertical Error Band: " << name << " for sample " << sam_name;
 	std::map<std::string,Sample*>::iterator it = m_samples.find( sam_name );
 	if(it != m_samples.end()){
 		if( it->second->FillVertErrorBand(name, value, weightDown, weightUp, cvweight, cvWeightFromMe) ) pass = true;
