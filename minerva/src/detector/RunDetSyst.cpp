@@ -63,7 +63,18 @@ void RunDetSyst::MakeMggDist()
 	syst->AddDefaults();
 
 	// Add specific variable shifts:
+
 	syst->AddLatErrorBand("EMScale", 500);
+
+	int n_wgts = 2;
+	MnvH1D * full = new MnvH1D("full", "", (nlowMass_bins +  nsigMass_bins + nhigMass_bins), 0, maxMass);
+	full->AddVertErrorBand("MiMisTagTrue",  n_wgts);
+	full->AddVertErrorBand("MiMisTagFalse", n_wgts);
+	full->AddVertErrorBand("MuonTracking", n_wgts);
+	full->AddVertErrorBand("NeutronResponse", n_wgts);
+	full->AddVertErrorBand("PionResponse", n_wgts);
+	full->AddVertErrorBand("ProtonTracking", n_wgts);
+	full->AddLatErrorBand("EMScale", 500);;
 
 	// Add the errors:
 	// For W we have the following errors to consider (from Ozgur's analysis):
@@ -123,6 +134,15 @@ void RunDetSyst::MakeMggDist()
 			std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.pi0_invMass);
 			double * wgts = error.GetWgts(DetError::kEMScale);
 			syst->FillLatErrorBand(sam_name, "EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
+
+			full->FillVertErrorBand("MiMisTagTrue",  reader.pi0_invMass, default_errors.michel_true);
+			full->FillVertErrorBand("MiMisTagFalse", reader.pi0_invMass, default_errors.michel_false);
+			full->FillVertErrorBand("MuonTracking", reader.pi0_invMass, default_errors.mu_trking);
+			full->FillVertErrorBand("NeutronResponse", reader.pi0_invMass, default_errors.neutron_res);
+			full->FillVertErrorBand("PionResponse", reader.pi0_invMass, default_errors.pi_res);
+			full->FillVertErrorBand("ProtonTracking", reader.pi0_invMass, default_errors.pr_trking);
+			full->FillLatErrorBand("EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
+
 			delete [] wgts;
 		}
 		reader.Fill();
@@ -145,6 +165,8 @@ void RunDetSyst::MakeMggDist()
 	TMatrixD cov_signal2 = syst->GetSample("signal")->GetTotalErrorMatrix(true, false, false);
 	TMatrixD cov_pi0HigMass2 = syst->GetSample("pi0HigMass")->GetTotalErrorMatrix(true, false, false);
 
+	TMatrixD ful_cov1 = full->GetCovMatrix();
+	TMatrixD ful_cov2 = full->GetCovMatrix(true, false, false);
 
 	TCanvas * can1 = syst->DrawErrors(false);
 	std::vector<TCanvas*> clist1 = syst->DrawErrorsBySample(false);
@@ -170,6 +192,9 @@ void RunDetSyst::MakeMggDist()
 	cov_signal2.Write("signal2");
 	cov_pi0HigMass1.Write("pi0HigMass1");
 	cov_pi0HigMass2.Write("pi0HigMass2");
+
+	ful_cov1.Write("full_cov1");
+	ful_cov2.Write("full_cov2");
 	// ofile->Close();
 	// delete ofile;
 	// delete syst;
