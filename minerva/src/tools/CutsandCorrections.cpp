@@ -18,39 +18,39 @@ using namespace std;
 
 // const std::string DataInfo::Opts::Run = "options/run_options.txt";
 
-const double CutsandCorrections::m_Emu_min = ReadParam::GetParameterD("Emu_min", DataInfo::Opts::Run);
-const double CutsandCorrections::m_Emu_max = ReadParam::GetParameterD("Emu_max", DataInfo::Opts::Run);
-const double CutsandCorrections::m_Enu_min = ReadParam::GetParameterD("Enu_min", DataInfo::Opts::Run);
-const double CutsandCorrections::m_Enu_max = ReadParam::GetParameterD("Enu_max", DataInfo::Opts::Run);
+const double CutsandCorrections::m_Emu_min = ReadParam::GetParameterD("Emu_min", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_Emu_max = ReadParam::GetParameterD("Emu_max", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_Enu_min = ReadParam::GetParameterD("Enu_min", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_Enu_max = ReadParam::GetParameterD("Enu_max", DataInfo::Opts::Cuts);
 
-const double CutsandCorrections::m_max_muon_theta = ReadParam::GetParameterD("max_muon_theta", DataInfo::Opts::Run);
-const double CutsandCorrections::m_max_gamma_dist = ReadParam::GetParameterD("max_gamma_dist", DataInfo::Opts::Run);
+const double CutsandCorrections::m_max_muon_theta = ReadParam::GetParameterD("max_muon_theta", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_max_gamma_dist = ReadParam::GetParameterD("max_gamma_dist", DataInfo::Opts::Cuts);
 
-const bool CutsandCorrections::m_applyPhotonDistance = ReadParam::GetParameterD("applyPhotonDistance", DataInfo::Opts::Run);
-const double CutsandCorrections::m_minPhotonDistance_1 = ReadParam::GetParameterD("minPhotonDistance_1", DataInfo::Opts::Run);
-const double CutsandCorrections::m_minPhotonDistance_2 = ReadParam::GetParameterD("minPhotonDistance_2", DataInfo::Opts::Run);
+const bool CutsandCorrections::m_applyPhotonDistance = ReadParam::GetParameterD("applyPhotonDistance", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_minPhotonDistance_1 = ReadParam::GetParameterD("minPhotonDistance_1", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_minPhotonDistance_2 = ReadParam::GetParameterD("minPhotonDistance_2", DataInfo::Opts::Cuts);
 
-const double CutsandCorrections::m_min_pi0_cos_openingAngle  = ReadParam::GetParameterD("min_pi0_cos_openingAngle", DataInfo::Opts::Run);
-const double CutsandCorrections::m_min_pi0_energy = ReadParam::GetParameterD("min_pi0_energy", DataInfo::Opts::Run);
+const double CutsandCorrections::m_min_pi0_cos_openingAngle  = ReadParam::GetParameterD("min_pi0_cos_openingAngle", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_min_pi0_energy = ReadParam::GetParameterD("min_pi0_energy", DataInfo::Opts::Cuts);
 
-const double CutsandCorrections::m_W_max = ReadParam::GetParameterD("W_max", DataInfo::Opts::Run);
+const double CutsandCorrections::m_W_max = ReadParam::GetParameterD("W_max", DataInfo::Opts::Cuts);
 
-const bool CutsandCorrections::m_make_pi0M_cut = ReadParam::GetParameterB("make_pi0M_cut", DataInfo::Opts::Run);
-const double CutsandCorrections::m_min_Pi0_invMass = ReadParam::GetParameterD("min_Pi0_invMass", DataInfo::Opts::Run);
-const double CutsandCorrections::m_max_Pi0_invMass = ReadParam::GetParameterD("max_Pi0_invMass", DataInfo::Opts::Run);
+const bool CutsandCorrections::m_make_pi0M_cut = ReadParam::GetParameterB("make_pi0M_cut", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_min_Pi0_invMass = ReadParam::GetParameterD("min_Pi0_invMass", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_max_Pi0_invMass = ReadParam::GetParameterD("max_Pi0_invMass", DataInfo::Opts::Cuts);
 
-const bool CutsandCorrections::m_sideBand_LowInvMass = ReadParam::GetParameterB("sideBand_LowInvMass", DataInfo::Opts::Run);
-const bool CutsandCorrections::m_sideBand_HighInvMass = ReadParam::GetParameterB("sideBand_HighInvMass", DataInfo::Opts::Run);
+const bool CutsandCorrections::m_sideBand_LowInvMass = ReadParam::GetParameterB("sideBand_LowInvMass", DataInfo::Opts::Cuts);
+const bool CutsandCorrections::m_sideBand_HighInvMass = ReadParam::GetParameterB("sideBand_HighInvMass", DataInfo::Opts::Cuts);
 // Ozgur's Sidebands:
-const bool CutsandCorrections::m_sideBand_PID = ReadParam::GetParameterB("sideBand_PID", DataInfo::Opts::Run);
-const bool CutsandCorrections::m_sideBand_Michel = ReadParam::GetParameterB("sideBand_Michel", DataInfo::Opts::Run);
+const bool CutsandCorrections::m_sideBand_PID = ReadParam::GetParameterB("sideBand_PID", DataInfo::Opts::Cuts);
+const bool CutsandCorrections::m_sideBand_Michel = ReadParam::GetParameterB("sideBand_Michel", DataInfo::Opts::Cuts);
 
-const bool CutsandCorrections::m_applyProtonScore = ReadParam::GetParameterB("applyProtonScore", DataInfo::Opts::Run);
-const double CutsandCorrections::m_minProtonScore_LLR = ReadParam::GetParameterD("minProtonScore_LLR", DataInfo::Opts::Run);
+const bool CutsandCorrections::m_applyProtonScore = ReadParam::GetParameterB("applyProtonScore", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_minProtonScore_LLR = ReadParam::GetParameterD("minProtonScore_LLR", DataInfo::Opts::Cuts);
 
-const bool CutsandCorrections::m_new_signal_cuts = ReadParam::GetParameterB("new_signal_cuts", DataInfo::Opts::Run);
-const bool CutsandCorrections::m_prP_threshold = ReadParam::GetParameterB("apply_proton_Pthreshold", DataInfo::Opts::Run);
-const double CutsandCorrections::m_minPrMom = ReadParam::GetParameterD("proton_minMom", DataInfo::Opts::Run);
+const bool CutsandCorrections::m_new_signal_cuts = ReadParam::GetParameterB("new_signal_cuts", DataInfo::Opts::Cuts);
+const bool CutsandCorrections::m_prP_threshold = ReadParam::GetParameterB("apply_proton_Pthreshold", DataInfo::Opts::Cuts);
+const double CutsandCorrections::m_minPrMom = ReadParam::GetParameterD("proton_minMom", DataInfo::Opts::Cuts);
 
 // Eroica processing name:
 const std::string CutsandCorrections::m_processing_name = ReadParam::GetParameterS("processing_name", DataInfo::Opts::Run);

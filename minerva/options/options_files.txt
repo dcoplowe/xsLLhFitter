@@ -1,6 +1,7 @@
 <| run = run_opts.txt |>
 
 <| recon = recon_params.txt |>
+<| cuts = analysis_cuts.txt |>
 
 <| manage_plots = manage_plotting.txt |>
 <| transverse_plots = transverse_plots.txt |>
