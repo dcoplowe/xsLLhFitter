@@ -12,10 +12,11 @@
 #include <DetError.h>
 #include <TTree.h>
 #include <TChain.h>
-// #include <TVector3.h>
+#include <TVector3.h>
 #include <Sample.h>
 #include <ReadParam.h>
 #include <DataInfo.h>
+#include <TransverseTools.h>
 
 using std::cout;
 using std::endl;
@@ -413,8 +414,8 @@ void RunDetSyst::MakeFulldpTT()
 			DetError::Default default_errors = error.GetDefaults();
 			syst->FillDefaults("dpTT", reader.dpTT, default_errors);
 
-			const TVector3 * mumom = TVector3(reader.muon_px, reader.muon_py, reader.muon_pz);
-			const TVector3 * pimom = TVector3(reader.pi0_px, reader.pi0_py, reader.pi0_pz);
+			const TVector3 * mumom = new TVector3(reader.muon_px, reader.muon_py, reader.muon_pz);
+			const TVector3 * pimom = new TVector3(reader.pi0_px, reader.pi0_py, reader.pi0_pz);
 
 		    double pi_TT = trans.GetDPTTRec(reader.CCProtonPi0_vtx, mumom, prmom, pimom);// const;
 
