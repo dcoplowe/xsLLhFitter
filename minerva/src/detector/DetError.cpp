@@ -337,7 +337,7 @@ std::vector<double> DetError::GetLinearEnergyShifts(const double var)
 	std::vector<double> spread;
 	for(size_t i = 0; i < m_Eshifts.size(); i++) {
 		double temp = var*m_Eshifts[i];
-		if(temp < kEpsilon) temp = 0.;
+		if(TMath::Abs(temp) < kEpsilon) temp = 0.;
 		spread.push_back( temp );
 	}
 	return spread;
@@ -651,7 +651,7 @@ double * DetError::GetWgts(DetError::LatType type) const
 			case kEMScale:
 			{
 				// EM Energy Dependent Variables
-				cout << m_Eshifts[i] <<") pre " << tmp_E_g1;// << endl;
+				cout << m_Eshifts[i] <<") pre " << tmp_pi0_P;// << endl;
 				tmp_E_g1 *= (1.0 + m_Eshifts[i]);
 				tmp_E_g2 *= (1.0 + m_Eshifts[i]);
 				tmp_pi0_P *= (1.0 + m_Eshifts[i]);
