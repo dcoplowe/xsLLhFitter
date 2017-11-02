@@ -769,7 +769,7 @@ TCanvas * DetectorSystematics::PlotErrorBase(MnvH1D * fHisto, bool asFrac, bool 
 	TLegend * leg = new TLegend(0.5, 0.5, 0.9, 0.9);
     leg->SetFillStyle(0);
 
-	TH1D * tot_error = fHisto->GetTotalError(true, asFrac, cov_area_normalize);
+	TH1D * tot_error = new TH1D( fHisto->GetTotalError(true, asFrac, cov_area_normalize) );
 	leg->AddEntry(tot_error, "Total (Syst. + Stat)", "l");	
 	tot_error->SetLineWidth(2);
 	tot_error->SetLineColor(kBlack);
