@@ -399,25 +399,36 @@ void RunDetSyst::MakeFulldpTT()
 	// 4) Pion response
 	// 5) Proton tracking
 
+	TransverseTools trans;
+	const TVector3 * prmom = new TVector3(0.,0.,0.);
+
 	Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
 
-		syst->FillSample("dpTT", reader.dpTT, reader.wgt);
-		DetError error(reader);
-		DetError::Default default_errors = error.GetDefaults();
-		syst->FillDefaults("dpTT", reader.dpTT, default_errors);
+		if(reader.nProtonCandidates > 0){
+			syst->FillSample("dpTT", reader.dpTT, reader.wgt);
+			DetError error(reader);
+			DetError::Default default_errors = error.GetDefaults();
+			syst->FillDefaults("dpTT", reader.dpTT, default_errors);
 
-		// Now will with wgts and shifts:
-		std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.dpTT);
-		double * wgts = error.GetWgts(DetError::kEMScale);
+			const TVector3 * mumom = TVector3(reader.muon_px, reader.muon_py, reader.muon_pz);
+			const TVector3 * pimom = TVector3(reader.pi0_px, reader.pi0_py, reader.pi0_pz);
 
-		for(size_t ff = 0; ff < 500; ff++){
-			cout << "wgt[" << ff << "] = " << wgts[ff] << endl;
+		    double pi_TT = trans.GetDPTTRec(reader.CCProtonPi0_vtx, mumom, prmom, pimom);// const;
+
+		    std::vector<double> EM_shifts = error.GetLinearEnergyShifts(pi_TT);
+		    double * wgts = error.GetWgts(DetError::kEMScale);
+
+		    syst->FillLatErrorBand("dpTT", "EMScale", reader.dpTT, EM_shifts, 1.0, true, wgts);
+		    delete [] wgts;
+
+
+		    delete mumom;
+		    delete pimom;
 		}
-		syst->FillLatErrorBand("dpTT", "EMScale", reader.dpTT, EM_shifts, 1.0, true, wgts);
-		delete [] wgts;
+
 	}
 
 	syst->MakeBinning();
