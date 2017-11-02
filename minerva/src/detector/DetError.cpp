@@ -685,19 +685,14 @@ double * DetError::GetWgts(DetError::LatType type) const
 			default: break;
 		}
 
-		cout << " post = " << tmp_pi0_P << endl;
-
 		// For new signal def. much of this is not required:
 		// Only muon and gammas info is need.
 		double tmp_W = W;
 		double EnuEmu = Emu;
 		if(!m_new_signal_cuts){
-			cout << "OLD" << endl;
 			double tmp_Enu = Enu;
 			double tmp_QSq = QSq;
-			cout << " tmp_Enu  = = " << tmp_Enu;
 			if(type != kMuTheta) tmp_Enu = KinCalc::GetEnu(tmp_Emu, tmp_pi0_E, tmp_extra_energy);
-			cout << " tmp_Enu ==== " << tmp_Enu << endl;		
 			tmp_QSq = KinCalc::GetQSq(tmp_Enu, tmp_Emu, tmp_Pmu, tmp_Thetamu);
 			double tmp_Wsq = KinCalc::GetWSq(tmp_Enu, tmp_QSq, tmp_Emu);
 			tmp_W = tmp_Wsq > 0 ? sqrt(tmp_Wsq) : kIniValue;

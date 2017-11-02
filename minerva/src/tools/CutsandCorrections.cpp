@@ -494,7 +494,9 @@ bool CutsandCorrections::CheckCaloCuts(const double E_g1, const double E_g2, con
         cuts = IsEmuInRange(EnuEmu);
     }
     else{
+        cout << "OLD Cuts" << endl;
         cuts = IsEnuInRange(EnuEmu) && IsWInRange(W);
+        if(cuts) cout << "Padded" << endl;
     }
 
     bool pi0inv = true;
