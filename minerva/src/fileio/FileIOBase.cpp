@@ -92,7 +92,7 @@ std::string FileIOBase::SetDate()
 	return date;
 }
 
-TFile * FileIOBase::MakeOutFile(const std::string &outfilename, std::string &options)
+TFile * FileIOBase::MakeOutFile(const std::string &outfilename, const std::string &options)
 {
 	if(outfilename.empty()){
 		cout << __FILE__ << ":" << __LINE__ << " : ERROR : Tree name is empty" << endl;
