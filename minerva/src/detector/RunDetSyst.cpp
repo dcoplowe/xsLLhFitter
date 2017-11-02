@@ -375,7 +375,7 @@ void RunDetSyst::MakeFulldpTT()
 
 	DetectorSystematics * syst = new DetectorSystematics(100, verbose);
 
-	syst->AddSample("dpTT", 19, -300., 300., Sample::kBoth);
+	syst->AddSample("dpTT", 19, -300., 300.);//, Sample::kBoth);
 	
 	FileIO reader(in_file, in_tree);
 
@@ -389,6 +389,9 @@ void RunDetSyst::MakeFulldpTT()
 
 	// Add specific variable shifts:
 	syst->AddLatErrorBand("EMScale", 500);
+	syst->AddLatErrorBand("MassModel", 2);
+	syst->AddLatErrorBand("MEU", 2);
+	syst->AddLatErrorBand("BetheBloch", 500);
 
 	// Add the errors:
 	// For W we have the following errors to consider (from Ozgur's analysis):
@@ -401,7 +404,8 @@ void RunDetSyst::MakeFulldpTT()
 	// 5) Proton tracking
 
 	TransverseTools trans;
-	const TVector3 * prmom = new TVector3(0.,0.,0.);
+	const TVector3 * prmom_static = new TVector3(0.,0.,0.);
+	const TVector3 * pimom_static = new TVector3(0.,0.,0.);
 
 	Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
@@ -416,15 +420,44 @@ void RunDetSyst::MakeFulldpTT()
 
 			const TVector3 * mumom = new TVector3(reader.muon_px, reader.muon_py, reader.muon_pz);
 			const TVector3 * pimom = new TVector3(reader.pi0_px, reader.pi0_py, reader.pi0_pz);
+			const TVector3 * prmom = new TVector3(reader.proton_px, reader.proton_py, reader.proton_pz);
 
-		    double pi_TT = trans.GetDPTTRec(reader.CCProtonPi0_vtx, mumom, prmom, pimom);// const;
+		    // -----------------------------
+
+		    double pi_TT = trans.GetDPTTRec(reader.CCProtonPi0_vtx, mumom, prmom_static, pimom);// const;
 
 		    std::vector<double> EM_shifts = error.GetLinearEnergyShifts(pi_TT);
-		    double * wgts = error.GetWgts(DetError::kEMScale);
+		    double * em_wgts = error.GetWgts(DetError::kEMScale);
+		    syst->FillLatErrorBand("dpTT", "EMScale", reader.dpTT, EM_shifts, 1.0, true, em_wgts);
+		    delete [] em_wgts;
 
-		    syst->FillLatErrorBand("dpTT", "EMScale", reader.dpTT, EM_shifts, 1.0, true, wgts);
-		    delete [] wgts;
+		    // -----------------------------
 
+		    double pr_TT = trans.GetDPTTRec(reader.CCProtonPi0_vtx, mumom, prmom, pimom_static);// const;
+
+		    std::vector<double> mass_shifts = error.GetProtonError(pr_TT, reader.proton_E, reader.all_protons_energy_shift_Mass_Up,
+		    	reader.all_protons_energy_shift_Mass_Up);
+		    double * ma_wgts = error.GetWgts(DetError::kPrMass);
+		    syst->FillLatErrorBand("dpTT", "MassModel", reader.dpTT, mass_shifts, 1.0, true, ma_wgts);
+		    delete [] ma_wgts;
+
+		    // -----------------------------
+		    std::vector<double> meu_shifts = error.GetProtonError(pr_TT, reader.proton_E, reader.all_protons_energy_shift_MEU_Up,
+		    	reader.all_protons_energy_shift_MEU_Up);
+		    double * meu_wgts = error.GetWgts(DetError::kPrMEU);
+		    syst->FillLatErrorBand("dpTT", "MEU", reader.dpTT, meu_shifts, 1.0, true, meu_wgts);
+		    delete [] meu_wgts;
+
+		    // -----------------------------
+
+
+		    std::vector<double> bb_shifts = error.GetProtonError(pr_TT, reader.proton_E, reader.all_protons_energy_shift_BetheBloch_Up,
+		    	reader.all_protons_energy_shift_BetheBloch_Up);
+		    double * bb_wgts = error.GetWgts(DetError::kPrBethBloch);
+		    syst->FillLatErrorBand("dpTT", "BetheBloch", reader.dpTT, bb_shifts, 1.0, true, bb_wgts);
+		    delete [] bb_wgts;
+
+		    // -----------------------------
 
 		    delete mumom;
 		    delete pimom;
