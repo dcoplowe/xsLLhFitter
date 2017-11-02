@@ -385,7 +385,7 @@ void RunDetSyst::MakeFulldpTT()
 	int nsigMass_bins = (int)(higMass - lowMass)/den;
 	int nhigMass_bins = (int)(maxMass - higMass)/den;
 
-	syst->AddSample("pi0LowMass", nlowMass_bins, 0.,      lowMass, Sample::kUnder);
+	syst->AddSample("dpTT", nlowMass_bins, 0.,      lowMass, Sample::kUnder);
 	syst->AddSample("signal",  	 nsigMass_bins, lowMass, higMass);
 	syst->AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass, Sample::kOver);
 	
@@ -395,8 +395,6 @@ void RunDetSyst::MakeFulldpTT()
 
 	// Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
-	ofile->cd();
-	reader.SetupLLNTuple();
 
 	// Add default systematic errors to ALL samples:
 	syst->AddDefaults();
@@ -418,50 +416,21 @@ void RunDetSyst::MakeFulldpTT()
 	// reader.SetMaxEntries(loop_size);
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
-		// Think of something a litte simpler that hold the var in fill sample and then fills the
-		// var in fill Vert/Lat error. May be problematic?
 		
-		// cout << "reader.pi0_invMass = " << reader.pi0_invMass << " : EM Scale = ";
-
-		// Need to check the effect of the lateral shifts for the cuts:
-		// For each universe check if that that cuts were passed (if not passed 
-		// we don't apply that variation to that universe (set it to zero)):
-		// Deal with this via weights --> If the universe fails to pass cuts
-		// set the weights to zero.
-
-		// kEMScale = 0, kMuMom, kMuTheta, kPrBirks,
-		// kPrMass, kPrBethBloch, kPrMEU
-
-		string sam_name = "";
-		// Want to make sure only one sample is filled in each interation
-		if(reader.pi0_invMass < lowMass){
-			sam_name = "pi0LowMass";
-			reader.SetSample(0);
-		}
-		else if(lowMass <= reader.pi0_invMass && reader.pi0_invMass <= higMass){
-			sam_name = "signal";
-			reader.SetSample(1);
-		}
-		else if(higMass < reader.pi0_invMass){
-		// else if(higMass <= reader.pi0_invMass && reader.pi0_invMass < maxMass){
-			sam_name = "pi0HigMass";
-			reader.SetSample(2);
-		}
-		else{
-			cout << "Warning Bad Range: " << reader.pi0_invMass << endl;
-			reader.SetSample(3);
-		}
-
-		if(!sam_name.empty()){
-			syst->FillSample(sam_name, reader.pi0_invMass, reader.wgt);
+			syst->FillSample("dpTT", reader.dpTT, reader.wgt);
 			DetError error(reader);
 			DetError::Default default_errors = error.GetDefaults();
-			syst->FillDefaults(sam_name, reader.pi0_invMass, default_errors);
+			syst->FillDefaults("dpTT", reader.dpTT, default_errors);
 
 			// Now will with wgts and shifts:
-			std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.pi0_invMass);
+			std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.dpTT);
 			double * wgts = error.GetWgts(DetError::kEMScale);
-			syst->FillLatErrorBand(sam_name, "EMScale", reader.pi0_invMass, EM_shifts, 1.0, true, wgts);
+
+			for(size_t ff = 0; ff < 500; ff){
+				cout << "wgt[" << ff << "] = " << wgts[ff] << endl;
+			}
+
+			syst->FillLatErrorBand("dpTT", "EMScale", reader.dpTT, EM_shifts, 1.0, true, wgts);
 			delete [] wgts;
 		}
 		reader.Fill();
