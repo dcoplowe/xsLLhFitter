@@ -3,8 +3,9 @@
 
 #include <RunDetSyst.h>
 
-using std::cout;
-using std::endl;
+#include <string>
+// using std::cout;
+// using std::endl;
 using std::string;
 
 const std::string default_Params = "options/run_opts.txt";
