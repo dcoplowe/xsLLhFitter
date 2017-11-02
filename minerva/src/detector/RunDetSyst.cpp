@@ -165,8 +165,8 @@ void RunDetSyst::MakeMggDist()
 	TMatrixD cov_signal2 = syst->GetSample("signal")->GetTotalErrorMatrix(true, false, false);
 	TMatrixD cov_pi0HigMass2 = syst->GetSample("pi0HigMass")->GetTotalErrorMatrix(true, false, false);
 
-	TMatrixD ful_cov1 = full->GetCovMatrix();
-	TMatrixD ful_cov2 = full->GetCovMatrix(true, false, false);
+	TMatrixD ful_cov1 = full->GetTotalErrorMatrix();
+	TMatrixD ful_cov2 = full->GetTotalErrorMatrix(true, false, false);
 
 	TCanvas * can1 = syst->DrawErrors(false);
 	std::vector<TCanvas*> clist1 = syst->DrawErrorsBySample(false);
