@@ -734,8 +734,8 @@ std::vector<TCanvas*> DetectorSystematics::DrawErrorsBySample(bool asFrac, bool 
 }
 
 TCanvas * DetectorSystematics::PlotErrorBase(MnvH1D * fHisto, bool asFrac, bool cov_area_normalize)
-// Make this using MnvPlotter:
-
+{
+	// Make this using MnvPlotter:
 	if(!fHisto){
 		cout << __FILE__ << ":" << __LINE__ << " : Error : No histogram made." << endl;
 		exit(0);
