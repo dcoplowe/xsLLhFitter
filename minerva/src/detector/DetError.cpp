@@ -645,12 +645,13 @@ double * DetError::GetWgts(DetError::LatType type) const
 
 		double tmp_extra_energy = extra_energy;// + total_proton_KE;
 
-		cout << "tmp_pi0_P (pre) " << tmp_E_g1;// << endl;
+		cout << "tmp_pi0_P ("; 
 
 		switch(type){
 			case kEMScale:
 			{
 				// EM Energy Dependent Variables
+				cout << m_Eshifts[i] <<") pre " << tmp_E_g1;// << endl;
 				tmp_E_g1 *= (1.0 + m_Eshifts[i]);
 				tmp_E_g2 *= (1.0 + m_Eshifts[i]);
 				tmp_pi0_P *= (1.0 + m_Eshifts[i]);
