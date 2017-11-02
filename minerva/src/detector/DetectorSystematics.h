@@ -5,6 +5,7 @@
 #include <TMatrixD.h>
 #include <vector>
 #include <DetError.h>
+#include <TCanvas.h>
 
 class TH1D;
 class ErrorType;
@@ -43,6 +44,9 @@ public:
 	bool FillDefaults(const std::string& sam_name, const double value, const DetError::Default elist,
 		const double cvweight  = 1.0, double cvWeightFromMe = 1);
 
+	TCanvas * DrawErrors(bool asFrac=false, bool cov_area_normalize=false);
+	std::vector<TCanvas*> DrawErrorsBySample(bool asFrac=false, bool cov_area_normalize=false);
+
 	static void SliceNorm(TMatrixD &cov);
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
 	// -------------------------------------------------------- END MnvH1D --------------------------------------------------------
@@ -69,6 +73,8 @@ private:
 	static const std::string m_ver_name;
 	static const std::string m_lat_name;
 	static const std::string m_uncer_name;
+
+	TCanvas * PlotErrorBase(MnvH1D * fHisto, bool asFrac, bool cov_area_normalize);
 };
 
 #endif

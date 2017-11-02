@@ -1,6 +1,8 @@
 #ifndef __RUNDETSYST_CPP__
 #define __RUNDETSYST_CPP__
 
+#include <RunDetSyst.h>
+
 #include <DetectorSystematics.h>
 #include <FileIO.h>
 #include <stdio.h>

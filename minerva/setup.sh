@@ -1,4 +1,4 @@
-source $(readlink -f ~/profile)
+source $(readlink -f ~/.profile)
 anasoft
 
 export DATA_DIR=/minerva/data/users/$USER/xsLLFitter_IO

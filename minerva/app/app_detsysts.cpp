@@ -1,6 +1,8 @@
 #include <ReadParam.h>
 #include <DataInfo.h>
 
+#include <RunDetSyst.h>
+
 using std::cout;
 using std::endl;
 using std::string;

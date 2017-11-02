@@ -714,10 +714,95 @@ void DetectorSystematics::MakeBinning(const std::string &out_name)
 			file<<std::endl;
 
 		}
+	}
+}
 
+TCanvas * DetectorSystematics::DrawErrors(bool asFrac, bool cov_area_normalize)
+{
+	return PlotErrorBase(m_anaHist, asFrac, cov_area_normalize);
+}
 
+std::vector<TCanvas*> DetectorSystematics::DrawErrorsBySample(bool asFrac, bool cov_area_normalize)
+{
+	std::std::vector<TCanvas*> clist;
+	std::map<std::string,Sample*>::iterator it= m_samples.begin();
+	for (; it != m_samples.end(); ++it){ 
+		MnvH1D * sam =	it->second;
+		clist.push_back( PlotErrorBase(sam, asFrac, cov_area_normalize) );
+	}
+	return clist;
+}
+
+TCanvas * DetectorSystematics::PlotErrorBase(MnvH1D * fHisto, bool asFrac, bool cov_area_normalize)
+// Make this using MnvPlotter:
+
+	if(!fHisto){
+		cout << __FILE__ << ":" << __LINE__ << " : Error : No histogram made." << endl;
+		exit(0);
 	}
 
+	std::string errors = fHisto->GetErrorBandNames(); 
+
+	std::vector<int> colors;
+	colors.push_back( (int)(kOrange-2));
+	colors.push_back( (int)(kAzure+2));
+	colors.push_back( (int)(kMagenta-10));
+	colors.push_back( (int)(kCyan+2));
+	colors.push_back( (int)(kOrange+7));
+	colors.push_back( (int)(kRed+1));
+	colors.push_back( (int)(kBlue-5));
+	colors.push_back( (int)(kGreen-3));
+	colors.push_back( (int)(kAzure+8));
+
+	if(errors.empty()){
+		cout << __FILE__ << ":" << __LINE__ << " : Warnng : histogram has no errors :-(" << endl; 
+		return new TCanvas("BadCanvas","",400, 400);
+	}
+
+	std::string hist_name = std::string(fHisto->GetName());
+	hist_name += "_Error";
+	if(asFrac) hist_name += "Frac";
+	if(cov_area_normalize) hist_name += "CovAN";
+
+	TCanvas * can = new TCanvas(hist_name.c_str(), "", 400, 400);
+	TLegend * leg = new TLegend(0.5, 0.5, 0.9, 0.9);
+    leg->SetFillStyle(0);
+
+	TH1D * tot_error = fHisto->GetTotalError(true, asFrac, cov_area_normalize);
+	leg->AddEntry(tot_error, "Total (Syst. + Stat)", "l");	
+	tot_error->SetLineWidth(2);
+	tot_error->SetLineColor(kBlack);
+	hitot_error->Draw("SAME");
+
+	can->cd();
+	int lcol = 9;
+	for(size_t i = 0; i < errors.size(); i++){
+		TH1D * hist = 0x0;
+		if(fHisto->HasLatErrorBand(errors[i])){
+			hist = fHisto->GetLatErrorBand(errors[i])->GetErrorBand(asFrac, cov_area_normalize);
+		}
+		else if(fHisto->HasVertErrorBand(errors[i])){
+			hist = fHisto->GetVertErrorBand(errors[i])->GetErrorBand(asFrac, cov_area_normalize);
+		}	
+		else{
+			cout << __FILE__ << ":" << __LINE__ << " : Warning could not find error " << errors[i] << ". Skipping" << endl;
+			continue;
+		}
+
+		
+		if(i < colors.size()) lcol = colors[i];
+		else if(i == colors.size()) lcol = 9; 
+		else lcol++;
+
+		hist->SetLineColor(lcol);
+		hist->SetLineWidth(2);
+		leg->AddEntry(hist, errors[i].c_str(), "l");
+
+		if(i == 0) hist->Draw();
+		else hist->Draw("SAME");
+	}
+	errors.clear();
+	return can;
 }
 
 #endif
