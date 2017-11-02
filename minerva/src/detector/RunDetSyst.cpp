@@ -391,7 +391,7 @@ void RunDetSyst::MakeFulldpTT()
 	syst->AddLatErrorBand("EMScale", 500);
 	syst->AddLatErrorBand("MassModel", 2);
 	syst->AddLatErrorBand("MEU", 2);
-	syst->AddLatErrorBand("BetheBloch", 500);
+	// syst->AddLatErrorBand("BetheBloch", 500);
 
 	// Add the errors:
 	// For W we have the following errors to consider (from Ozgur's analysis):
