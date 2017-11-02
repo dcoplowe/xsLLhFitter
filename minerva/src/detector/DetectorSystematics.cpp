@@ -724,7 +724,7 @@ TCanvas * DetectorSystematics::DrawErrors(bool asFrac, bool cov_area_normalize)
 
 std::vector<TCanvas*> DetectorSystematics::DrawErrorsBySample(bool asFrac, bool cov_area_normalize)
 {
-	std::std::vector<TCanvas*> clist;
+	std::vector<TCanvas*> clist;
 	std::map<std::string,Sample*>::iterator it= m_samples.begin();
 	for (; it != m_samples.end(); ++it){ 
 		MnvH1D * sam =	it->second;
