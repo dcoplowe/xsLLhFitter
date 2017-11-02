@@ -780,10 +780,10 @@ TCanvas * DetectorSystematics::PlotErrorBase(MnvH1D * fHisto, bool asFrac, bool 
 	for(size_t i = 0; i < errors.size(); i++){
 		TH1D * hist = 0x0;
 		if(fHisto->HasLatErrorBand(errors[i])){
-			hist = fHisto->GetLatErrorBand(errors[i])->GetErrorBand(asFrac, cov_area_normalize);
+			hist = new TH1D( fHisto->GetLatErrorBand(errors[i])->GetErrorBand(asFrac, cov_area_normalize) );
 		}
 		else if(fHisto->HasVertErrorBand(errors[i])){
-			hist = fHisto->GetVertErrorBand(errors[i])->GetErrorBand(asFrac, cov_area_normalize);
+			hist = new TH1D( fHisto->GetVertErrorBand(errors[i])->GetErrorBand(asFrac, cov_area_normalize) );
 		}	
 		else{
 			cout << __FILE__ << ":" << __LINE__ << " : Warning could not find error " << errors[i] << ". Skipping" << endl;
