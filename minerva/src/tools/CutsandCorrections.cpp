@@ -489,9 +489,11 @@ bool CutsandCorrections::CheckCaloCuts(const double E_g1, const double E_g2, con
 {
     bool base = !IsOpeningAngleSmallAndEnergyLow(E_g1, E_g2, pi0_cos_openingAngle);
 
+
     bool cuts = false;
     if(m_new_signal_cuts){
         cuts = IsEmuInRange(EnuEmu);
+        cout << "New Cuts" << endl;        
     }
     else{
         cout << "OLD Cuts" << endl;
