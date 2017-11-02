@@ -403,12 +403,13 @@ void RunDetSyst::MakeFulldpTT()
 	// reader.SetMaxEntries(loop_size);
 	for(Int_t i = 0; i < loop_size; i++){
 		reader.GetEntry(i);
+
 		syst->FillSample("dpTT", reader.dpTT, reader.wgt);
 		DetError error(reader);
 		DetError::Default default_errors = error.GetDefaults();
 		syst->FillDefaults("dpTT", reader.dpTT, default_errors);
 
-			// Now will with wgts and shifts:
+		// Now will with wgts and shifts:
 		std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.dpTT);
 		double * wgts = error.GetWgts(DetError::kEMScale);
 

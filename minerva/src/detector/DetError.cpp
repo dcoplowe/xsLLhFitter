@@ -645,6 +645,8 @@ double * DetError::GetWgts(DetError::LatType type) const
 
 		double tmp_extra_energy = extra_energy;// + total_proton_KE;
 
+		cout << "tmp_pi0_P (pre) " << tmp_E_g1;// << endl;
+
 		switch(type){
 			case kEMScale:
 			{
@@ -684,6 +686,8 @@ double * DetError::GetWgts(DetError::LatType type) const
 			}				
 			default: break;
 		}
+
+		cout << " post = " << tmp_pi0_P << endl;
 
 		// For new signal def. much of this is not required:
 		// Only muon and gammas info is need.
