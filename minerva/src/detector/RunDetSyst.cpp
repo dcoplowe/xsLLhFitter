@@ -429,7 +429,6 @@ void RunDetSyst::MakeFulldpTT()
 			for(size_t ff = 0; ff < 500; ff){
 				cout << "wgt[" << ff << "] = " << wgts[ff] << endl;
 			}
-
 			syst->FillLatErrorBand("dpTT", "EMScale", reader.dpTT, EM_shifts, 1.0, true, wgts);
 			delete [] wgts;
 		}
@@ -443,15 +442,11 @@ void RunDetSyst::MakeFulldpTT()
 	// 1) we want to add a variation to all samples 
 	cout << "Make Covariance Matrix" << endl;	
 	TMatrixD cov = syst->GetCovMatrix();
-	TMatrixD cov_pi0LowMass1 = syst->GetSample("pi0LowMass")->GetTotalErrorMatrix(false, true, false);
-	TMatrixD cov_signal1 = syst->GetSample("signal")->GetTotalErrorMatrix(false, true, false);
-	TMatrixD cov_pi0HigMass1 = syst->GetSample("pi0HigMass")->GetTotalErrorMatrix(false, true, false);
+	TMatrixD cov_pi0LowMass1 = syst->GetSample("dpTT")->GetTotalErrorMatrix(false, true, false);
 
 	// Get the individual sample covariane matrices: (true, false, false) <- Defualt for MnvH1D
 	TMatrixD cov2 = syst->GetCovMatrix(true, false, false);
-	TMatrixD cov_pi0LowMass2 = syst->GetSample("pi0LowMass")->GetTotalErrorMatrix(true, false, false);
-	TMatrixD cov_signal2 = syst->GetSample("signal")->GetTotalErrorMatrix(true, false, false);
-	TMatrixD cov_pi0HigMass2 = syst->GetSample("pi0HigMass")->GetTotalErrorMatrix(true, false, false);
+	TMatrixD cov_pi0LowMass2 = syst->GetSample("dpTT")->GetTotalErrorMatrix(true, false, false);
 
 	// // Need to find seg fault in this class...
 	// // Seems to be some memory problem... :(
@@ -460,10 +455,7 @@ void RunDetSyst::MakeFulldpTT()
 	cov2.Write("detsyst2");
 	cov_pi0LowMass1.Write("pi0LowMass1");
 	cov_pi0LowMass2.Write("pi0LowMass2");
-	cov_signal1.Write("signal1");
-	cov_signal2.Write("signal2");
-	cov_pi0HigMass1.Write("pi0HigMass1");
-	cov_pi0HigMass2.Write("pi0HigMass2");
+
 }
 
 #endif
