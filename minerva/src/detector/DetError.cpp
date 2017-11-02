@@ -645,13 +645,10 @@ double * DetError::GetWgts(DetError::LatType type) const
 
 		double tmp_extra_energy = extra_energy;// + total_proton_KE;
 
-		cout << "tmp_pi0_P ("; 
-
 		switch(type){
 			case kEMScale:
 			{
 				// EM Energy Dependent Variables
-				cout << m_Eshifts[i] <<") pre " << tmp_pi0_P;// << endl;
 				tmp_E_g1 *= (1.0 + m_Eshifts[i]);
 				tmp_E_g2 *= (1.0 + m_Eshifts[i]);
 				tmp_pi0_P *= (1.0 + m_Eshifts[i]);
@@ -695,9 +692,12 @@ double * DetError::GetWgts(DetError::LatType type) const
 		double tmp_W = W;
 		double EnuEmu = Emu;
 		if(!m_new_signal_cuts){
+			cout << "OLD" << endl;
 			double tmp_Enu = Enu;
 			double tmp_QSq = QSq;
-			if(type != kMuTheta) tmp_Enu = KinCalc::GetEnu(tmp_Emu, tmp_pi0_E, tmp_extra_energy);		
+			cout << " tmp_Enu  = = " << tmp_Enu;
+			if(type != kMuTheta) tmp_Enu = KinCalc::GetEnu(tmp_Emu, tmp_pi0_E, tmp_extra_energy);
+			cout << " tmp_Enu ==== " << tmp_Enu << endl;		
 			tmp_QSq = KinCalc::GetQSq(tmp_Enu, tmp_Emu, tmp_Pmu, tmp_Thetamu);
 			double tmp_Wsq = KinCalc::GetWSq(tmp_Enu, tmp_QSq, tmp_Emu);
 			tmp_W = tmp_Wsq > 0 ? sqrt(tmp_Wsq) : kIniValue;
