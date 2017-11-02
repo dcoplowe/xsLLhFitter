@@ -145,6 +145,20 @@ void RunDetSyst::MakeMggDist()
 	TMatrixD cov_signal2 = syst->GetSample("signal")->GetTotalErrorMatrix(true, false, false);
 	TMatrixD cov_pi0HigMass2 = syst->GetSample("pi0HigMass")->GetTotalErrorMatrix(true, false, false);
 
+
+	TCanvas * can1 = syst->DrawErrors(false);
+	std::vector<TCanvas*> clist1 = syst->DrawErrorsBySample(false);
+
+	TCanvas * can2 = syst->DrawErrors(true);
+	std::vector<TCanvas*> clist2 = syst->DrawErrorsBySample(true);
+
+	can1->Write();
+	can2->Write();
+
+	for(size_t i = 0; i < clist1.size(); i++){
+		clist1[i]->Write();
+		clist2[i]->Write();
+	}
 	// // Need to find seg fault in this class...
 	// // Seems to be some memory problem... :(
 	// cov.Print();
@@ -389,8 +403,8 @@ void RunDetSyst::MakeFulldpTT()
 
 	// Add specific variable shifts:
 	syst->AddLatErrorBand("EMScale", 500);
-	syst->AddLatErrorBand("MassModel", 2);
-	syst->AddLatErrorBand("MEU", 2);
+	// syst->AddLatErrorBand("MassModel", 2);
+	// syst->AddLatErrorBand("MEU", 2);
 	// syst->AddLatErrorBand("BetheBloch", 500);
 
 	// Add the errors:
@@ -449,7 +463,6 @@ void RunDetSyst::MakeFulldpTT()
 		    delete [] meu_wgts;
 
 		    // -----------------------------
-
 
 		    std::vector<double> bb_shifts = error.GetProtonError(pr_TT, reader.proton_E, reader.all_protons_energy_shift_BetheBloch_Up,
 		    	reader.all_protons_energy_shift_BetheBloch_Up);
