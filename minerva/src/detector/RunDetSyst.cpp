@@ -413,17 +413,14 @@ void RunDetSyst::MakeFulldpTT()
 			std::vector<double> EM_shifts = error.GetLinearEnergyShifts(reader.dpTT);
 			double * wgts = error.GetWgts(DetError::kEMScale);
 
-			for(size_t ff = 0; ff < 500; ff){
+			for(size_t ff = 0; ff < 500; ff++){
 				cout << "wgt[" << ff << "] = " << wgts[ff] << endl;
 			}
 			syst->FillLatErrorBand("dpTT", "EMScale", reader.dpTT, EM_shifts, 1.0, true, wgts);
 			delete [] wgts;
 		}
-		reader.Fill();
 	}
-
-	reader.Write();
-
+	
 	syst->MakeBinning();
 	// In order to produce a covariance matrix need to vary ALL systs in ALL samples
 	// 1) we want to add a variation to all samples 
