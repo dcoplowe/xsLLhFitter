@@ -1,7 +1,7 @@
 //----------------- Analysis cut choices -----------------
 // Define the number of toys/universes you want to throw
 // for certain detector systematics
-<| run_type = 0 |>
+<| run_type = 1 |>
 
 <| ntoys = 500 |>
 
