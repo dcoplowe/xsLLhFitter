@@ -741,7 +741,7 @@ TCanvas * DetectorSystematics::PlotErrorBase(MnvH1D * fHisto, bool asFrac, bool 
 		exit(0);
 	}
 
-	std::string errors = fHisto->GetErrorBandNames(); 
+	std::vector<std::string> errors = fHisto->GetErrorBandNames(); 
 
 	std::vector<int> colors;
 	colors.push_back( (int)(kOrange-2));
