@@ -1,6 +1,8 @@
 //----------------- Analysis cut choices -----------------
 // Define the number of toys/universes you want to throw
 // for certain detector systematics
+<| run_type = 0 |>
+
 <| ntoys = 500 |>
 
 <| init_playlist = minerva1 |> 

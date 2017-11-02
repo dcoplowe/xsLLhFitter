@@ -8,7 +8,12 @@ class RunDetSyst
 public:
 	RunDetSyst(){;}
 	~RunDetSyst(){;}
+
+	static void MakeMggDist();
+	static void MakeFullMgg();
+	static void MakeFulldpTT();
 // private:
+
 	// DetectorSystematics * syst;
 };
 

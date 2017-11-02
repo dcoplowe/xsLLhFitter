@@ -92,7 +92,7 @@ std::string FileIOBase::SetDate()
 	return date;
 }
 
-TFile * FileIOBase::MakeOutFile(const std::string &outfilename)
+TFile * FileIOBase::MakeOutFile(const std::string &outfilename, std::string &options)
 {
 	if(outfilename.empty()){
 		cout << __FILE__ << ":" << __LINE__ << " : ERROR : Tree name is empty" << endl;
@@ -112,7 +112,7 @@ TFile * FileIOBase::MakeOutFile(const std::string &outfilename)
 	tmp_file += endname;
 
 	cout << "Creating outfile with name: " << tmp_file << endl;
-	TFile * file = new TFile( tmp_file.c_str(), "RECREATE");
+	TFile * file = new TFile(tmp_file.c_str(), options.c_str());
 	assert(file);
 	return file;
 }
