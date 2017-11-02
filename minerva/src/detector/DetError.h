@@ -112,7 +112,7 @@ public:
 	// Lateral Errors:
 	static std::vector<double> GetProtonTrackingErr(double track_length);
 	static std::vector<double> GetProtonShifts(const double shifts_up[10], const double shifts_down[10], const int nProtons, bool is_single = true);
-	static std::vector<double> GetProtonError(const double var, const energy, const double shifts_up[10], const double shifts_down[10]);
+	static std::vector<double> GetProtonError(const double var, const double energy, const double shifts_up[10], const double shifts_down[10]);
 
 	static std::vector<double> GetShifts(const double nominal, const std::vector<double> &shifts);
 

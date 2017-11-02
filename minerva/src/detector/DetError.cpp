@@ -382,7 +382,7 @@ std::vector<double> DetError::GetProtonShifts(const double shifts_up[10], const 
     return energy_shifts;
 }
 
-std::vector<double> DetError::GetProtonError(const double var, const energy, const double shifts_up[10], const double shifts_down[10])
+std::vector<double> DetError::GetProtonError(const double var, const double energy, const double shifts_up[10], const double shifts_down[10])
 {
 	std::vector<double> tmp = GetProtonShifts(shifts_up, shifts_down, 1, true);
 	double low = var*tmp[0]/energy;
