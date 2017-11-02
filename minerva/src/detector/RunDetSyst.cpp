@@ -374,25 +374,12 @@ void RunDetSyst::MakeFulldpTT()
 
 	DetectorSystematics * syst = new DetectorSystematics(100, verbose);
 
-	// Ozgur's signal:
-	// In ten's of MeV
-	double lowMass = 60.;
-	double higMass = 200.;
-	double maxMass = 500.;
-
-	double den = 10;
-	int nlowMass_bins = (int)lowMass/den;
-	int nsigMass_bins = (int)(higMass - lowMass)/den;
-	int nhigMass_bins = (int)(maxMass - higMass)/den;
-
-	syst->AddSample("dpTT", nlowMass_bins, 0.,      lowMass, Sample::kUnder);
-	syst->AddSample("signal",  	 nsigMass_bins, lowMass, higMass);
-	syst->AddSample("pi0HigMass", nhigMass_bins, higMass, maxMass, Sample::kOver);
+	syst->AddSample("dpTT", 19, -300., 300., Sample::kBoth);
 	
 	FileIO reader(in_file, in_tree);
 
 	TFile * ofile = FileIO::MakeOutFile(out_file);
-
+	ofile->cd();
 	// Int_t loop_size = reader.GetEntries();
 	// reader.SetMaxEntries(loop_size);
 
