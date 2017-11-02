@@ -773,7 +773,7 @@ TCanvas * DetectorSystematics::PlotErrorBase(MnvH1D * fHisto, bool asFrac, bool 
 	leg->AddEntry(tot_error, "Total (Syst. + Stat)", "l");	
 	tot_error->SetLineWidth(2);
 	tot_error->SetLineColor(kBlack);
-	hitot_error->Draw("SAME");
+	tot_error->Draw("SAME");
 
 	can->cd();
 	int lcol = 9;
