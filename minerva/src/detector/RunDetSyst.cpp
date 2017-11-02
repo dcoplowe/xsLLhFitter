@@ -67,7 +67,7 @@ void RunDetSyst::MakeMggDist()
 	syst->AddLatErrorBand("EMScale", 500);
 
 	int n_wgts = 2;
-	MnvH1D * full = new MnvH1D("full", "", (nlowMass_bins +  nsigMass_bins + nhigMass_bins), 0, maxMass);
+	MnvH1D * full = new MnvH1D("full", "", (nlowMass_bins +  nsigMass_bins + nhigMass_bins), 0., maxMass);
 	full->AddVertErrorBand("MiMisTagTrue",  n_wgts);
 	full->AddVertErrorBand("MiMisTagFalse", n_wgts);
 	full->AddVertErrorBand("MuonTracking", n_wgts);
