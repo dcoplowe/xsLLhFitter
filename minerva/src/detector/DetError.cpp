@@ -348,7 +348,7 @@ std::vector<double> DetError::GenerateShifts(double sigma)
     std::vector<double> random_shifts;
     for (unsigned int i = 0; i < m_nominal.size(); ++i){
         double temp = sigma * m_nominal[i];
-		if(temp < kEpsilon) temp = 0.;
+		if(TMath::Abs(temp) < kEpsilon) temp = 0.;
         random_shifts.push_back(temp);
     }   
     return random_shifts;
