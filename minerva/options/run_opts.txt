@@ -9,7 +9,7 @@
 <| processing_name = Eroica |> 
 
 //File to read (and output name): 
-<| in_file = /minerva/data/users/dcoplowe/Analyse_Alice/MC/mc_run271017_oldSIG_FDy_prScorey_pi0Mcutn_prPIDSBn_meSBn_103017.root |>
+<| in_file = /minerva/data/users/dcoplowe/Analyse_Alice/MC/mc_run271017_oldSIG_FDy_prScorey_pi0Mcutn_prPIDSBn_meSBn_103117.root |>
 <| tree_name = CCProtonPi0 |>
 <| out_file = DetSyst_Test.root |>
 //--------------------------------------------------------
