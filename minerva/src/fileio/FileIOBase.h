@@ -18,7 +18,7 @@ class TTree;
 class FileIOBase
 {
 public:
-	FileIOBase(const std::string &in_filename, const std::string &in_treename, bool verbose = false);
+	FileIOBase(const std::string &in_filename, const std::string &in_treename, const bool verbose = false);
 	FileIOBase(bool verbose = false);
 	
 	~FileIOBase();

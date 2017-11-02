@@ -16,7 +16,7 @@ using std::endl;
 
 const std::string FileIOBase::m_date = FileIOBase::SetDate();
 
-FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_treename, bool verbose) : inCurrent(-1), m_verbose(verbose), m_sample(kIniValue)
+FileIOBase::FileIOBase(const std::string &in_filename, const std::string &in_treename, const bool verbose) : inCurrent(-1), m_verbose(verbose), m_sample(kIniValue)
 {
 	cout << "FileIOBase::FileIOBase(std::string in_filename, std::string in_treename, bool verbose)" << endl;
 	
