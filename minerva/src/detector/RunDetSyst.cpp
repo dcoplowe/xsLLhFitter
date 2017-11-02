@@ -15,6 +15,7 @@
 // #include <TVector3.h>
 #include <Sample.h>
 #include <ReadParam.h>
+#include <DataInfo.h>
 
 using std::cout;
 using std::endl;
